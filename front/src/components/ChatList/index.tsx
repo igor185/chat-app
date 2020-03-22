@@ -4,32 +4,43 @@ import "./styles.sass";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
-import {IChat} from "../../model/IApp";
+import IApp, {IChatList, IChatView} from "../../model/IApp";
 
-const mapStateToProps = (state: any): any => ({
-    chats: state.chats
+const mapStateToProps = (state: IApp): any => ({
+    chatList: state.chatList,
+    chat: state.chat
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     actions: bindActionCreators(actions, dispatch)
 });
 
-interface IChatListProps{
+interface IChatListProps {
     actions: typeof actions;
-    chats: IChat[];
+    chatList: IChatList;
+    chat: IChatView
 }
+
 const ChatList = (props: IChatListProps) => {
     useEffect(() => {
         props.actions.fetchChats();
     }, [props.actions]);
 
+    const showChatList = () => {
+        return true;
+    };
+
     return (
-        <div className="chat-list-wrap">
-            {props.chats.map(elem => <ChatElem id={elem.id} name={elem.name_user1} date={elem.time} message={elem.message}/>)}
-        </div>
+        <>
+            {showChatList() ? (<div className="chat-list-wrap">
+                {props.chatList.data.map(elem => <ChatElem key={elem.id} id={elem.id} name={elem.user.name}
+                                                           date={elem.time} message={elem.message}
+                                                           onClick={(id) => props.actions.fetchMessages(elem.chat.id)}/>)}
+            </div>) : null}
+            {"Fetching = " + props.chat.isFetching}
+        </>
     )
 };
-
 
 
 export default connect(

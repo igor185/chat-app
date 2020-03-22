@@ -1,27 +1,35 @@
 export default interface IApp{
-    chats: IChat[];
-    user: IUser;
+    chatList: IChatList;
+    user?: IUser;
+    chat: IChatView;
 }
 
+export interface IChatList {
+    data: IMessage[]
+    isFetching: boolean;
+}
 export interface IChat{
     id: number;
-    id_user1: number;
-    name_user1: string;
-    id_user2: number;
-    name_user2: string;
-    message: string;
-    time: string;
+    user: IUser;
 }
 
 export interface IMessage {
     id: number;
-    chatId: number;
+    chat: IChat;
     message: string;
-    userId: number;
+    user: IUser;
+    time: string;
 }
 
 export interface IUser {
     id: number;
     name: string;
-    photo: string;
+    avatar: string;
+}
+export interface IChatView {
+    isFetching: boolean;
+    chatData?: {
+        chat?: IChat;
+        messages: IMessage[];
+    };
 }

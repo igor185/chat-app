@@ -1,0 +1,39 @@
+package com.example.demo.Entities;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name = "messages")
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+public class MessageEntity {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "message")
+    private String message;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "char_id")
+    private ChatEntity chat;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @Column(name = "time")
+    @CreationTimestamp
+    private Date time;
+}
