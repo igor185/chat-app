@@ -33,6 +33,10 @@ public class MessageService {
         return Arrays.asList(list);
     }
 
+    public MessageEntity getLastInChat(ChatEntity chat){
+        return messageRepository.lastInChat(chat);
+    }
+
     public List<MessageEntity> findAllByChat(ChatEntity chat){
         return messageRepository.findAllByChat(chat);
     }

@@ -2,14 +2,18 @@ import React from "react";
 import "./styles.sass";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faSearch, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import IApp from "../../model/IApp";
+import {bindActionCreators} from "redux";
+import * as actions from "../../redux/actions";
+import {connect} from "react-redux";
 
-const Header = () => {
+const Header = (props: any) => {
 
 
     return (
         <div className="header-wrap">
             <div className="left-side">
-                <div className="icon-wrap">
+                <div className="icon-wrap" onClick={() => props.actions.togglePanel()}>
                     <FontAwesomeIcon icon={faBars}/>
                 </div>
                 <div className="icon-wrap">
@@ -26,5 +30,15 @@ const Header = () => {
     )
 };
 
+// togglePanel
+const mapStateToProps = (state: IApp): any => ({});
 
-export default Header;
+const mapDispatchToProps = (dispatch: any) => ({
+    actions: bindActionCreators(actions, dispatch)
+});
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header);

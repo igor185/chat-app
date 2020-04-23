@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entities.MessageEntity;
+import com.example.demo.Models.ChatListResponseModel;
 import com.example.demo.Services.ChatService;
 import com.example.demo.Services.ChatUserService;
 import com.example.demo.Services.MessageService;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ChatController {
     private final ChatUserService chatUserService;
     private final MessageService messageService;
@@ -29,7 +30,7 @@ public class ChatController {
     public String getChatList() throws JsonProcessingException {
         int id = 1;
 
-        List<MessageEntity> chats = messageService.getLastInChat(chatUserService.getChatsByUser(id));
+        List<ChatListResponseModel> chats = chatUserService.getChatListByUser(id);
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(chats);

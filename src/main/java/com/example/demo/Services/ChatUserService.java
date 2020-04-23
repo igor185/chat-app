@@ -3,10 +3,12 @@ package com.example.demo.Services;
 import com.example.demo.Entities.ChatEntity;
 import com.example.demo.Entities.ChatUserEntity;
 import com.example.demo.Entities.UserEntity;
+import com.example.demo.Models.ChatListResponseModel;
 import com.example.demo.Repositories.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +17,7 @@ public class ChatUserService {
     private final ChatUserRepository chatUserRepository;
     private final UserService userService;
     private final ChatService chatService;
+    private final MessageService messageService;
 
     public ChatUserEntity create(int user_id, int chat_id){
         ChatUserEntity chat_user = new ChatUserEntity();
@@ -44,5 +47,27 @@ public class ChatUserService {
         List<ChatUserEntity> list = chatUserRepository.getByUser(user);
 
         return chatService.findByList(list);
+    }
+
+    public UserEntity getUserByChatAndNotUser(ChatEntity chat, UserEntity user){
+        return chatUserRepository.getUserByChatAndNotUser(chat, user).getUser();
+    }
+
+    public ArrayList<ChatListResponseModel> getChatListByUser(int user_id){
+        UserEntity user = userService.findById(user_id);
+        System.out.println(user);
+        List<ChatUserEntity> chats = chatUserRepository.getByUser(user);
+        System.out.println(chats);
+        ArrayList<ChatListResponseModel> list = new ArrayList<ChatListResponseModel>();
+        for(ChatUserEntity chat: chats){
+            ChatListResponseModel model = new ChatListResponseModel();
+            model.setChat(chat.getChat());
+            model.setMessage(messageService.getLastInChat(chat.getChat()));
+            model.setUser(getUserByChatAndNotUser(chat.getChat(), chat.getUser()));
+            if(model != null) {
+                System.out.println(list.add(model));
+            }
+        }
+        return list;
     }
 }

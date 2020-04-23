@@ -2,10 +2,11 @@ export default interface IApp{
     chatList: IChatList;
     user?: IUser;
     chat: IChatView;
+    showPanel: boolean;
 }
 
 export interface IChatList {
-    data: IMessage[]
+    data: IMessage[] | null
     isFetching: boolean;
 }
 export interface IChat{
@@ -28,8 +29,6 @@ export interface IUser {
 }
 export interface IChatView {
     isFetching: boolean;
-    chatData?: {
-        chat?: IChat;
-        messages: IMessage[];
-    };
+    isOpen: boolean;
+    data: IMessage[]
 }

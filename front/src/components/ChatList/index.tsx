@@ -5,10 +5,10 @@ import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
 import IApp, {IChatList, IChatView} from "../../model/IApp";
+import {Input, Divider, Header} from "semantic-ui-react";
 
 const mapStateToProps = (state: IApp): any => ({
-    chatList: state.chatList,
-    chat: state.chat
+    chatList: state.chatList
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -22,22 +22,25 @@ interface IChatListProps {
 }
 
 const ChatList = (props: IChatListProps) => {
+    console.log(props);
     useEffect(() => {
-        props.actions.fetchChats();
+        if (!props.chatList.data)
+            props.actions.fetchChats();
     }, [props.actions]);
-
-    const showChatList = () => {
-        return true;
-    };
 
     return (
         <>
-            {showChatList() ? (<div className="chat-list-wrap">
-                {props.chatList.data.map(elem => <ChatElem key={elem.id} id={elem.id} name={elem.user.name}
-                                                           date={elem.time} message={elem.message}
-                                                           onClick={(id) => props.actions.fetchMessages(elem.chat.id)}/>)}
-            </div>) : null}
-            {"Fetching = " + props.chat.isFetching}
+
+           <div className="chat-list-wrap">
+               <Input placeholder='Search...' fluid/>
+               <Divider />
+               <Header as='h3'>Chats</Header>
+                {props.chatList.data && props.chatList.data.map(elem => <ChatElem key={elem.id} id={elem.id}
+                                                                                  name={elem.user.name}
+                                                                                  date={elem.time}
+                                                                                  message={elem.message}
+                                                                                  onClick={(id: number) => props.actions.fetchMessages(elem.chat.id)}/>)}
+            </div>
         </>
     )
 };

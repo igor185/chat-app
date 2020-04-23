@@ -1,5 +1,6 @@
 import React from 'react';
 import "./styles.sass"
+import {Comment} from "semantic-ui-react";
 
 export interface IChatElem {
     id: number;
@@ -9,17 +10,22 @@ export interface IChatElem {
     onClick: (id: number) => void;
 }
 
-const ChatElem = (props: IChatElem) => {
+const ChatElem = (props: any) => {
     const {name, date, message, id} = props;
     return (
         <div className="chat-elem-wrap" onClick={() => props.onClick(id)}>
-            <div className="first-line">
-                <div className="name-wrap">{name}</div>
-                <div className="date-wrap">{date}</div>
-            </div>
-            <div className="second-line">
-                <div className="message-wrap">{message}</div>
-            </div>
+            <Comment.Group>
+                <Comment>
+                    <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/joe.jpg' />
+                    <Comment.Content>
+                        <Comment.Author as='a'>{name}</Comment.Author>
+                        <Comment.Metadata>
+                            <div>Today at 5:42PM</div>
+                        </Comment.Metadata>
+                        <Comment.Text>{message.message}</Comment.Text>
+                    </Comment.Content>
+                </Comment>
+                </Comment.Group>
         </div>
     )
 };

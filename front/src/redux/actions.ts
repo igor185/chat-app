@@ -9,3 +9,7 @@ export const fetchMessages = (chatId: number) => ({
         id: chatId
     }
 });
+
+export const togglePanel = () => ({
+    type: types.TOGGLE_PANEL
+});

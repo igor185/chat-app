@@ -16,7 +16,7 @@ function* fetchMessages(action: any) {
     try {
         let res = yield fetch(CHAT_MESSAGES + action.payload.id);
         res = yield res.json();
-        yield put({type: types.FETCH_CHATS_DONE, payload: res})
+        yield put({type: types.FETCH_MESSAGES_DONE, payload: res})
     } catch (e) {
         console.log(e);
     }

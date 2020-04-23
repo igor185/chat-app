@@ -1,5 +1,6 @@
 package com.example.demo.Repositories;
 
+import com.example.demo.Entities.ChatEntity;
 import com.example.demo.Entities.ChatUserEntity;
 import com.example.demo.Entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,7 @@ public interface ChatUserRepository extends JpaRepository<ChatUserEntity, Intege
 
     @Query("SELECT u FROM ChatUserEntity u WHERE u.user = :user")
     List<ChatUserEntity> getByUser(@Param("user") UserEntity user);
+
+    @Query("SELECT ch FROM ChatUserEntity ch WHERE ch.chat = :chat AND ch.user <> :user")
+    ChatUserEntity getUserByChatAndNotUser(@Param("chat") ChatEntity chat,@Param("user") UserEntity user);
 }

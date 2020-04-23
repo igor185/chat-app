@@ -1,0 +1,21 @@
+@import "../../styles/config"
+
+
+.chat-page-wrapper
+  width: 100%
+  height: calc(100vh - #{$header-height})
+  padding-left: $padding
+  padding-bottom: $padding
+  .loader-wrap
+    display: flex
+    flex-direction: column
+    justify-content: center
+    height: 100%
+  .messages-wrap
+    padding-top: $padding
+    height: calc(100% - #{$message-input})
+    overflow-y: auto
+  .input-wrap
+    padding-top: 23px
+    padding-right: $padding
+    height: $message-input

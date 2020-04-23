@@ -4,13 +4,16 @@ import * as types from './constants';
 
 const initialState: IApp = {
     chatList: {
-        data: [],
+        data: null,
         isFetching: false
     },
     user: null as unknown as IUser,
     chat: {
-        isFetching: false
-    }
+        isFetching: false,
+        isOpen: true,
+        data: []
+    },
+    showPanel: true
 };
 
 export function reducer (state: IApp = initialState, action: IAction): IApp {
@@ -23,13 +26,18 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
                     isFetching: true
                 }
             };
+        case types.TOGGLE_PANEL:
+            return {
+                ...state,
+                showPanel: !state.showPanel
+            }
         case types.FETCH_CHATS_DONE:
             return {
                 ...state,
                 chatList: {
                     ...state.chatList,
                     data: action.payload,
-                    isFetching: false
+                    isFetching: false,
                 }
             };
         case types.FETCH_MESSAGES:
@@ -37,9 +45,19 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 chat: {
                     ...state.chat,
-                    isFetching: true
+                    isFetching: true,
+                    isOpen: true
                 }
-            }
+            };
+        case types.FETCH_MESSAGES_DONE:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: action.payload,
+                    isFetching: false
+                }
+            };
         default:
             return state;
     }
