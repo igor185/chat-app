@@ -6,7 +6,15 @@ export default interface IApp{
     };
     chat: IChatView;
     showPanel: boolean;
-    page: "chat" | "login" | "reg"
+    page: "chat" | "login" | "reg",
+    loginPage?: {
+        isFetching: boolean,
+        error: any;
+    }
+    regPage?: {
+        isFetching: boolean,
+        error: any;
+    }
 }
 
 export interface IChatList {

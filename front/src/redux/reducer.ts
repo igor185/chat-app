@@ -1,4 +1,4 @@
-import IApp, {IUser} from './../model/IApp'
+import IApp from './../model/IApp'
 import IAction from './../model/IAction'
 import * as types from './constants';
 
@@ -17,7 +17,8 @@ const initialState: IApp = {
         data: []
     },
     showPanel: true,
-    page: localStorage.getItem('token') && localStorage.getItem('token') !== "undefined" ? "chat" : "login"
+    page: localStorage.getItem('token') && localStorage.getItem('token') !== "undefined" ? "chat" : "login",
+
 };
 
 export function reducer (state: IApp = initialState, action: IAction): IApp {
@@ -95,6 +96,38 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
                     ...state.user,
                     isFetching: false,
                     data: action.payload.user
+                }
+            };
+        case types.LOGIN:
+            return {
+                ...state,
+                loginPage: {
+                    isFetching: true,
+                    error: null
+                }
+            };
+        case types.LOGIN_FAIL:
+            return {
+                ...state,
+                loginPage: {
+                    isFetching: false,
+                    error: true
+                }
+            };
+        case types.REG:
+            return {
+                ...state,
+                regPage: {
+                    isFetching: true,
+                    error: null
+                }
+            };
+        case types.REG_FAIL:
+            return {
+                ...state,
+                regPage:{
+                    isFetching: false,
+                    error: action.payload.error
                 }
             };
         default:

@@ -1,6 +1,9 @@
 package com.example.demo.Entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +11,9 @@ import java.util.List;
 @Entity
 @Table(name = "APP_USER")
 @Data
+@Getter
+@Setter
+@ToString
 public class User {
     @Id
     @Column(name = "ID")

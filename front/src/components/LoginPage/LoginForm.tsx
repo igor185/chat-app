@@ -29,9 +29,10 @@ const LoginForm = (props: any) => {
                             type='password'
                             value={password}
                             onChange={(event, data) => setPassword(data.value)}
+                            error={props.loginPage && !!props.loginPage.error}
                         />
 
-                        <Button className={"color-btn"} fluid size='large' onClick={onSubmit}>
+                        <Button className={"color-btn"} fluid size='large' onClick={onSubmit} loading={props.loginPage && props.loginPage.isFetching}>
                             Login
                         </Button>
                     </Segment>
@@ -45,7 +46,8 @@ const LoginForm = (props: any) => {
 }
 
 const mapStateToProps = (state: IApp): any => ({
-    showPanel: state.showPanel
+    showPanel: state.showPanel,
+    loginPage: state.loginPage
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

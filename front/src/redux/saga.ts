@@ -3,11 +3,11 @@ import * as types from "./constants";
 import * as url from "../var/routers";
 import {fetchHeaderConfig} from "../helpers";
 import axios from 'axios';
+import request from "../helpers/webApi";
 
 function* fetchChats(action: any) {
     try {
-        let res = yield fetch(url.CHAT_LIST, { headers: fetchHeaderConfig().headers });
-        res = yield res.json();
+        const res = yield request(url.CHAT_LIST, { headers: fetchHeaderConfig().headers });
         yield put({type: types.FETCH_CHATS_DONE, payload: res})
     } catch (e) {
         console.log(e);
@@ -16,8 +16,7 @@ function* fetchChats(action: any) {
 
 function* fetchMessages(action: any) {
     try {
-        let res = yield fetch(url.CHAT_MESSAGES + action.payload.id, { headers: fetchHeaderConfig().headers});
-        res = yield res.json();
+        const res = yield request(url.CHAT_MESSAGES + action.payload.id, { headers: fetchHeaderConfig().headers});
         yield put({type: types.FETCH_MESSAGES_DONE, payload: res})
     } catch (e) {
         console.log(e);
@@ -27,7 +26,7 @@ function* fetchMessages(action: any) {
 function* loginUser(action: any) {
 
     try{
-        let res = yield fetch(url.LOGIN, {
+        const res = yield request(url.LOGIN, {
             method: "POST",
             body: JSON.stringify({
                 username: action.payload.login,
@@ -37,24 +36,25 @@ function* loginUser(action: any) {
                 "X-Requested-With": "XMLHttpRequest"
             }
         });
-        res = yield res.json();
         localStorage.setItem('token', res.token);
         yield put({
             type: types.CHANGE_PAGE,
             payload: "chat"
         })
     }catch (e) {
-        console.log(e);
+        yield put({
+            type: types.LOGIN_FAIL
+        });
+        console.error(e);
     }
 }
 
 function* fetchUser(action: any) {
     try{
-        let res = yield fetch(url.USER, {
+        const res = yield request(url.USER, {
             method: "GET",
             headers: fetchHeaderConfig().headers
         });
-        res = yield res.json();
 
         yield put({
             type: types.FETCH_USER_DONE,
@@ -74,7 +74,8 @@ function* fetchUser(action: any) {
 function* regUser(action: any){
     const { login, password, avatar } = action.payload;
     try{
-        let res = yield axios({
+        // TODO doesn't work with fetch, even if hard-code correct content-type
+        const res = yield axios({
             method: "POST",
             url: url.REG,
             data: {
@@ -82,14 +83,19 @@ function* regUser(action: any){
                 password,
                 avatar
             }
+        });
+        yield put({
+            type: types.LOGIN,
+            payload: {
+                login, password
+            }
         })
-        console.log(res);
-
-        res = yield res.json();
-
-        console.log(res);
-    }catch (e) {
-        console.error(e);
+    }catch (error) {
+        yield put({
+            type: types.REG_FAIL,
+            payload: { error: error.message }
+        });
+        console.error(error);
     }
 }
 

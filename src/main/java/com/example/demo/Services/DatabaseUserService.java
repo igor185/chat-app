@@ -30,4 +30,15 @@ public class DatabaseUserService implements UserService {
     public User findByName(String name){
         return userRepository.findByUsername(name).get();
     }
+
+    public User createUser(String username, String password, String avatar){
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setAvatar(avatar);
+        userRepository.save(user);
+        System.out.println("no error");
+        userRepository.insertMember(user.getId());
+        return user;
+    }
 }
