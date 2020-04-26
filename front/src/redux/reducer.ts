@@ -17,7 +17,7 @@ const initialState: IApp = {
         data: []
     },
     showPanel: true,
-    page: localStorage.getItem('token') && localStorage.getItem('token') !== undefined ? "chat" : "login"
+    page: localStorage.getItem('token') && localStorage.getItem('token') !== "undefined" ? "chat" : "login"
 };
 
 export function reducer (state: IApp = initialState, action: IAction): IApp {

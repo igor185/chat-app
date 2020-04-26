@@ -1,4 +1,5 @@
-const prefix = "https://igor-babin-chat-java.herokuapp.com";
+// const prefix = "https://igor-babin-chat-java.herokuapp.com";
+const prefix = "http://localhost:8080";
 
 
 export const SOCKET_URL = `${prefix}/ws`;
