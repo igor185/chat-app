@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ public class ChatService {
 
 
     public List<ChatEntity> findByList(List<ChatUserEntity> chats){
-        List<Integer> list = List.of();
+        List<Integer> list = new ArrayList<>();
         for(ChatUserEntity chat: chats){
             list.add(chat.getChat().getId());
         }
