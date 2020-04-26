@@ -1,6 +1,7 @@
 const prefix = "https://igor-babin-chat-java.herokuapp.com/";
 
 
+export const SOCKET_URL = `${prefix}/ws`;
 export const CHAT_LIST = `${prefix}/api/chats`;
 export const CHAT_MESSAGES = `${prefix}/api/chat/`;
 export const LOGIN = `${prefix}/api/auth/login`;

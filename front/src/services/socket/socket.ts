@@ -1,8 +1,9 @@
 import SockJS from "sockjs-client";
 import Stomp from 'stompjs';
 import * as actions from "../../redux/actions";
+import * as url from '../../var/routers'
 
-const stompClient = Stomp.over(new SockJS('http://localhost:8080/ws'));
+const stompClient = Stomp.over(new SockJS(url.SOCKET_URL));
 
 
 const connect = (action: typeof actions) => {
