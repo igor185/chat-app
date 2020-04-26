@@ -26,5 +26,5 @@ public class ChatUserEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private User user;
 }

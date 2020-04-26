@@ -1,9 +1,19 @@
 import React from 'react';
-import { Input } from 'semantic-ui-react'
+import {Form, Input} from 'semantic-ui-react'
+import socket from "../../../services/socket/socket";
 
 
 export const MessageInput = () => {
-    return <Input placeholder='Type a message...' fluid/>
+    const sendMessage = (message: string) => {
+        socket.send('/req/new-message', {}, JSON.stringify({
+            chatId: 4,
+            userId: 1,
+            message
+        }))
+    };
+    return <Form onSubmit={(e) => sendMessage(e.currentTarget.getElementsByTagName("input")[0].value)}>
+        <Input placeholder='Type a message...' fluid/>
+    </Form>
 };
 
 

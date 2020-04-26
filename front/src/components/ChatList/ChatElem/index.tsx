@@ -22,7 +22,7 @@ const ChatElem = (props: any) => {
                         <Comment.Metadata>
                             <div>Today at 5:42PM</div>
                         </Comment.Metadata>
-                        <Comment.Text>{message.message}</Comment.Text>
+                        <Comment.Text>{message ? message.message : ""}</Comment.Text>
                     </Comment.Content>
                 </Comment>
                 </Comment.Group>

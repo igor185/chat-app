@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<MessageEntity, Integer> {
 
-    @Query(value = "SELECT m FROM MessageEntity m WHERE m.chat = :chat ORDER BY m.time") // TODO first (limit 1)
-    MessageEntity lastInChat(@Param("chat") ChatEntity chat);
+    @Query(value = "SELECT m FROM MessageEntity m WHERE m.chat = :chat ORDER BY m.time DESC")
+    List<MessageEntity> lastInChat(@Param("chat") ChatEntity chat);
 
 
     @Query("SELECT m FROM MessageEntity m WHERE m.chat = :chat ORDER BY m.time")

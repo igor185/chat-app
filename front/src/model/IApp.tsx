@@ -1,8 +1,12 @@
 export default interface IApp{
     chatList: IChatList;
-    user?: IUser;
+    user: {
+        isFetching: boolean
+        data: IUser | null
+    };
     chat: IChatView;
     showPanel: boolean;
+    page: "chat" | "login" | "reg"
 }
 
 export interface IChatList {
@@ -24,7 +28,7 @@ export interface IMessage {
 
 export interface IUser {
     id: number;
-    name: string;
+    username: string;
     avatar: string;
 }
 export interface IChatView {

@@ -23,7 +23,7 @@ const ChatPage = (props: any) => {
                         <>
                             <div className="messages-wrap">
                                 <Comment.Group>
-                                    <MessageList />
+                                    <MessageList {...props} />
                                 </Comment.Group>
                             </div>
                             <div className="input-wrap">

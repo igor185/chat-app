@@ -1,9 +1,7 @@
 package com.example.demo.Seeds;
 
 import com.example.demo.Entities.MessageEntity;
-import com.example.demo.Services.ChatService;
-import com.example.demo.Services.MessageService;
-import com.example.demo.Services.UserService;
+import com.example.demo.Services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +14,7 @@ public class MessageSeed {
     private final EntityManager entityManager;
     private final MessageService messageService;
     private final ChatService chatService;
-    private final UserService userService;
+    private final DatabaseUserService userService;
 
     public void seed(){
         List<MessageEntity> messages = entityManager.createQuery("SELECT u FROM MessageEntity u")
@@ -27,18 +25,31 @@ public class MessageSeed {
         }
 
         MessageEntity m1 = messageService.create(
-                chatService.findById(4),
+                chatService.findById(1),
                 userService.findById(1),
                 "First message from seed"
         );
 
+        MessageEntity m3 = messageService.create(
+                chatService.findById(1),
+                userService.findById(2),
+                "3 message from seed"
+        );
+
         MessageEntity m2 = messageService.create(
-                chatService.findById(7),
+                chatService.findById(4),
                 userService.findById(1),
                 "Second message from seed"
         );
-
+//
         System.out.println(m1);
         System.out.println(m2);
+        System.out.println(m3);
+
+//        messages = entityManager.createQuery("SELECT u FROM MessageEntity u")
+//                .getResultList();
+//        for(MessageEntity message: messages){
+//            System.out.println(message.getMessage());
+//        }
     }
 }

@@ -8,6 +8,10 @@ import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
 
 const Header = (props: any) => {
+    const onLogOut = () => {
+        localStorage.removeItem('token');
+        props.actions.clearStore();
+    };
 
 
     return (
@@ -21,7 +25,7 @@ const Header = (props: any) => {
                 </div>
             </div>
             <div className="right-size">
-                <div className="icon-wrap">
+                <div className="icon-wrap" onClick={onLogOut}>
                     <FontAwesomeIcon icon={faSignOutAlt}/>
                 </div>
             </div>

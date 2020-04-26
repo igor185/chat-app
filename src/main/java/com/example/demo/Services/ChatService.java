@@ -25,6 +25,12 @@ public class ChatService {
         return chatRepository.save(chat);
     }
 
+    public ChatEntity createChat(int id){
+        ChatEntity chat = new ChatEntity();
+        chat.setId(id);
+        return chatRepository.save(chat);
+    }
+
     public ChatEntity findById(Integer id){
         return chatRepository.findByIdEntity(id);
     }

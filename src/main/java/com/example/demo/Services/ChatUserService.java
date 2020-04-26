@@ -2,7 +2,7 @@ package com.example.demo.Services;
 
 import com.example.demo.Entities.ChatEntity;
 import com.example.demo.Entities.ChatUserEntity;
-import com.example.demo.Entities.UserEntity;
+import com.example.demo.Entities.User;
 import com.example.demo.Models.ChatListResponseModel;
 import com.example.demo.Repositories.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatUserService {
     private final ChatUserRepository chatUserRepository;
-    private final UserService userService;
+    private final DatabaseUserService userService;
     private final ChatService chatService;
     private final MessageService messageService;
 
@@ -27,7 +27,7 @@ public class ChatUserService {
         return chatUserRepository.save(chat_user);
     }
 
-    public ChatUserEntity create(UserEntity user, ChatEntity chat){
+    public ChatUserEntity create(User user, ChatEntity chat){
         ChatUserEntity chat_user = new ChatUserEntity();
         chat_user.setChat(chat);
         chat_user.setUser(user);
@@ -35,26 +35,25 @@ public class ChatUserService {
         return chatUserRepository.save(chat_user);
     }
 
-    public void createChat(UserEntity user1, UserEntity user2){
-        ChatEntity chat = chatService.createChat();
-        System.out.println("new chat  " + chat.getId());
+    public void createChat(int id, User user1, User user2){
+        ChatEntity chat = chatService.createChat(id);
         create(user1, chat);
         create(user2, chat);
     }
 
     public List<ChatEntity> getChatsByUser(int id){
-        UserEntity user = userService.findById(id);
+        User user = userService.findById(id);
         List<ChatUserEntity> list = chatUserRepository.getByUser(user);
 
         return chatService.findByList(list);
     }
 
-    public UserEntity getUserByChatAndNotUser(ChatEntity chat, UserEntity user){
+    public User getUserByChatAndNotUser(ChatEntity chat, User user){
         return chatUserRepository.getUserByChatAndNotUser(chat, user).getUser();
     }
 
-    public ArrayList<ChatListResponseModel> getChatListByUser(int user_id){
-        UserEntity user = userService.findById(user_id);
+    public ArrayList<ChatListResponseModel> getChatListByUserName(String name){
+        User user = userService.findByName(name);
         System.out.println(user);
         List<ChatUserEntity> chats = chatUserRepository.getByUser(user);
         System.out.println(chats);
@@ -64,10 +63,9 @@ public class ChatUserService {
             model.setChat(chat.getChat());
             model.setMessage(messageService.getLastInChat(chat.getChat()));
             model.setUser(getUserByChatAndNotUser(chat.getChat(), chat.getUser()));
-            if(model != null) {
-                System.out.println(list.add(model));
-            }
+            list.add(model);
         }
+        System.out.println(list);
         return list;
     }
 }

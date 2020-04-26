@@ -22,7 +22,6 @@ interface IChatListProps {
 }
 
 const ChatList = (props: IChatListProps) => {
-    console.log(props);
     useEffect(() => {
         if (!props.chatList.data)
             props.actions.fetchChats();
@@ -32,11 +31,11 @@ const ChatList = (props: IChatListProps) => {
         <>
 
            <div className="chat-list-wrap">
-               <Input placeholder='Search...' fluid/>
-               <Divider />
-               <Header as='h3'>Chats</Header>
-                {props.chatList.data && props.chatList.data.map(elem => <ChatElem key={elem.id} id={elem.id}
-                                                                                  name={elem.user.name}
+               {/*<Input placeholder='Search...' fluid/>*/}
+               {/*<Divider />*/}
+               {/*<Header as='h3'>Chats</Header>*/}
+                {props.chatList.data && props.chatList.data.map(elem => <ChatElem key={elem.chat.id} id={elem.chat.id}
+                                                                                  name={elem.user.username}
                                                                                   date={elem.time}
                                                                                   message={elem.message}
                                                                                   onClick={(id: number) => props.actions.fetchMessages(elem.chat.id)}/>)}

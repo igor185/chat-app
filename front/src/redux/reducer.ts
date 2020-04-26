@@ -7,13 +7,17 @@ const initialState: IApp = {
         data: null,
         isFetching: false
     },
-    user: null as unknown as IUser,
+    user: {
+      isFetching: false,
+      data: null
+    },
     chat: {
         isFetching: false,
-        isOpen: true,
+        isOpen: false,
         data: []
     },
-    showPanel: true
+    showPanel: true,
+    page: localStorage.getItem('token') && localStorage.getItem('token') !== undefined ? "chat" : "login"
 };
 
 export function reducer (state: IApp = initialState, action: IAction): IApp {
@@ -30,7 +34,7 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
             return {
                 ...state,
                 showPanel: !state.showPanel
-            }
+            };
         case types.FETCH_CHATS_DONE:
             return {
                 ...state,
@@ -56,6 +60,41 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
                     ...state.chat,
                     data: action.payload,
                     isFetching: false
+                }
+            };
+        case types.ADD_NEW_MESSAGE:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: [...(state.chat.data || []), action.payload.message]
+                }
+            };
+        case types.CHANGE_PAGE:
+            return {
+                ...state,
+                page: action.payload
+            };
+        case types.REMOVE_STORE:
+            return {
+                ...initialState,
+                page: "login"
+            };
+        case types.FETCH_USER:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    isFetching: true
+                }
+            };
+        case types.FETCH_USER_DONE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    isFetching: false,
+                    data: action.payload.user
                 }
             };
         default:

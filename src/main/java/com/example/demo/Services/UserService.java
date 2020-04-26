@@ -1,17 +1,10 @@
 package com.example.demo.Services;
 
-import com.example.demo.Entities.UserEntity;
-import com.example.demo.Repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.example.demo.Entities.User;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
+import java.util.Optional;
 
-    public UserEntity findById(int id){
-        return userRepository.findByUserId(id);
-    }
 
+public interface UserService {
+    Optional<User> getByUsername(String username);
 }

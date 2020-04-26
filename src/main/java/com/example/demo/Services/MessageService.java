@@ -2,7 +2,7 @@ package com.example.demo.Services;
 
 import com.example.demo.Entities.ChatEntity;
 import com.example.demo.Entities.MessageEntity;
-import com.example.demo.Entities.UserEntity;
+import com.example.demo.Entities.User;
 import com.example.demo.Repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 public class MessageService {
     private final MessageRepository messageRepository;
 
-    public MessageEntity create(ChatEntity chat, UserEntity user, String text){
+    public MessageEntity create(ChatEntity chat, User user, String text){
         MessageEntity message = new MessageEntity();
         message.setChat(chat);
         message.setUser(user);
@@ -26,7 +26,7 @@ public class MessageService {
     public List<MessageEntity> getLastInChat(List<ChatEntity> chats){
         MessageEntity list[] = new MessageEntity[chats.size()];
         for(int i = 0; i < chats.size(); i++){
-            MessageEntity message = messageRepository.lastInChat(chats.get(i));
+            MessageEntity message = getLastInChat(chats.get(i));
             list[i] = message;
         }
 
@@ -34,7 +34,8 @@ public class MessageService {
     }
 
     public MessageEntity getLastInChat(ChatEntity chat){
-        return messageRepository.lastInChat(chat);
+        List<MessageEntity> list = messageRepository.lastInChat(chat);
+        return list.size() > 0 ? list.get(0) : null;
     }
 
     public List<MessageEntity> findAllByChat(ChatEntity chat){

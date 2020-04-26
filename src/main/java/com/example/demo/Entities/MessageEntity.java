@@ -31,7 +31,7 @@ public class MessageEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private User user;
 
     @Column(name = "time")
     @CreationTimestamp

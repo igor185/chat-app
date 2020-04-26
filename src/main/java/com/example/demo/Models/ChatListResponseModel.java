@@ -2,7 +2,7 @@ package com.example.demo.Models;
 
 import com.example.demo.Entities.ChatEntity;
 import com.example.demo.Entities.MessageEntity;
-import com.example.demo.Entities.UserEntity;
+import com.example.demo.Entities.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,5 +15,5 @@ import lombok.ToString;
 public class ChatListResponseModel {
     private ChatEntity chat;
     private MessageEntity message;
-    private UserEntity user;
+    private User user;
 }

@@ -1,6 +1,6 @@
 package com.example.demo.Repositories;
 
-import com.example.demo.Entities.ChatEntity;
+import com.example.demo.Entities.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
