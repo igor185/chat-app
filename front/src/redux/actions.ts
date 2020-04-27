@@ -1,4 +1,5 @@
 import * as types from "./constants";
+import {IMessage, IUser} from "../model/IApp";
 
 export const clearStore = () => ({
   type: types.REMOVE_STORE
@@ -20,7 +21,7 @@ export const togglePanel = () => ({
     type: types.TOGGLE_PANEL
 });
 
-export const newMessage = (message: any) => {
+export const newMessage = (message: IMessage) => {
     return {
         type: types.ADD_NEW_MESSAGE,
         payload: {
@@ -54,3 +55,25 @@ export const changePage = (page: string) => ({
 export const fetchUser = () => ({
     type: types.FETCH_USER
 });
+
+export const search = (search: string) => ({
+   type: types.SEARCH,
+   payload: { search }
+});
+
+export const newChat = (userId: number) => ({
+    type: types.CREATE_CHAT,
+    payload: {
+        userId
+    }
+});
+
+export const addChatToList = (chatId: number, user: IUser) => ({
+    type: types.ADD_CHAT_TO_LIST,
+    payload: {
+        chatId,
+        user
+    }
+});
+
+export const addMessageToChatList = (chatId: number, message: IMessage) => {}

@@ -16,17 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-/**
- * Created by IntelliJ IDEA.
- * Project : springboot-security-jwt-sample
- * User: hendisantika
- * Email: hendisantika@gmail.com
- * Telegram : @hendisantika34
- * Date: 2018-12-25
- * Time: 06:28
- * To change this template use File | Settings | File Templates.
- */
 @Component
 @SuppressWarnings("unchecked")
 public class JwtAuthenticationProvider implements AuthenticationProvider {

@@ -41,6 +41,13 @@ public class ChatUserService {
         create(user2, chat);
     }
 
+    public ChatEntity createChat(User u1, User u2){
+        ChatEntity chat = chatService.save(new ChatEntity());
+        create(u1, chat);
+        create(u2, chat);
+        return chat;
+    }
+
     public List<ChatEntity> getChatsByUser(int id){
         User user = userService.findById(id);
         List<ChatUserEntity> list = chatUserRepository.getByUser(user);

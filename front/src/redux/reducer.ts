@@ -1,4 +1,4 @@
-import IApp from './../model/IApp'
+import IApp, {IMessage} from './../model/IApp'
 import IAction from './../model/IAction'
 import * as types from './constants';
 
@@ -8,21 +8,25 @@ const initialState: IApp = {
         isFetching: false
     },
     user: {
-      isFetching: false,
-      data: null
+        isFetching: false,
+        data: null
     },
     chat: {
+        id: null,
         isFetching: false,
         isOpen: false,
         data: []
     },
     showPanel: true,
     page: localStorage.getItem('token') && localStorage.getItem('token') !== "undefined" ? "chat" : "login",
-
+    search: {
+        isFetching: false
+    }
 };
 
-export function reducer (state: IApp = initialState, action: IAction): IApp {
-    switch(action.type) {
+export function reducer(state: IApp = initialState, action: IAction): IApp {
+    let data, message: IMessage;
+    switch (action.type) {
         case types.FETCH_CHATS:
             return {
                 ...state,
@@ -50,6 +54,7 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 chat: {
                     ...state.chat,
+                    id: action.payload.id,
                     isFetching: true,
                     isOpen: true
                 }
@@ -64,11 +69,22 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
                 }
             };
         case types.ADD_NEW_MESSAGE:
+            message = action.payload.message;
+            data = ([...(state.chatList.data || [])]).map(elem => {
+                if (elem.chat.id === message.chat.id) {
+                    elem.message = message;
+                }
+                return elem;
+            });
             return {
                 ...state,
+                chatList: {
+                    ...state.chatList,
+                    data
+                },
                 chat: {
                     ...state.chat,
-                    data: [...(state.chat.data || []), action.payload.message]
+                    data: state.chat.id === message.chat.id ? [...(state.chat.data || []), action.payload.message] : state.chat.data
                 }
             };
         case types.CHANGE_PAGE:
@@ -125,9 +141,59 @@ export function reducer (state: IApp = initialState, action: IAction): IApp {
         case types.REG_FAIL:
             return {
                 ...state,
-                regPage:{
+                regPage: {
                     isFetching: false,
                     error: action.payload.error
+                }
+            };
+        case types.SEARCH:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    isFetching: true
+                }
+            };
+        case types.SEARCH_DONE:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    isFetching: false,
+                    data: action.payload
+                }
+            };
+        case types.CREATE_CHAT:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    isFetching: true,
+                    isOpen: true
+                }
+            };
+        case types.CREATE_CHAT_DONE:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    id: action.payload.chatId,
+                    isFetching: false,
+                    data: []
+                }
+            };
+        case types.ADD_CHAT_TO_LIST:
+            data = [...(state.chatList.data || [])];
+            data.push({
+                chat: {id: action.payload.chatId},
+                message: null,
+                user: action.payload.user
+            });
+            return {
+                ...state,
+                chatList: {
+                    ...state.chatList,
+                    data
                 }
             };
         default:

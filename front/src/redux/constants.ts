@@ -23,3 +23,13 @@ export const REMOVE_STORE = "REMOVE_STORE";
 export const FETCH_USER = "FETCH_USER";
 export const FETCH_USER_DONE = "FETCH_USER_DONE";
 export const FETCH_USER_FAIL = "FETCH_USER_FAIL";
+
+export const SEARCH = "SEARCH";
+export const SEARCH_DONE = "SEARCH_DONE";
+export const SEARCH_FAIL = "SEARCH_FAIL";
+
+export const CREATE_CHAT = "CREATE_CHAT";
+export const CREATE_CHAT_DONE = "CREATE_CHAT_DONE";
+export const CREATE_CHAT_FAIL = "CREATE_CHAT_FAIL";
+
+export const ADD_CHAT_TO_LIST = "ADD_CHAT_TO_LIST";

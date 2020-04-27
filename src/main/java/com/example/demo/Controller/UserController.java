@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Entities.User;
 import com.example.demo.Models.NewUserDTO;
 import com.example.demo.Services.DatabaseUserService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,10 +24,16 @@ public class UserController {
 
 
     @RequestMapping(value = "/req")
-    @CrossOrigin(origins = "*")
     @ResponseBody
     public boolean regUser(@RequestBody NewUserDTO newUserDTO){
         userService.createUser(newUserDTO.getUsername(), encoder.encode(newUserDTO.getPassword()), newUserDTO.getAvatar());
         return true;
     }
+
+    @RequestMapping(value = "/api/users")
+    @ResponseBody
+    public List<User> searchUsers(@RequestParam String search){
+        return userService.search(search);
+    }
+
 }

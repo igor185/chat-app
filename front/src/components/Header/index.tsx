@@ -6,6 +6,7 @@ import IApp from "../../model/IApp";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
+import Search from "../Search/Search";
 
 const Header = (props: any) => {
     const onLogOut = () => {
@@ -20,9 +21,7 @@ const Header = (props: any) => {
                 <div className="icon-wrap" onClick={() => props.actions.togglePanel()}>
                     <FontAwesomeIcon icon={faBars}/>
                 </div>
-                <div className="icon-wrap">
-                    <FontAwesomeIcon icon={faSearch}/>
-                </div>
+                <Search />
             </div>
             <div className="right-size">
                 <div className="icon-wrap" onClick={onLogOut}>

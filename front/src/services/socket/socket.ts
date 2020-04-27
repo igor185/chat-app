@@ -1,20 +1,45 @@
 import SockJS from "sockjs-client";
-import Stomp from 'stompjs';
+import Stomp, {Client} from 'stompjs';
 import * as actions from "../../redux/actions";
 import * as url from '../../var/routers'
+import IApp, {IUser} from "../../model/IApp";
 
-const stompClient = Stomp.over(new SockJS(url.SOCKET_URL));
+let stompClient = {} as Client;
 
 
-const connect = (action: typeof actions) => {
+
+const connect = (action: typeof actions, store: IApp) => {
+    if(stompClient.connected){
+        console.log("already connected");
+        return;
+    }
+
+
+    const user = store.user.data as IUser;
+
+    stompClient = Stomp.over(new SockJS(url.SOCKET_URL));
     stompClient.connect({}, () => {
-        console.log('Connected');
-        stompClient.subscribe('/res/new-message', ({ body }) => action.newMessage(JSON.parse(body)));
+        console.log('Connected', store.user);
+
+
+
+        stompClient.subscribe(`/res/new-message/${user.id}`, ({ body }) => action.newMessage(JSON.parse(body)));
+
+        stompClient.subscribe(`/res/new-chat/${user.id}`, ({ body }: { body: string}) => {
+            const newChat: { chatId: number, user1: IUser, user2: IUser} = JSON.parse(body);
+
+            action.addChatToList(newChat.chatId, newChat.user1.id === user.id ? newChat.user1 : newChat.user2);
+
+        });
     });
 };
 
+const send = (destination: string, headers?: {}, body?: string) => {
+    return stompClient.send(destination, headers, body);
+};
+
 export default {
-    ...stompClient,
-    send: stompClient.send.bind(stompClient),
+    stompClient,
+    send,
     connect
 };

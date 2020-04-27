@@ -1,6 +1,7 @@
 import React from 'react';
 import "./styles.sass"
 import {Comment} from "semantic-ui-react";
+import {fromNow} from "../../../helpers";
 
 export interface IChatElem {
     id: number;
@@ -11,16 +12,16 @@ export interface IChatElem {
 }
 
 const ChatElem = (props: any) => {
-    const {name, date, message, id} = props;
+    const {name, date, message, id, avatar} = props;
     return (
         <div className="chat-elem-wrap" onClick={() => props.onClick(id)}>
             <Comment.Group>
                 <Comment>
-                    <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/joe.jpg' />
+                    <Comment.Avatar src={avatar} />
                     <Comment.Content>
                         <Comment.Author as='a'>{name}</Comment.Author>
                         <Comment.Metadata>
-                            <div>Today at 5:42PM</div>
+                            <div>{fromNow(date)}</div>
                         </Comment.Metadata>
                         <Comment.Text>{message ? message.message : ""}</Comment.Text>
                     </Comment.Content>

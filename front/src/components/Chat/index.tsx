@@ -12,8 +12,11 @@ import {Dimmer, Loader} from "semantic-ui-react";
 
 const Chat = (props: any) => {
     useEffect(() => {
-        socket.connect(props.actions)
-    }, [props.actions]);
+        if(props.actions && props.user.data) {
+            console.log('init');
+            socket.connect(props.actions, props.state)
+        }
+    }, [props.actions, props.user]);
 
     useEffect(() => {
         props.actions.fetchUser();
@@ -38,6 +41,7 @@ const Chat = (props: any) => {
 };
 
 const mapStateToProps = (state: IApp): any => ({
+    state,
     showPanel: state.showPanel,
     user: state.user
 });

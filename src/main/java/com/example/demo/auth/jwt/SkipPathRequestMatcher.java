@@ -9,16 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by IntelliJ IDEA.
- * Project : springboot-security-jwt-sample
- * User: hendisantika
- * Email: hendisantika@gmail.com
- * Telegram : @hendisantika34
- * Date: 2018-12-25
- * Time: 06:33
- * To change this template use File | Settings | File Templates.
- */
 public class SkipPathRequestMatcher implements RequestMatcher {
     private OrRequestMatcher matchers;
     private RequestMatcher processingMatcher;

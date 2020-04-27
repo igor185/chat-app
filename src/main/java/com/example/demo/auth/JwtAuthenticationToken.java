@@ -7,16 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-/**
- * Created by IntelliJ IDEA.
- * Project : springboot-security-jwt-sample
- * User: hendisantika
- * Email: hendisantika@gmail.com
- * Telegram : @hendisantika34
- * Date: 2018-12-25
- * Time: 06:23
- * To change this template use File | Settings | File Templates.
- */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 2877954820905567501L;
 

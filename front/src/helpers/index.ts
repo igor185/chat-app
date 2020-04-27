@@ -1,4 +1,7 @@
 import randomProfile from 'random-profile-generator';
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 
 export const fetchHeaderConfig = () => ({
@@ -13,3 +16,5 @@ export const getAvatars = (amount: number) => {
         res[i] = randomProfile.avatar();
     return res;
 };
+
+export const fromNow = (date: string) => dayjs(date).fromNow();

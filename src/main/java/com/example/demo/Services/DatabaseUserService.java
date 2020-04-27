@@ -5,6 +5,7 @@ import com.example.demo.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,5 +41,9 @@ public class DatabaseUserService implements UserService {
         System.out.println("no error");
         userRepository.insertMember(user.getId());
         return user;
+    }
+
+    public List<User> search(String name){
+        return userRepository.search(name);
     }
 }

@@ -15,23 +15,31 @@ export default interface IApp{
         isFetching: boolean,
         error: any;
     }
+    search: {
+        isFetching: boolean
+        data?: IUser[]
+    }
 }
 
 export interface IChatList {
-    data: IMessage[] | null
+    data: IMessageView[] | null
     isFetching: boolean;
 }
 export interface IChat{
     id: number;
-    user: IUser;
 }
 
-export interface IMessage {
-    id: number;
+export interface IMessageView {
     chat: IChat;
-    message: string;
+    message: IMessage | null;
     user: IUser;
-    time: string;
+}
+export interface IMessage{
+    id: number
+    message: string
+    chat: IChat;
+    user: IUser
+    time: string
 }
 
 export interface IUser {
@@ -40,6 +48,7 @@ export interface IUser {
     avatar: string;
 }
 export interface IChatView {
+    id: number | null;
     isFetching: boolean;
     isOpen: boolean;
     data: IMessage[]

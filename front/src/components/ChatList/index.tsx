@@ -30,15 +30,15 @@ const ChatList = (props: IChatListProps) => {
     return (
         <>
 
-           <div className="chat-list-wrap">
-               {/*<Input placeholder='Search...' fluid/>*/}
-               {/*<Divider />*/}
-               {/*<Header as='h3'>Chats</Header>*/}
-                {props.chatList.data && props.chatList.data.map(elem => <ChatElem key={elem.chat.id} id={elem.chat.id}
-                                                                                  name={elem.user.username}
-                                                                                  date={elem.time}
-                                                                                  message={elem.message}
-                                                                                  onClick={(id: number) => props.actions.fetchMessages(elem.chat.id)}/>)}
+            <div className="chat-list-wrap">
+                {props.chatList.data && props.chatList.data.map(elem => elem && elem.message && (
+                    <ChatElem key={elem.chat.id} id={elem.chat.id}
+                              name={elem.user.username}
+                              date={elem.message.time}
+                              message={elem.message}
+                              avatar={elem.user.avatar}
+                              onClick={(id: number) => props.actions.fetchMessages(elem.chat.id)}/>
+                ))}
             </div>
         </>
     )

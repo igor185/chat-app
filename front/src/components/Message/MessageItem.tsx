@@ -3,16 +3,17 @@ import React from "react";
 import {IMessage} from "../../model/IApp";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
+import {fromNow} from "../../helpers";
 dayjs.extend(relativeTime);
 
 
 export const MessageItem = (props: IMessage) => {
     return (<Comment>
-        <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/joe.jpg'/>
+        <Comment.Avatar src={props.user.avatar}/>
         <Comment.Content>
             <Comment.Author as='a'>{props.user.username}</Comment.Author>
             <Comment.Metadata>
-                <div>{dayjs(props.time).fromNow()}</div>
+                <div>{fromNow(props.time)}</div>
             </Comment.Metadata>
             <Comment.Text>{props.message}</Comment.Text>
             <Comment.Actions>

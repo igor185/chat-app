@@ -3,6 +3,7 @@ package com.example.demo.Services;
 import com.example.demo.Entities.ChatEntity;
 import com.example.demo.Entities.ChatUserEntity;
 import com.example.demo.Entities.MessageEntity;
+import com.example.demo.Entities.User;
 import com.example.demo.Repositories.ChatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,6 @@ public class ChatService {
     @Autowired
     private final MessageService messageService;
 
-
-    public ChatEntity createChat(){
-        ChatEntity chat = new ChatEntity();
-        return chatRepository.save(chat);
-    }
 
     public ChatEntity createChat(int id){
         ChatEntity chat = new ChatEntity();
@@ -49,5 +45,9 @@ public class ChatService {
         ChatEntity chat = findById(id);
 
         return messageService.findAllByChat(chat);
+    }
+
+    public ChatEntity save(ChatEntity chat){
+        return chatRepository.save(chat);
     }
 }

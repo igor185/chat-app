@@ -4,10 +4,11 @@ import * as url from "../var/routers";
 import {fetchHeaderConfig} from "../helpers";
 import axios from 'axios';
 import request from "../helpers/webApi";
+import socket from "../services/socket/socket";
 
 function* fetchChats(action: any) {
     try {
-        const res = yield request(url.CHAT_LIST, { headers: fetchHeaderConfig().headers });
+        const res = yield request(url.CHAT_LIST);
         yield put({type: types.FETCH_CHATS_DONE, payload: res})
     } catch (e) {
         console.log(e);
@@ -16,7 +17,7 @@ function* fetchChats(action: any) {
 
 function* fetchMessages(action: any) {
     try {
-        const res = yield request(url.CHAT_MESSAGES + action.payload.id, { headers: fetchHeaderConfig().headers});
+        const res = yield request(url.CHAT_MESSAGES + action.payload.id, {headers: fetchHeaderConfig().headers});
         yield put({type: types.FETCH_MESSAGES_DONE, payload: res})
     } catch (e) {
         console.log(e);
@@ -25,7 +26,7 @@ function* fetchMessages(action: any) {
 
 function* loginUser(action: any) {
 
-    try{
+    try {
         const res = yield request(url.LOGIN, {
             method: "POST",
             body: JSON.stringify({
@@ -41,7 +42,7 @@ function* loginUser(action: any) {
             type: types.CHANGE_PAGE,
             payload: "chat"
         })
-    }catch (e) {
+    } catch (e) {
         yield put({
             type: types.LOGIN_FAIL
         });
@@ -50,7 +51,7 @@ function* loginUser(action: any) {
 }
 
 function* fetchUser(action: any) {
-    try{
+    try {
         const res = yield request(url.USER, {
             method: "GET",
             headers: fetchHeaderConfig().headers
@@ -62,7 +63,7 @@ function* fetchUser(action: any) {
                 user: res
             }
         })
-    }catch (e) {
+    } catch (e) {
         console.error(e);
         localStorage.removeItem('token');
         yield put({
@@ -71,9 +72,9 @@ function* fetchUser(action: any) {
     }
 }
 
-function* regUser(action: any){
-    const { login, password, avatar } = action.payload;
-    try{
+function* regUser(action: any) {
+    const {login, password, avatar} = action.payload;
+    try {
         // TODO doesn't work with fetch, even if hard-code correct content-type
         const res = yield axios({
             method: "POST",
@@ -90,12 +91,43 @@ function* regUser(action: any){
                 login, password
             }
         })
-    }catch (error) {
+    } catch (error) {
         yield put({
             type: types.REG_FAIL,
-            payload: { error: error.message }
+            payload: {error: error.message}
         });
         console.error(error);
+    }
+}
+
+function* search(action: any) {
+    try {
+        const res = yield request(url.SEARCH + `?search=${action.payload.search}`);
+        yield put({
+            type: types.SEARCH_DONE,
+            payload: res
+        })
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function* newChat(action: any) {
+    try{
+        const res = yield request(url.NEW_CHAT, {
+            method: "PUT",
+            body: JSON.stringify({
+                userId: action.payload.userId
+            })
+        });
+        yield put({
+            type: types.CREATE_CHAT_DONE,
+            payload: {
+                chatId: res.chatId
+            }
+        })
+    }catch (e) {
+        console.error(e);
     }
 }
 
@@ -105,4 +137,6 @@ export function* watchSaga() {
     yield takeLatest(types.LOGIN, loginUser);
     yield takeLatest(types.FETCH_USER, fetchUser);
     yield takeLatest(types.REG, regUser);
+    yield takeLatest(types.SEARCH, search);
+    yield takeLatest(types.CREATE_CHAT, newChat);
 }
