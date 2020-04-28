@@ -3,8 +3,10 @@ package com.example.demo.Controller;
 import com.example.demo.Entities.User;
 import com.example.demo.Models.NewUserDTO;
 import com.example.demo.Services.DatabaseUserService;
+import com.example.demo.security.model.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +34,9 @@ public class UserController {
 
     @RequestMapping(value = "/api/users")
     @ResponseBody
-    public List<User> searchUsers(@RequestParam String search){
-        return userService.search(search);
+    public List<User> searchUsers(@RequestParam String search, Authentication auth){
+        User user = userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
+        return userService.search(search, user);
     }
 
 }

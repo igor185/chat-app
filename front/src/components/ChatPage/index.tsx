@@ -22,17 +22,21 @@ const ChatPage = (props: any) => {
                     (
                         <>
                             <div className="messages-wrap">
-                                    <MessageList
+                                <MessageList
                                     chat={props.chat}
                                     user={props.user.data}/>
                             </div>
                             <div className="input-wrap">
-                                <MessageInput />
+                                <MessageInput/>
                             </div>
                         </>
                     )
             ) : (
-                "close"
+                <div style={{ alignItems: "center", display: "flex", justifyContent: "center", flexDirection: "column", height: "100%" }}>
+                    <Header as={'h3'} textAlign={"center"}>
+                        Select chat to start texting
+                    </Header>
+                </div>
             )}
         </div>
     )

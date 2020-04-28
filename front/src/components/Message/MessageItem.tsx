@@ -1,18 +1,19 @@
-import {Button, Form, Header, Icon, Image, Modal, TextArea} from "semantic-ui-react";
+import {Button, Form, Header, Icon, Image, Message, Modal, TextArea} from "semantic-ui-react";
 import React, {useState} from "react";
 import IApp, {IMessage, IMessageView, IUser} from "../../model/IApp";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
 import './styles.sass'
-import {fromNow} from "../../helpers";
+import {fromNow, humanFileSize} from "../../helpers";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as Actions from "../../redux/actions";
+
 dayjs.extend(relativeTime);
 
 
-export const MessageItem = (props: { user: IUser, message: IMessage, actions: typeof Actions}) => {
-    const { message, user, actions } = props;
+export const MessageItem = (props: { user: IUser, message: IMessage, actions: typeof Actions }) => {
+    const {message, user, actions} = props;
     const fromMe = message.user.id === user.id;
 
     const [openDelete, setClose] = useState(false);
@@ -29,14 +30,37 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
         actions.editMessage(message.id, message.chat.id, messageEdit);
     };
     return (
-        <div className={`message-item ${openDelete ? "to-delete" : ""}`} style={{ alignItems: fromMe ? "flex-end" : "flex-start"}}>
-        <p className={fromMe ? "from-me" : "from-them"}>
-            {message.message}
-            <span className="info-block">
+        <div className={`message-item ${openDelete ? "to-delete" : ""}`}
+             style={{alignItems: fromMe ? "flex-end" : "flex-start"}}>
+            <p className={fromMe ? "from-me" : "from-them"}>
+                {message.file && (
+                        message.file.fileType.indexOf('image') === -1 ? (
+                            <Message icon compact size={"mini"} info>
+                                <Icon name='file'
+                                      onClick={() => message.file && window.open(message.file.fileDownloadUri, '_blank')}/>
+                                <Message.Content>
+                                    <Message.Header>{message.file && message.file.fileName}</Message.Header>
+                                    {message.file && humanFileSize(message.file.size)}
+                                </Message.Content>
+                            </Message>) :
+                            <>
+                                <div style={{ marginBottom: 10 }}>
+                            <Image src={message.file.fileDownloadUri}
+                                   size='medium'
+                                   wrapped
+                                   as={'a'}
+                                   href={message.file.fileDownloadUri}
+                                   target='_blank'/>
+                                </div>
+                            </>
+
+                   )}
+                {message.message}
+                <span className="info-block">
                 <span className={"time"}>{fromNow(message.time)}</span>
-                {fromMe && (<span className={"icons"}>
+                    {fromMe && (<span className={"icons"}>
                     <Modal
-                        trigger={ <Icon name={"trash"} size={"small"} onClick={() => setClose(true)}/>}
+                        trigger={<Icon name={"trash"} size={"small"} onClick={() => setClose(true)}/>}
                         open={openDelete}
                         onClose={() => setClose(false)}
                         basic
@@ -47,10 +71,10 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                     </Modal.Content>
                     <Modal.Actions className={"action-btn"}>
                       <Button color='red' onClick={onDelete} inverted>
-                        <Icon name='trash' /> Delete
+                        <Icon name='trash'/> Delete
                       </Button>
                         <Button color='green' onClick={() => setClose(false)} inverted>
-                        <Icon name='cancel' /> Cancel
+                        <Icon name='cancel'/> Cancel
                       </Button>
                     </Modal.Actions>
                   </Modal>
@@ -67,22 +91,22 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                             <TextArea
                                 value={messageEdit}
                                 onChange={(e, data) => changeMessage(data.value)}
-                                style={{ minHeight: 200 }}
+                                style={{minHeight: 200}}
                             />
                         </Form>
                     </Modal.Content>
                     <Modal.Actions className={"action-btn"}>
                       <Button color='green' onClick={onEdit} inverted>
-                        <Icon name='edit' /> Edit
+                        <Icon name='edit'/> Edit
                       </Button>
                         <Button color='blue' onClick={() => setCloseEdit(false)} inverted>
-                        <Icon name='cancel' /> Cancel
+                        <Icon name='cancel'/> Cancel
                       </Button>
                     </Modal.Actions>
                   </Modal>
                 </span>)}
             </span>
-        </p>
+            </p>
             <Image avatar src={message.user.avatar}/>
         </div>
     )

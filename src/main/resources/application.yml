@@ -1,7 +1,7 @@
 spring.profiles: default
 demo.security.jwt:
-  tokenExpirationTime: 15 # Number of minutes
-  refreshTokenExpTime: 60 # Minutes
+  tokenExpirationTime: 300 # Number of minutes
+  refreshTokenExpTime: 1000 # Minutes
   tokenIssuer: http://svlada.com
   tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQus
 
@@ -17,3 +17,9 @@ spring.h2.console.enabled: true
 spring:
   jpa:
     show-sql: true
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB

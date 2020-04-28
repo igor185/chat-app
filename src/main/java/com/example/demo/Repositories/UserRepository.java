@@ -22,6 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "INSERT INTO USER_ROLE(APP_USER_ID, ROLE) VALUES(:id, 'MEMBER');", nativeQuery = true)
     void insertMember(@Param("id") long id);
 
-    @Query("SELECT u FROM User u WHERE u.username LIKE CONCAT('%',:name,'%')")
-    List<User> search(@Param("name") String name);
+    @Query("SELECT u FROM User u WHERE u.username LIKE CONCAT('%',:name,'%') AND u <> :user")
+    List<User> search(@Param("name") String name, @Param("user") User user);
 }

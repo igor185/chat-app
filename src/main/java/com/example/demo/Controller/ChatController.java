@@ -85,10 +85,8 @@ public class ChatController {
     public void sendMessage(NewMessageDTO newMessageDTO) throws JsonProcessingException {
         ChatEntity chatEntity = chatService.createChat(newMessageDTO.getChatId());
         User userEntity = userService.findById(newMessageDTO.getUserId());
-        System.out.println(chatEntity);
-        System.out.println(userEntity);
         User userGetMessage = chatUserService.getUserByChatAndNotUser(chatEntity, userEntity);
-        MessageEntity message = messageService.create(chatEntity, userEntity, newMessageDTO.getMessage());
+        MessageEntity message = messageService.create(chatEntity, userEntity, newMessageDTO.getMessage(), newMessageDTO.getFile());
 
         ObjectMapper mapper = new ObjectMapper();
         String res = mapper.writeValueAsString(message);
@@ -132,8 +130,4 @@ public class ChatController {
 
         return res;
     }
-
-    // :id - message_id
-    // token -> user
-    // chatId -> chatEntity & user -> anotherUser -> send by socket
 }

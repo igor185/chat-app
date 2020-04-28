@@ -17,6 +17,7 @@ export default interface IApp{
     }
     search: {
         isFetching: boolean
+        isOpen: boolean
         data?: IUser[]
     }
 }
@@ -40,6 +41,7 @@ export interface IMessage{
     chat: IChat;
     user: IUser
     time: number
+    file: IFile | null;
 }
 
 export interface IUser {
@@ -52,4 +54,12 @@ export interface IChatView {
     isFetching: boolean;
     isOpen: boolean;
     data: IMessage[]
+    user: IUser | null
+}
+
+export interface IFile {
+    fileDownloadUri: string
+    fileName: string
+    fileType: string
+    size: number
 }
