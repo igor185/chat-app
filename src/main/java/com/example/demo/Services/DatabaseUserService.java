@@ -43,7 +43,7 @@ public class DatabaseUserService implements UserService {
         return user;
     }
 
-    public List<User> search(String name){
-        return userRepository.search(name);
+    public List<User> search(String name, User user){
+        return userRepository.search(name, user);
     }
 }

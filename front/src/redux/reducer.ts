@@ -16,13 +16,14 @@ const initialState: IApp = {
         id: null,
         isFetching: false,
         isOpen: false,
-        data: []
+        data: [],
+        user: null
     },
     showPanel: true,
     page: localStorage.getItem('token') && localStorage.getItem('token') !== "undefined" ? "chat" : "login",
     search: {
         isFetching: false,
-        isOpen: true
+        isOpen: false
     }
 };
 
@@ -67,7 +68,8 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                     ...state.chat,
                     id: action.payload.id,
                     isFetching: true,
-                    isOpen: true
+                    isOpen: true,
+                    user: action.payload.user
                 }
             };
         case types.FETCH_MESSAGES_DONE:
@@ -181,7 +183,8 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 chat: {
                     ...state.chat,
                     isFetching: true,
-                    isOpen: true
+                    isOpen: true,
+                    user: action.payload.user
                 }
             };
         case types.CREATE_CHAT_DONE:
@@ -211,7 +214,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
             };
         case types.DELETE_MESSAGE_DONE:
             message = action.payload.message;
-            if(message.chat.id !== state.chat.id)
+            if (message.chat.id !== state.chat.id)
                 return state;
             messageList = [...(state.chat.data || [])]
                 .map(m => m.id === message.id ? undefined : m)
@@ -226,7 +229,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
             };
         case types.EDIT_MESSAGE_DONE:
             message = action.payload.message;
-            if(message.chat.id !== state.chat.id)
+            if (message.chat.id !== state.chat.id)
                 return state;
             messageList = [...(state.chat.data || [])]
                 .map(m => m.id === message.id ? message : m);
@@ -237,6 +240,11 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                     ...state.chat,
                     data: messageList as IMessage[]
                 }
+            };
+        case types.CLOSE_CHAT:
+            return {
+                ...state,
+                chat: initialState.chat
             };
         default:
             return state;

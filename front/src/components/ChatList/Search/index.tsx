@@ -10,7 +10,7 @@ const Search = (props: any) => {
 
         const chat = props.chatList.data.find( (elem: any) =>elem.user.id === user.id);
         if(chat){
-            return props.actions.fetchMessages(chat.chat.id);
+            return props.actions.fetchMessages(chat.chat.id, user);
         }
         props.actions.newChat(user.id);
     };

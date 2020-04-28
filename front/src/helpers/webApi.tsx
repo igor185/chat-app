@@ -8,15 +8,19 @@ const request: typeof fetch = async (input: RequestInfo, init?: RequestInit | un
 
     let promise = await fetch(input, { ...(init || {}), headers});
     console.log(promise)
-    //Token has expired
-    // if(promise.status === 401){
-    //     localStorage.removeItem("token");
-    //     return window.location.reload();
-    // }
+
     if(!promise.ok){
         console.error(promise);
+
         const message = await promise.json();
+
         console.log(message);
+
+        if(message.message === "Token has expired") {
+            localStorage.removeItem("token");
+
+            return window.location.reload();
+        }
         // @ts-ignore
         throw new Error(message.message);
     }

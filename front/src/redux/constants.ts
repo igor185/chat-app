@@ -3,6 +3,7 @@ export const FETCH_CHATS_DONE = "FETCH_CHATS_DONE";
 
 export const FETCH_MESSAGES = "FETCH_MESSAGES";
 export const FETCH_MESSAGES_DONE = "FETCH_MESSAGES_DONE";
+export const CLOSE_CHAT = "CLOSE_CHAT";
 
 export const TOGGLE_PANEL = "TOGGLE_PANEL";
 export const TOGGLE_SEARCH = "TOGGLE_SEARCH";

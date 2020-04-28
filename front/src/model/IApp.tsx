@@ -54,6 +54,7 @@ export interface IChatView {
     isFetching: boolean;
     isOpen: boolean;
     data: IMessage[]
+    user: IUser | null
 }
 
 export interface IFile {

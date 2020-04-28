@@ -10,11 +10,16 @@ export const fetchChats = () => ({
     type: types.FETCH_CHATS
 });
 
-export const fetchMessages = (chatId: number) => ({
+export const fetchMessages = (chatId: number, user: IUser) => ({
     type: types.FETCH_MESSAGES,
     payload: {
-        id: chatId
+        id: chatId,
+        user
     }
+});
+
+export const closeChat = () => ({
+    type: types.CLOSE_CHAT
 });
 
 export const togglePanel = () => ({
@@ -65,10 +70,11 @@ export const toggleSearch = () => ({
     type: types.TOGGLE_SEARCH
 });
 
-export const newChat = (userId: number) => ({
+export const newChat = (userId: number, user: IUser) => ({
     type: types.CREATE_CHAT,
     payload: {
-        userId
+        userId,
+        user
     }
 });
 

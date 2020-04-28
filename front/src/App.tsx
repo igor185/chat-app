@@ -7,17 +7,6 @@ import IApp from "./model/IApp";
 import {connect} from "react-redux";
 
 const App: React.FC = (props: any) => {
-    // const [isUploading, setUpload] = useState(false);
-    // const handleUploadFile = async ({ target }: any) => {
-    //     setUpload(true);
-    //     try {
-    //         await uploadFile(target.files[0]);
-    //
-    //     } catch(e) {
-    //         // TODO: show error
-    //         console.log(e);
-    //     }
-    // };
     switch (props.page) {
         case "login":
         case 'reg':

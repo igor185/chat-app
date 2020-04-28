@@ -19,8 +19,16 @@ public class CustomCorsFilter extends CorsFilter {
         config.addAllowedHeader("*");
         config.setMaxAge(36000L);
         config.setAllowedMethods(Arrays.asList("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        CorsConfiguration configReg = new CorsConfiguration();
+        configReg.setAllowCredentials(true);
+        configReg.addAllowedOrigin("*");
+        configReg.addAllowedHeader("*");
+        configReg.setMaxAge(36000L);
+        configReg.setAllowedMethods(Arrays.asList("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/req", configReg);
         return source;
     }
 }

@@ -24,11 +24,11 @@ const Search = (props: any) => {
     const onText = (user: IUser) => {
         setOpen(false);
 
-        const chat = props.chatList.data.find( (elem: any) =>elem.user.id === user.id);
+        const chat = props.chatList.data.find( (elem: any) => elem.user.id === user.id);
         if(chat){
-            return props.actions.fetchMessages(chat.chat.id);
+            return props.actions.fetchMessages(chat.chat.id, user);
         }
-        props.actions.newChat(user.id);
+        props.actions.newChat(user.id, user);
     };
 
 
@@ -58,10 +58,6 @@ const Search = (props: any) => {
                                         <Comment.Avatar as='a' src={user.avatar}/>
                                         <Comment.Content>
                                             <Comment.Author>{user.username}</Comment.Author>
-                                            {/*<Comment.Text>*/}
-                                            {/*    This will be great for business reports. I will definitely download*/}
-                                            {/*    this.*/}
-                                            {/*</Comment.Text>*/}
                                             <Comment.Actions>
                                                 <Comment.Action><span onClick={() => {onText(user)}}>Text</span></Comment.Action>
                                             </Comment.Actions>

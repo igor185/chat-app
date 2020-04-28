@@ -4,7 +4,7 @@ import "./styles.sass";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
-import IApp, {IChatList, IChatView} from "../../model/IApp";
+import IApp, {IChatList, IChatView, IMessageView} from "../../model/IApp";
 import {Input, Divider, Header} from "semantic-ui-react";
 import Search from "./Search";
 
@@ -22,9 +22,17 @@ const ChatList = (props: IChatListProps) => {
             props.actions.fetchChats();
     }, [props.actions]);
 
+    const onClick = (elem: IMessageView) => {
+        if (elem.chat.id !== props.chat.id) {
+            props.actions.fetchMessages(elem.chat.id, elem.user)
+        } else {
+            props.actions.closeChat();
+        }
+    };
+
     return (
         (<div className="chat-list-wrap">
-                {props.search.isOpen ? <Search {...props}/>:
+                {props.search.isOpen ? <Search {...props}/> :
                     <>
                         {props.chatList.data && props.chatList.data.map(elem => elem && elem.message && (
                             <ChatElem key={elem.chat.id} id={elem.chat.id}
@@ -33,7 +41,7 @@ const ChatList = (props: IChatListProps) => {
                                       date={elem.message.time}
                                       message={elem.message}
                                       avatar={elem.user.avatar}
-                                      onClick={(id: number) => props.actions.fetchMessages(elem.chat.id)}/>
+                                      onClick={() => onClick(elem)}/>
                         ))}
                     </>}
             </div>

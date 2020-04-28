@@ -9,14 +9,14 @@ export interface IChatElem {
     name: string;
     date: string;
     message: string;
-    onClick: (id: number) => void;
+    onClick: () => void;
 }
 
 const ChatElem = (props: any) => {
     const {name, date, message, id, avatar, show = false} = props;
     const text = message ? (message.message || (message.file ? <span className="file">file</span> : ""))   : "";
     return (
-        <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick(id)}>
+        <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick()}>
             <div className="avatar">
                 <Image avatar src={avatar}/>
             </div>
