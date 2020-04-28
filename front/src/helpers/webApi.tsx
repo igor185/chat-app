@@ -8,6 +8,7 @@ const request: typeof fetch = async (input: RequestInfo, init?: RequestInit | un
 
     let promise = await fetch(input, { ...(init || {}), headers});
     console.log(promise)
+    //Token has expired
     // if(promise.status === 401){
     //     localStorage.removeItem("token");
     //     return window.location.reload();

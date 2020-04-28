@@ -1,8 +1,6 @@
 package com.example.demo.Services;
 
-import com.example.demo.Entities.ChatEntity;
-import com.example.demo.Entities.MessageEntity;
-import com.example.demo.Entities.User;
+import com.example.demo.Entities.*;
 import com.example.demo.Repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,16 @@ public class MessageService {
         message.setMessage(text);
         return messageRepository.save(message);
     }
+
+    public MessageEntity create(ChatEntity chat, User user, String text, File file){
+        MessageEntity message = new MessageEntity();
+        message.setChat(chat);
+        message.setUser(user);
+        message.setMessage(text);
+        message.setFile(file);
+        return messageRepository.save(message);
+    }
+
 
     public List<MessageEntity> getLastInChat(List<ChatEntity> chats){
         MessageEntity list[] = new MessageEntity[chats.size()];

@@ -1,6 +1,6 @@
 import React from 'react';
 import "./styles.sass"
-import {Comment, Image} from "semantic-ui-react";
+import {Image} from "semantic-ui-react";
 import {fromNow} from "../../../helpers";
 import EllipsisText from "react-ellipsis-text";
 
@@ -13,7 +13,8 @@ export interface IChatElem {
 }
 
 const ChatElem = (props: any) => {
-    const {name, date, message, id, avatar} = props;
+    const {name, date, message, id, avatar, show = false} = props;
+    const text = message ? (message.message || (message.file ? <span className="file">file</span> : ""))   : "";
     return (
         <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick(id)}>
             <div className="avatar">
@@ -22,9 +23,9 @@ const ChatElem = (props: any) => {
             <div className="info">
                 <div className="name-wrap">
                     <div className="name">{name}</div>
-                    <div className="date">{fromNow(date)}</div>
+                    <div className="date">{date && fromNow(date)}</div>
                 </div>
-                <EllipsisText text={message ? message.message : ""} length={21}/>
+                {!show && typeof text === "string"? (<EllipsisText text={text} length={21}/>) : text}
             </div>
         </div>
     )

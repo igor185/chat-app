@@ -1,7 +1,9 @@
 import randomProfile from 'random-profile-generator';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import {IMessageView} from "../model/IApp";
+import {IFile, IMessageView} from "../model/IApp";
+import * as url from '../var/routers';
+
 dayjs.extend(relativeTime);
 
 
@@ -13,7 +15,7 @@ export const fetchHeaderConfig = () => ({
 
 export const getAvatars = (amount: number) => {
     let res = [];
-    for(let i = 0; i<amount; i++)
+    for (let i = 0; i < amount; i++)
         res[i] = randomProfile.avatar();
     return res;
 };
@@ -26,6 +28,37 @@ export const sortChatList = (data: IMessageView[]) => {
     return res.sort((el1, el2) => {
         const time1: number = el1.message ? el1.message.time : 0;
         const time2: number = el2.message ? el2.message.time : 0;
-        return time2- time1;
+        return time2 - time1;
     })
+};
+
+export const uploadFile = async (file: any): Promise<IFile> => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    let res = await fetch(url.UPLOAD_FILE, {
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+        method: "POST",
+        body: formData
+    });
+    console.log(res);
+    res = await res.json();
+    return res as unknown as IFile;
+};
+
+
+export const humanFileSize = (bytes: number, si: boolean = false) => {
+    const thresh = si ? 1000 : 1024;
+    if (Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    const units = si
+        ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+        : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    let u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1) + ' ' + units[u];
 };

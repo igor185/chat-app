@@ -61,6 +61,10 @@ export const search = (search: string) => ({
    payload: { search }
 });
 
+export const toggleSearch = () => ({
+    type: types.TOGGLE_SEARCH
+});
+
 export const newChat = (userId: number) => ({
     type: types.CREATE_CHAT,
     payload: {

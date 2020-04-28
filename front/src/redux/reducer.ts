@@ -21,7 +21,8 @@ const initialState: IApp = {
     showPanel: true,
     page: localStorage.getItem('token') && localStorage.getItem('token') !== "undefined" ? "chat" : "login",
     search: {
-        isFetching: false
+        isFetching: false,
+        isOpen: true
     }
 };
 
@@ -40,6 +41,15 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
             return {
                 ...state,
                 showPanel: !state.showPanel
+            };
+        case types.TOGGLE_SEARCH:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    isOpen: !state.search.isOpen
+                },
+                showPanel: true
             };
         case types.FETCH_CHATS_DONE:
             return {

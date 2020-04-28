@@ -11,3 +11,4 @@ export const REG = `${prefix}/req`;
 export const SEARCH = `${prefix}/api/users`;
 export const NEW_CHAT = `${prefix}/api/chat`;
 export const DELETE_MESSAGE = `${prefix}/api/message`;
+export const UPLOAD_FILE = `${prefix}/api/uploadFile`;

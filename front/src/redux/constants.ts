@@ -5,6 +5,7 @@ export const FETCH_MESSAGES = "FETCH_MESSAGES";
 export const FETCH_MESSAGES_DONE = "FETCH_MESSAGES_DONE";
 
 export const TOGGLE_PANEL = "TOGGLE_PANEL";
+export const TOGGLE_SEARCH = "TOGGLE_SEARCH";
 
 export const ADD_NEW_MESSAGE = "ADD_NEW_MESSAGE";
 

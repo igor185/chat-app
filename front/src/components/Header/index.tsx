@@ -21,7 +21,8 @@ const Header = (props: any) => {
                 <div className="icon-wrap" onClick={() => props.actions.togglePanel()}>
                     <FontAwesomeIcon icon={faBars}/>
                 </div>
-                <Search />
+                <div className="icon-wrap" onClick={() => props.actions.toggleSearch()}>
+                    <FontAwesomeIcon icon={faSearch}/></div>
             </div>
             <div className="right-size">
                 <div className="icon-wrap" onClick={onLogOut}>
@@ -33,7 +34,6 @@ const Header = (props: any) => {
     )
 };
 
-// togglePanel
 const mapStateToProps = (state: IApp): any => ({});
 
 const mapDispatchToProps = (dispatch: any) => ({

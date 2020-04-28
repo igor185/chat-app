@@ -18,8 +18,6 @@ const RegForm = (props: any) => {
 
     const onSubmit = () => props.actions.regUser(login, password, avatar);
 
-    console.log(props.regPage && props.regPage.error);
-
     return (
         <Grid textAlign='center' style={{  position: "absolute", top: "20%", left: "35%" }} verticalAlign='middle'>
             <Grid.Column style={{ width: 500, background: "white" }}>

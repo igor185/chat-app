@@ -6,20 +6,14 @@ import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
 import IApp, {IChatList, IChatView} from "../../model/IApp";
 import {Input, Divider, Header} from "semantic-ui-react";
+import Search from "./Search";
 
-const mapStateToProps = (state: IApp): any => ({
-    chatList: state.chatList,
-    chat: state.chat
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-    actions: bindActionCreators(actions, dispatch)
-});
 
 interface IChatListProps {
     actions: typeof actions;
     chatList: IChatList;
     chat: IChatView
+    search: any
 }
 
 const ChatList = (props: IChatListProps) => {
@@ -29,24 +23,32 @@ const ChatList = (props: IChatListProps) => {
     }, [props.actions]);
 
     return (
-        <>
-
-            <div className="chat-list-wrap">
-                {props.chatList.data && props.chatList.data.map(elem => elem && elem.message && (
-                    <ChatElem key={elem.chat.id} id={elem.chat.id}
-                              chatId={props.chat.id}
-                              name={elem.user.username}
-                              date={elem.message.time}
-                              message={elem.message}
-                              avatar={elem.user.avatar}
-                              onClick={(id: number) => props.actions.fetchMessages(elem.chat.id)}/>
-                ))}
+        (<div className="chat-list-wrap">
+                {props.search.isOpen ? <Search {...props}/>:
+                    <>
+                        {props.chatList.data && props.chatList.data.map(elem => elem && elem.message && (
+                            <ChatElem key={elem.chat.id} id={elem.chat.id}
+                                      chatId={props.chat.id}
+                                      name={elem.user.username}
+                                      date={elem.message.time}
+                                      message={elem.message}
+                                      avatar={elem.user.avatar}
+                                      onClick={(id: number) => props.actions.fetchMessages(elem.chat.id)}/>
+                        ))}
+                    </>}
             </div>
-        </>
-    )
+        ))
 };
 
+const mapStateToProps = (state: IApp): any => ({
+    chatList: state.chatList,
+    chat: state.chat,
+    search: state.search
+});
 
+const mapDispatchToProps = (dispatch: any) => ({
+    actions: bindActionCreators(actions, dispatch)
+});
 export default connect(
     mapStateToProps,
     mapDispatchToProps

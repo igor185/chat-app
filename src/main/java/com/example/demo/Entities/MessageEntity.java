@@ -39,4 +39,8 @@ public class MessageEntity {
 
     @Column(name = "edited", columnDefinition = "boolean default false")
     private boolean edited;
+
+    @Embedded
+    @Column(name = "file")
+    private File file;
 }
