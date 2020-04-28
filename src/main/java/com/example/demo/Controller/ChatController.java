@@ -82,9 +82,7 @@ public class ChatController {
     }
 
     @MessageMapping("/new-message")
-//    @SendTo("/res/new-message")
     public void sendMessage(NewMessageDTO newMessageDTO) throws JsonProcessingException {
-        System.out.println(newMessageDTO);
         ChatEntity chatEntity = chatService.createChat(newMessageDTO.getChatId());
         User userEntity = userService.findById(newMessageDTO.getUserId());
         System.out.println(chatEntity);
@@ -98,4 +96,28 @@ public class ChatController {
         simpMessagingTemplate.convertAndSend("/res/new-message/"+userEntity.getId(), res);
         simpMessagingTemplate.convertAndSend("/res/new-message/"+userGetMessage.getId(), res);
     }
+
+    @RequestMapping(value = "/api/message/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteMessage(@PathVariable int id, Authentication auth, @RequestBodyParam Integer chatId) throws JsonProcessingException {
+        System.out.println(id);
+        System.out.println(chatId);
+        User userDelete = userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
+        ChatEntity chat = chatService.findById(chatId);
+        User userAnother = chatUserService.getUserByChatAndNotUser(chat, userDelete);
+        MessageEntity message = messageService.deleteMessage(id);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String res = mapper.writeValueAsString(message);
+        System.out.println(res);
+
+        simpMessagingTemplate.convertAndSend("/res/delete-message/"+userDelete.getId(), res);
+        simpMessagingTemplate.convertAndSend("/res/delete-message/"+userAnother.getId(), res);
+
+        return res;
+    }
+
+    // :id - message_id
+    // token -> user
+    // chatId -> chatEntity & user -> anotherUser -> send by socket
 }

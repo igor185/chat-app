@@ -31,7 +31,7 @@ export interface IChat{
 
 export interface IMessageView {
     chat: IChat;
-    message: IMessage | null;
+    message: IMessage;
     user: IUser;
 }
 export interface IMessage{

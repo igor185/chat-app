@@ -23,6 +23,7 @@
     "random-profile-generator": "^2.3.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-ellipsis-text": "^1.2.1",
     "react-fontawesome": "^1.7.1",
     "react-image-picker": "^1.1.1",
     "react-particles-js": "^2.7.1",

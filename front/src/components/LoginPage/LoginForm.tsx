@@ -31,12 +31,15 @@ const LoginForm = (props: any) => {
                             onChange={(event, data) => setPassword(data.value)}
                             error={props.loginPage && !!props.loginPage.error}
                         />
-
                         <Button className={"color-btn"} fluid size='large' onClick={onSubmit} loading={props.loginPage && props.loginPage.isFetching}>
                             Login
                         </Button>
                     </Segment>
                 </Form>
+                {props.loginPage && !!props.loginPage.error && (<Message
+                    error
+                    content={props.loginPage.error}
+                />)}
                 <Message>
                     New to us? <a href="#" onClick={() => props.actions.changePage("reg")}>Sign Up</a>
                 </Message>

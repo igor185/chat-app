@@ -38,6 +38,12 @@ public class MessageService {
         return list.size() > 0 ? list.get(0) : null;
     }
 
+    public MessageEntity deleteMessage(int id){
+        MessageEntity messageEntity = messageRepository.findById(id).get();
+        messageRepository.delete(messageEntity);
+        return messageEntity;
+    }
+
     public List<MessageEntity> findAllByChat(ChatEntity chat){
         return messageRepository.findAllByChat(chat);
     }

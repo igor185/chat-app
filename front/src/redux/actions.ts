@@ -76,4 +76,17 @@ export const addChatToList = (chatId: number, user: IUser) => ({
     }
 });
 
-export const addMessageToChatList = (chatId: number, message: IMessage) => {}
+export const deleteMessage = (messageId: number, chatId: number) => ({
+    type: types.DELETE_MESSAGE,
+    payload: {
+        messageId,
+        chatId
+    }
+});
+
+export const deleteMessageDone = (message: IMessage) => ({
+    type: types.DELETE_MESSAGE_DONE,
+    payload: {
+        message
+    }
+});

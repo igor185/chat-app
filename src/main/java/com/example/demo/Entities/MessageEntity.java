@@ -25,7 +25,7 @@ public class MessageEntity {
     private String message;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "char_id")
+    @JoinColumn(name = "chat_id")
     private ChatEntity chat;
 
 
