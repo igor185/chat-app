@@ -2,7 +2,7 @@ import SockJS from "sockjs-client";
 import Stomp, {Client} from 'stompjs';
 import * as actions from "../../redux/actions";
 import * as url from '../../var/routers'
-import IApp, {IUser} from "../../model/IApp";
+import IApp, {IMessage, IUser} from "../../model/IApp";
 
 let stompClient = {} as Client;
 
@@ -31,6 +31,22 @@ const connect = (action: typeof actions, store: IApp) => {
             action.addChatToList(newChat.chatId, newChat.user1.id === user.id ? newChat.user1 : newChat.user2);
 
         });
+
+        stompClient.subscribe(`/res/delete-message/${user.id}`, ({ body }: { body: string}) => {
+            const message: IMessage = JSON.parse(body);
+
+            console.log(message);
+
+            action.deleteMessageDone(message);
+            action.fetchChats();
+        })
+
+        stompClient.subscribe(`/res/edit-message/${user.id}`, ({ body }: { body: string}) => {
+            const message: IMessage = JSON.parse(body);
+
+            action.editMessageDone(message);
+            action.fetchChats();
+        })
     });
 };
 

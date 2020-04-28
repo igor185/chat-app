@@ -1,6 +1,7 @@
 import IApp, {IMessage} from './../model/IApp'
 import IAction from './../model/IAction'
 import * as types from './constants';
+import {sortChatList} from "../helpers";
 
 const initialState: IApp = {
     chatList: {
@@ -25,7 +26,7 @@ const initialState: IApp = {
 };
 
 export function reducer(state: IApp = initialState, action: IAction): IApp {
-    let data, message: IMessage;
+    let data, message: IMessage, chatList, messageList;
     switch (action.type) {
         case types.FETCH_CHATS:
             return {
@@ -45,7 +46,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 chatList: {
                     ...state.chatList,
-                    data: action.payload,
+                    data: sortChatList(action.payload),
                     isFetching: false,
                 }
             };
@@ -80,7 +81,8 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 chatList: {
                     ...state.chatList,
-                    data
+                    // @ts-ignore
+                    data: sortChatList(data)
                 },
                 chat: {
                     ...state.chat,
@@ -127,7 +129,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 loginPage: {
                     isFetching: false,
-                    error: true
+                    error: action.payload.error
                 }
             };
         case types.REG:
@@ -186,14 +188,44 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
             data = [...(state.chatList.data || [])];
             data.push({
                 chat: {id: action.payload.chatId},
-                message: null,
+                message: null as unknown as IMessage,
                 user: action.payload.user
             });
             return {
                 ...state,
                 chatList: {
                     ...state.chatList,
-                    data
+                    // @ts-ignore
+                    data: sortChatList(data)
+                }
+            };
+        case types.DELETE_MESSAGE_DONE:
+            message = action.payload.message;
+            if(message.chat.id !== state.chat.id)
+                return state;
+            messageList = [...(state.chat.data || [])]
+                .map(m => m.id === message.id ? undefined : m)
+                .filter(m => m);
+
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: messageList as IMessage[]
+                }
+            };
+        case types.EDIT_MESSAGE_DONE:
+            message = action.payload.message;
+            if(message.chat.id !== state.chat.id)
+                return state;
+            messageList = [...(state.chat.data || [])]
+                .map(m => m.id === message.id ? message : m);
+
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: messageList as IMessage[]
                 }
             };
         default:

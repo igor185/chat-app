@@ -25,7 +25,7 @@ public class MessageEntity {
     private String message;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "char_id")
+    @JoinColumn(name = "chat_id")
     private ChatEntity chat;
 
 
@@ -36,4 +36,7 @@ public class MessageEntity {
     @Column(name = "time")
     @CreationTimestamp
     private Date time;
+
+    @Column(name = "edited", columnDefinition = "boolean default false")
+    private boolean edited;
 }

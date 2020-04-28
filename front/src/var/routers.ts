@@ -1,5 +1,5 @@
-const prefix = "https://igor-babin-chat-java.herokuapp.com";
-// const prefix = "http://localhost:8080";
+// const prefix = "https://igor-babin-chat-java.herokuapp.com";
+const prefix = "http://localhost:8080";
 
 
 export const SOCKET_URL = `${prefix}/ws`;
@@ -10,3 +10,4 @@ export const USER = `${prefix}/api/me`;
 export const REG = `${prefix}/req`;
 export const SEARCH = `${prefix}/api/users`;
 export const NEW_CHAT = `${prefix}/api/chat`;
+export const DELETE_MESSAGE = `${prefix}/api/message`;

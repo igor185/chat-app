@@ -1,7 +1,8 @@
 import React from 'react';
 import "./styles.sass"
-import {Comment} from "semantic-ui-react";
+import {Comment, Image} from "semantic-ui-react";
 import {fromNow} from "../../../helpers";
+import EllipsisText from "react-ellipsis-text";
 
 export interface IChatElem {
     id: number;
@@ -14,19 +15,17 @@ export interface IChatElem {
 const ChatElem = (props: any) => {
     const {name, date, message, id, avatar} = props;
     return (
-        <div className="chat-elem-wrap" onClick={() => props.onClick(id)}>
-            <Comment.Group>
-                <Comment>
-                    <Comment.Avatar src={avatar} />
-                    <Comment.Content>
-                        <Comment.Author as='a'>{name}</Comment.Author>
-                        <Comment.Metadata>
-                            <div>{fromNow(date)}</div>
-                        </Comment.Metadata>
-                        <Comment.Text>{message ? message.message : ""}</Comment.Text>
-                    </Comment.Content>
-                </Comment>
-                </Comment.Group>
+        <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick(id)}>
+            <div className="avatar">
+                <Image avatar src={avatar}/>
+            </div>
+            <div className="info">
+                <div className="name-wrap">
+                    <div className="name">{name}</div>
+                    <div className="date">{fromNow(date)}</div>
+                </div>
+                <EllipsisText text={message ? message.message : ""} length={21}/>
+            </div>
         </div>
     )
 };

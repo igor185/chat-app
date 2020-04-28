@@ -1,0 +1,98 @@
+.message-item
+  &.to-delete
+    .from-me
+      background-color: red
+      .info-block
+        opacity: .8
+      &:before
+        border-right: 20px solid red
+  font-family: "Helvetica Neue", Helvetica, sans-serif
+  font-size: 20px
+  font-weight: normal
+  max-width: 500px
+  margin: 50px auto
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  p
+    max-width: 475px
+    word-wrap: break-word
+    margin-bottom: 12px
+    line-height: 24px
+    position: relative
+    padding: 10px 20px
+    border-radius: 25px
+    .info-block
+      font-size: .725em
+      opacity: .4
+      i
+        font-size: .95em
+        cursor: pointer
+
+    &:before, &:after
+        content: ""
+        position: absolute
+        bottom: -2px
+        height: 20px
+
+
+
+  .from-me ~ img
+    position: relative
+    left: 50px
+    top: -30px
+    margin-right: 0 !important
+  .from-me
+    color: white
+    background: #0B93F6
+    align-self: flex-end
+    .info-block
+      display: flex
+      justify-content: space-between
+      .time
+        margin-right: 10px
+        color: white
+
+    &:before
+      right: -7px
+      border-right: 20px solid #0B93F6
+      border-bottom-left-radius: 16px 14px
+      transform: translate(0, -2px)
+
+    &:after
+      right: -56px
+      width: 26px
+      background: white
+      border-bottom-left-radius: 10px
+      transform: translate(-30px, -2px)
+  .from-them ~ img
+    position: relative
+    right: 50px
+    top: -30px
+    margin-right: 0 !important
+  .from-them
+    background: #E5E5EA
+    color: black
+    .info-block
+      display: flex
+      justify-content: flex-end
+      .time
+        color: black
+
+    &:before
+      left: -7px
+      border-left: 20px solid #E5E5EA
+      border-bottom-right-radius: 16px 14px
+      transform: translate(0, -2px)
+
+
+    &:after
+      left: 4px
+      width: 26px
+      background: white
+      border-bottom-right-radius: 10px
+      transform: translate(-30px, -2px)
+.action-btn
+  text-align: center !important
+.white-header
+  color: white !important

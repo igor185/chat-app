@@ -22,9 +22,9 @@ const ChatPage = (props: any) => {
                     (
                         <>
                             <div className="messages-wrap">
-                                <Comment.Group>
-                                    <MessageList {...props} />
-                                </Comment.Group>
+                                    <MessageList
+                                    chat={props.chat}
+                                    user={props.user.data}/>
                             </div>
                             <div className="input-wrap">
                                 <MessageInput />
@@ -40,7 +40,8 @@ const ChatPage = (props: any) => {
 
 
 const mapStateToProps = (state: IApp): any => ({
-    chat: state.chat
+    chat: state.chat,
+    user: state.user
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -44,7 +44,8 @@ function* loginUser(action: any) {
         })
     } catch (e) {
         yield put({
-            type: types.LOGIN_FAIL
+            type: types.LOGIN_FAIL,
+            payload: { error: e.message }
         });
         console.error(e);
     }
@@ -131,6 +132,33 @@ function* newChat(action: any) {
     }
 }
 
+function* deleteMessage(action: any) {
+    try {
+        yield request(url.DELETE_MESSAGE + `/${action.payload.messageId}`, {
+            method: "DELETE",
+            body: JSON.stringify({
+                chatId: action.payload.chatId
+            })
+        });
+    }catch (e) {
+        console.log(e)
+    }
+}
+
+function* editMessage(action: any) {
+    try {
+        yield request(url.DELETE_MESSAGE + `/${action.payload.messageId}`, {
+            method: "POST",
+            body: JSON.stringify({
+                chatId: action.payload.chatId,
+                message: action.payload.message
+            })
+        });
+    }catch (e) {
+        console.log(e)
+    }
+}
+
 export function* watchSaga() {
     yield takeLatest(types.FETCH_CHATS, fetchChats);
     yield takeLatest(types.FETCH_MESSAGES, fetchMessages);
@@ -139,4 +167,6 @@ export function* watchSaga() {
     yield takeLatest(types.REG, regUser);
     yield takeLatest(types.SEARCH, search);
     yield takeLatest(types.CREATE_CHAT, newChat);
+    yield takeLatest(types.DELETE_MESSAGE, deleteMessage);
+    yield takeLatest(types.EDIT_MESSAGE, editMessage);
 }
