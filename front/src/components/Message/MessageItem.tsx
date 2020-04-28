@@ -1,4 +1,4 @@
-import {Button, Header, Icon, Image, Modal} from "semantic-ui-react";
+import {Button, Form, Header, Icon, Image, Modal, TextArea} from "semantic-ui-react";
 import React, {useState} from "react";
 import IApp, {IMessage, IMessageView, IUser} from "../../model/IApp";
 import dayjs from 'dayjs';
@@ -16,10 +16,17 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
     const fromMe = message.user.id === user.id;
 
     const [openDelete, setClose] = useState(false);
+    const [openEdit, setCloseEdit] = useState(false);
+    const [messageEdit, changeMessage] = useState<any>(message.message);
 
     const onDelete = () => {
         setClose(false);
         actions.deleteMessage(message.id, message.chat.id);
+    };
+
+    const onEdit = () => {
+        setCloseEdit(false);
+        actions.editMessage(message.id, message.chat.id, messageEdit);
     };
     return (
         <div className={`message-item ${openDelete ? "to-delete" : ""}`} style={{ alignItems: fromMe ? "flex-end" : "flex-start"}}>
@@ -47,25 +54,37 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                       </Button>
                     </Modal.Actions>
                   </Modal>
-                    <Icon name={"edit"} size={"small"}/>
+                     <Modal
+                         trigger={<Icon name={"edit"} size={"small"} onClick={() => setCloseEdit(true)}/>}
+                         open={openEdit}
+                         onClose={() => setCloseEdit(false)}
+                         basic
+                         size='small'
+                     >
+                    <Modal.Content>
+                      <Header as={'h3'} textAlign='center' className={"white-header"}>Edit message</Header>
+                        <Form>
+                            <TextArea
+                                value={messageEdit}
+                                onChange={(e, data) => changeMessage(data.value)}
+                                style={{ minHeight: 200 }}
+                            />
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions className={"action-btn"}>
+                      <Button color='green' onClick={onEdit} inverted>
+                        <Icon name='edit' /> Edit
+                      </Button>
+                        <Button color='blue' onClick={() => setCloseEdit(false)} inverted>
+                        <Icon name='cancel' /> Cancel
+                      </Button>
+                    </Modal.Actions>
+                  </Modal>
                 </span>)}
             </span>
         </p>
             <Image avatar src={message.user.avatar}/>
         </div>
-    //     <Comment>
-    //     <Comment.Avatar src={props.user.avatar}/>
-    //     <Comment.Content>
-    //         <Comment.Author as='a'>{props.user.username}</Comment.Author>
-    //         <Comment.Metadata>
-    //             <div>{fromNow(props.time)}</div>
-    //         </Comment.Metadata>
-    //         <Comment.Text>{props.message}</Comment.Text>
-    //         <Comment.Actions>
-    //             <Comment.Action>Reply</Comment.Action>
-    //         </Comment.Actions>
-    //     </Comment.Content>
-    // </Comment>
     )
 };
 

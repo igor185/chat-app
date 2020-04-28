@@ -44,6 +44,14 @@ public class MessageService {
         return messageEntity;
     }
 
+    public MessageEntity updateMessage(int id, String message){
+        MessageEntity messageEntity = messageRepository.findById(id).get();
+        messageEntity.setMessage(message);
+        messageEntity.setEdited(true);
+        messageRepository.save(messageEntity);
+        return messageEntity;
+    }
+
     public List<MessageEntity> findAllByChat(ChatEntity chat){
         return messageRepository.findAllByChat(chat);
     }

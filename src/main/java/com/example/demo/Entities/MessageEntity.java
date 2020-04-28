@@ -36,4 +36,7 @@ public class MessageEntity {
     @Column(name = "time")
     @CreationTimestamp
     private Date time;
+
+    @Column(name = "edited", columnDefinition = "boolean default false")
+    private boolean edited;
 }

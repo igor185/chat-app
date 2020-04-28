@@ -39,7 +39,7 @@ export interface IMessage{
     message: string
     chat: IChat;
     user: IUser
-    time: string
+    time: number
 }
 
 export interface IUser {

@@ -8,7 +8,8 @@ import IApp, {IChatList, IChatView} from "../../model/IApp";
 import {Input, Divider, Header} from "semantic-ui-react";
 
 const mapStateToProps = (state: IApp): any => ({
-    chatList: state.chatList
+    chatList: state.chatList,
+    chat: state.chat
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -33,6 +34,7 @@ const ChatList = (props: IChatListProps) => {
             <div className="chat-list-wrap">
                 {props.chatList.data && props.chatList.data.map(elem => elem && elem.message && (
                     <ChatElem key={elem.chat.id} id={elem.chat.id}
+                              chatId={props.chat.id}
                               name={elem.user.username}
                               date={elem.message.time}
                               message={elem.message}

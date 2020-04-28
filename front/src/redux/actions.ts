@@ -90,3 +90,19 @@ export const deleteMessageDone = (message: IMessage) => ({
         message
     }
 });
+
+export const editMessage = (messageId: number, chatId: number, message: string) => ({
+    type: types.EDIT_MESSAGE,
+    payload: {
+        messageId,
+        chatId,
+        message
+    }
+});
+
+export const editMessageDone = (message: IMessage) => ({
+    type: types.EDIT_MESSAGE_DONE,
+    payload: {
+        message
+    }
+});

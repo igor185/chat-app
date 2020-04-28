@@ -33,12 +33,19 @@ const connect = (action: typeof actions, store: IApp) => {
         });
 
         stompClient.subscribe(`/res/delete-message/${user.id}`, ({ body }: { body: string}) => {
-            console.log(body);
             const message: IMessage = JSON.parse(body);
 
             console.log(message);
 
             action.deleteMessageDone(message);
+            action.fetchChats();
+        })
+
+        stompClient.subscribe(`/res/edit-message/${user.id}`, ({ body }: { body: string}) => {
+            const message: IMessage = JSON.parse(body);
+
+            action.editMessageDone(message);
+            action.fetchChats();
         })
     });
 };

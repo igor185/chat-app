@@ -117,6 +117,22 @@ public class ChatController {
         return res;
     }
 
+    @RequestMapping(value = "/api/message/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public String editMessage(@PathVariable int id, Authentication auth, @RequestBodyParam Integer chatId, @RequestBodyParam String message) throws JsonProcessingException {
+        User userDelete = userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
+        ChatEntity chat = chatService.findById(chatId);
+        User userAnother = chatUserService.getUserByChatAndNotUser(chat, userDelete);
+        MessageEntity editedMessage = messageService.updateMessage(id, message);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String res = mapper.writeValueAsString(editedMessage);
+        simpMessagingTemplate.convertAndSend("/res/edit-message/"+userDelete.getId(), res);
+        simpMessagingTemplate.convertAndSend("/res/edit-message/"+userAnother.getId(), res);
+
+        return res;
+    }
+
     // :id - message_id
     // token -> user
     // chatId -> chatEntity & user -> anotherUser -> send by socket

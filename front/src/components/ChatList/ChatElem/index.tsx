@@ -15,7 +15,7 @@ export interface IChatElem {
 const ChatElem = (props: any) => {
     const {name, date, message, id, avatar} = props;
     return (
-        <div className="chat-elem-wrap" onClick={() => props.onClick(id)}>
+        <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick(id)}>
             <div className="avatar">
                 <Image avatar src={avatar}/>
             </div>
