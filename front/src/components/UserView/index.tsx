@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import IApp, {IUser} from "../../model/IApp";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
@@ -22,6 +22,12 @@ export interface IProps {
 const UserView = (props: IProps) => {
     const [crop, setCropper] = useState(false);
     const [avatar, setAvatar] = useState(props.user.avatar);
+    const [user, setUser] = useState(props.user);
+
+    useEffect(() => {
+        setUser(props.user);
+        setAvatar(props.user.avatar);
+    }, [props.user]);
     return (
         <Modal
             open={props.close}
@@ -31,7 +37,7 @@ const UserView = (props: IProps) => {
         >
             <Modal.Header>
                 <div className={"header-wrap-view"}>
-                    {props.user.username}
+                    {user.username}
                     {props.isEdit && <div className="icon-wrap" onClick={props.onLogOut}>
                         <FontAwesomeIcon icon={faSignOutAlt}/>
                     </div>}
@@ -46,7 +52,7 @@ const UserView = (props: IProps) => {
                                             setCropper(false);
                                             if(src){
                                                 props.actions.updateAvatar(src);
-                                                setAvatar(avatar);
+                                                setAvatar(src);
                                             }
                                         }}
                                     />
@@ -54,7 +60,7 @@ const UserView = (props: IProps) => {
                         ) :
                         (<div className={"avatar"}>
                             <Image wrapped size='medium' src={avatar} circular/>
-                            <Button color='blue' onClick={() => setCropper(true)}>Upload photo</Button>
+                                {props.isEdit && <Button color='blue' onClick={() => setCropper(true)}>Upload photo</Button>}
                         </div>)
                     }
                     <Modal.Description>
