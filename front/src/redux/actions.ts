@@ -116,3 +116,10 @@ export const editMessageDone = (message: IMessage) => ({
         message
     }
 });
+
+export const updateAvatar = (src: string) => ({
+    type: types.UPDATE_AVATAR,
+    payload: {
+        src
+    }
+});

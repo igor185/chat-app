@@ -43,6 +43,11 @@ public class DatabaseUserService implements UserService {
         return user;
     }
 
+    public User updateAvatar(User user, String src){
+        user.setAvatar(src);
+        return userRepository.save(user);
+    }
+
     public List<User> search(String name, User user){
         return userRepository.search(name, user);
     }
