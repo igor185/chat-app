@@ -159,6 +159,27 @@ function* editMessage(action: any) {
     }
 }
 
+function* updateAvatar(action: any) {
+    try{
+        const res = yield request(url.UPDATE_AVATAR, {
+            method: "POST",
+            body: JSON.stringify({
+                src: action.payload.src
+            })
+        });
+        if(res.src){
+            yield put({
+                type: types.UPDATE_AVATAR_DONE,
+                payload: {
+                    src: res.src
+                }
+            })
+        }
+    }catch (e) {
+        console.log(e);
+    }
+}
+
 export function* watchSaga() {
     yield takeLatest(types.FETCH_CHATS, fetchChats);
     yield takeLatest(types.FETCH_MESSAGES, fetchMessages);
@@ -169,4 +190,5 @@ export function* watchSaga() {
     yield takeLatest(types.CREATE_CHAT, newChat);
     yield takeLatest(types.DELETE_MESSAGE, deleteMessage);
     yield takeLatest(types.EDIT_MESSAGE, editMessage);
+    yield takeLatest(types.UPDATE_AVATAR, updateAvatar);
 }

@@ -1,5 +1,5 @@
 Arguments: 
-  /home/igor/.nvm/versions/node/v10.15.3/bin/node /usr/share/yarn/bin/yarn.js add @types/reactjs-file-uploader
+  /home/igor/.nvm/versions/node/v10.15.3/bin/node /usr/share/yarn/bin/yarn.js add @types/react-avatar-edit
 
 PATH: 
   /home/igor/.nvm/versions/node/v10.15.3/bin:/home/igor/Documents/projects/pet/chat-java/front/node_modules/.bin:/opt/GitHub Desktop:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freactjs-file-uploader: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-avatar-edit: Not found
       at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66987:18)
       at Request.self.callback (/usr/share/yarn/lib/cli.js:140748:22)
       at Request.emit (events.js:189:13)
@@ -46,11 +46,13 @@ npm manifest:
       "@types/sockjs-client": "^1.1.1",
       "@types/stompjs": "^2.3.4",
       "axios": "^0.19.2",
+      "cloudinary-react": "^1.5.0",
       "dayjs": "^1.8.25",
       "node-sass": "^4.13.1",
       "particles.js": "^2.0.0",
       "random-profile-generator": "^2.3.0",
       "react": "^16.8.6",
+      "react-avatar-edit": "^0.8.3",
       "react-dom": "^16.8.6",
       "react-ellipsis-text": "^1.2.1",
       "react-fontawesome": "^1.7.1",
@@ -3025,6 +3027,19 @@ Lockfile:
       is-plain-object "^2.0.4"
       kind-of "^6.0.0"
       shallow-clone "^1.0.0"
+  
+  cloudinary-core@^2.8.2:
+    version "2.8.2"
+    resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.8.2.tgz#355faf986ded19358a65ddc28ad29344c1de0902"
+    integrity sha512-nV1lhEXlqNhgnbnzsDzbrNUAkP8H9J5RuBareRlWyb8tKx/94DvG/kXWrSlC8XNB3uKfiwxOudOnRdjsEnjBgA==
+  
+  cloudinary-react@^1.5.0:
+    version "1.5.0"
+    resolved "https://registry.yarnpkg.com/cloudinary-react/-/cloudinary-react-1.5.0.tgz#8a84e1ba4866f46e419405c6bce62bf52c313464"
+    integrity sha512-Ll1Huv5gJgJtesM7RF1oXQdjtv3J6mKk2dBCIGoDTWNZJOBVAwOgd30640O5hil9Pyr2Whrb9kHuY4T8D2yHtw==
+    dependencies:
+      cloudinary-core "^2.8.2"
+      prop-types "^15.6.2"
   
   clsx@^1.0.2:
     version "1.1.0"
@@ -6625,6 +6640,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
     integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
   
+  konva@2.5.1:
+    version "2.5.1"
+    resolved "https://registry.yarnpkg.com/konva/-/konva-2.5.1.tgz#cca611a9522e831e54cf57c508a1aed3f0ceac25"
+    integrity sha512-YdHEWqmbWPieqIZuLx7JFGm9Ui08hSUaSJ2k2Ml8o5giFgJ0WmxAS0DPXIM+Ty2ADRagOHZfXSJ/skwYqqlwgQ==
+  
   last-call-webpack-plugin@^3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-3.0.0.tgz#9742df0e10e3cf46e5c0381c2de90d3a7a2d7555"
@@ -8939,6 +8959,13 @@ Lockfile:
       raf "^3.4.1"
       regenerator-runtime "^0.13.3"
       whatwg-fetch "^3.0.0"
+  
+  react-avatar-edit@^0.8.3:
+    version "0.8.3"
+    resolved "https://registry.yarnpkg.com/react-avatar-edit/-/react-avatar-edit-0.8.3.tgz#0ebf21391328fc255429bdfbc782f795827109bf"
+    integrity sha512-QEedh6DjDCSI7AUsUHHtfhxApCWC5hJAoywxUA5PtUdw03iIjEurgVqPOIt1UBHhU/Zk/9amElRF3oepN9JZSg==
+    dependencies:
+      konva "2.5.1"
   
   react-dev-utils@^9.0.1:
     version "9.1.0"

@@ -23,6 +23,7 @@
     "particles.js": "^2.0.0",
     "random-profile-generator": "^2.3.0",
     "react": "^16.8.6",
+    "react-avatar-edit": "^0.8.3",
     "react-dom": "^16.8.6",
     "react-ellipsis-text": "^1.2.1",
     "react-fontawesome": "^1.7.1",

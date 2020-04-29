@@ -246,6 +246,18 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 chat: initialState.chat
             };
+        case types.UPDATE_AVATAR_DONE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    // @ts-ignore
+                    data: {
+                        ...(state.user.data || {}),
+                        avatar: action.payload.src
+                    }
+                }
+            }
         default:
             return state;
     }

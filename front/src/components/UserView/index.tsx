@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import IApp, {IUser} from "../../model/IApp";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
-import {Modal, Image, Header} from "semantic-ui-react";
+import {Modal, Image, Header, Button} from "semantic-ui-react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import Cropper from "../Cropper";
+
+import './styles.sass';
 
 export interface IProps {
     close: boolean;
@@ -17,6 +20,8 @@ export interface IProps {
 }
 
 const UserView = (props: IProps) => {
+    const [crop, setCropper] = useState(false);
+    const [avatar, setAvatar] = useState(props.user.avatar);
     return (
         <Modal
             open={props.close}
@@ -32,16 +37,35 @@ const UserView = (props: IProps) => {
                     </div>}
                 </div>
             </Modal.Header>
-            <Modal.Content image>
-                <Image wrapped size='medium' src={props.user.avatar} circular/>
-                <Modal.Description>
-                    <Header>Default Profile Image</Header>
-                    <p>
-                        We've found the following gravatar image associated with your e-mail
-                        address.
-                    </p>
-                    <p>Is it okay to use this photo?</p>
-                </Modal.Description>
+            <Modal.Content>
+                <div className="content-wrapper">
+                    {crop ? (
+                            <>
+                                    <Cropper
+                                        onClose={(src?: string) => {
+                                            setCropper(false);
+                                            if(src){
+                                                props.actions.updateAvatar(src);
+                                                setAvatar(avatar);
+                                            }
+                                        }}
+                                    />
+                            </>
+                        ) :
+                        (<div className={"avatar"}>
+                            <Image wrapped size='medium' src={avatar} circular/>
+                            <Button color='blue' onClick={() => setCropper(true)}>Upload photo</Button>
+                        </div>)
+                    }
+                    <Modal.Description>
+                        <Header>Default Profile Image</Header>
+                        <p>
+                            We've found the following gravatar image associated with your e-mail
+                            address.
+                        </p>
+                        <p>Is it okay to use this photo?</p>
+                    </Modal.Description>
+                </div>
             </Modal.Content>
         </Modal>
     )

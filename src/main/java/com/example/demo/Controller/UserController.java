@@ -4,6 +4,7 @@ import com.example.demo.Entities.User;
 import com.example.demo.Models.NewUserDTO;
 import com.example.demo.Services.DatabaseUserService;
 import com.example.demo.security.model.UserContext;
+import com.github.lambdaexpression.annotation.RequestBodyParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,14 @@ public class UserController {
     public List<User> searchUsers(@RequestParam String search, Authentication auth){
         User user = userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
         return userService.search(search, user);
+    }
+
+    @RequestMapping(value = "/api/user/avatar", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateAvatar(@RequestBodyParam String src, Authentication auth){
+        User user = userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
+        userService.updateAvatar(user, src);
+        return "{\"src\":\""+src+"\"}";
     }
 
 }
