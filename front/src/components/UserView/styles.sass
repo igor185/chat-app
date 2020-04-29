@@ -1,4 +1,5 @@
 .content-wrapper
+  margin-bottom: 100px
   .avatar
     display: flex
     justify-content: center
@@ -16,3 +17,23 @@
       justify-content: flex-end
       div:first-child
         display: block
+.key-value
+  display: grid
+  grid-template-columns: 100px 1fr
+  grid-gap: 10px
+  margin-bottom: 50px
+  .key
+    span
+      cursor: pointer
+      &:first-child
+        margin-left: 10px
+    h6
+      margin-top: 0 !important
+  .value
+    textarea
+      width: 100%
+.notific-setting
+  h5
+    margin-top: 0 !important
+  .checkbox-wrap
+    margin: 10px 0

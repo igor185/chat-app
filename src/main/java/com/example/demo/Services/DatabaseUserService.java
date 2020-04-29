@@ -3,6 +3,7 @@ package com.example.demo.Services;
 import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,9 @@ import java.util.Optional;
 
 @Service
 public class DatabaseUserService implements UserService {
+    @Autowired
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     private final UserRepository userRepository;
 
     @Autowired
@@ -48,7 +52,23 @@ public class DatabaseUserService implements UserService {
         return userRepository.save(user);
     }
 
+    public User update(User user){
+        return userRepository.save(user);
+    }
+
     public List<User> search(String name, User user){
         return userRepository.search(name, user);
+    }
+
+    public boolean confirmEmail(User user, String email){
+        if(user.getEmail() == null){
+            return false;
+        }
+        if(encoder.matches(user.getEmail(), email)){
+            user.setConfirm(true);
+            update(user);
+            return true;
+        }
+        return false;
     }
 }

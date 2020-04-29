@@ -257,6 +257,43 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                         avatar: action.payload.src
                     }
                 }
+            };
+        case types.UPDATE_ABOUT_DONE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    // @ts-ignore
+                    data: {
+                        ...(state.user.data || {}),
+                        about: action.payload.message
+                    }
+                }
+            };
+        case types.UPDATE_EMAIL_DONE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    // @ts-ignore
+                    data: {
+                        ...(state.user.data || {}),
+                        email: action.payload.email,
+                        confirm: false
+                    }
+                }
+            };
+        case types.SEND_OPTIONS_DONE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    // @ts-ignore
+                    data: {
+                        ...(state.user.data || {}),
+                        options: action.payload.options
+                    }
+                }
             }
         default:
             return state;

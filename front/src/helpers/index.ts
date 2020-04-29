@@ -41,7 +41,6 @@ export const uploadFile = async (file: any): Promise<IFile> => {
         method: "POST",
         body: formData
     });
-    console.log(res);
     res = await res.json();
     return res as unknown as IFile;
 };

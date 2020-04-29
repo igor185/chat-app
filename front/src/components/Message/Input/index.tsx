@@ -19,7 +19,6 @@ export const MessageInput = (props: any) => {
         setLoading(true);
         uploadFile(target.files[0])
             .then((file: IFile) => {
-                console.log(file);
                 setFile(file);
                 setLoading(false);
             })
