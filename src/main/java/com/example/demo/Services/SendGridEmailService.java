@@ -22,6 +22,8 @@ public class SendGridEmailService {
 //        Dotenv dotenv = Dotenv.configure().directory("/app").load();
         KEY = System.getenv("SENDGRID");
         URL = System.getenv("URL");
+        System.out.println(KEY);
+        System.out.println(URL);
     }
 
     public void sendMail(String toS, String subject, String body) throws IOException {
