@@ -2,9 +2,8 @@ import {takeLatest, put} from "redux-saga/effects";
 import * as types from "./constants";
 import * as url from "../var/routers";
 import {fetchHeaderConfig} from "../helpers";
-import axios from 'axios';
 import request from "../helpers/webApi";
-import socket from "../services/socket/socket";
+import {NotificationManager} from "react-notifications";
 
 function* fetchChats(action: any) {
     try {
@@ -45,7 +44,7 @@ function* loginUser(action: any) {
     } catch (e) {
         yield put({
             type: types.LOGIN_FAIL,
-            payload: { error: e.message }
+            payload: {error: e.message}
         });
         console.error(e);
     }
@@ -65,7 +64,6 @@ function* fetchUser(action: any) {
             }
         })
     } catch (e) {
-        console.error(e);
         localStorage.removeItem('token');
         yield put({
             type: types.REMOVE_STORE
@@ -76,15 +74,13 @@ function* fetchUser(action: any) {
 function* regUser(action: any) {
     const {login, password, avatar} = action.payload;
     try {
-        // TODO doesn't work with fetch, even if hard-code correct content-type
-        const res = yield axios({
+        yield request(url.REG, {
             method: "POST",
-            url: url.REG,
-            data: {
+            body: JSON.stringify({
                 username: login,
                 password,
                 avatar
-            }
+            })
         });
         yield put({
             type: types.LOGIN,
@@ -97,7 +93,6 @@ function* regUser(action: any) {
             type: types.REG_FAIL,
             payload: {error: error.message}
         });
-        console.error(error);
     }
 }
 
@@ -114,7 +109,7 @@ function* search(action: any) {
 }
 
 function* newChat(action: any) {
-    try{
+    try {
         const res = yield request(url.NEW_CHAT, {
             method: "PUT",
             body: JSON.stringify({
@@ -127,7 +122,7 @@ function* newChat(action: any) {
                 chatId: res.chatId
             }
         })
-    }catch (e) {
+    } catch (e) {
         console.error(e);
     }
 }
@@ -140,7 +135,7 @@ function* deleteMessage(action: any) {
                 chatId: action.payload.chatId
             })
         });
-    }catch (e) {
+    } catch (e) {
         console.log(e)
     }
 }
@@ -154,29 +149,119 @@ function* editMessage(action: any) {
                 message: action.payload.message
             })
         });
-    }catch (e) {
+    } catch (e) {
         console.log(e)
     }
 }
 
 function* updateAvatar(action: any) {
-    try{
+    try {
         const res = yield request(url.UPDATE_AVATAR, {
             method: "POST",
             body: JSON.stringify({
                 src: action.payload.src
             })
         });
-        if(res.src){
+        if (res) {
             yield put({
                 type: types.UPDATE_AVATAR_DONE,
                 payload: {
-                    src: res.src
+                    src: res
                 }
             })
         }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* updateAbout(action: any) {
+    try {
+        const res = yield request(url.UPDATE_ABOUT, {
+            method: "POST",
+            body: JSON.stringify({
+                message: action.payload.message
+            })
+        });
+        yield put({
+            type: types.UPDATE_ABOUT_DONE,
+            payload: {
+                message: res
+            }
+        })
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* updateEmail(action: any) {
+    try {
+        const res = yield request(url.UPDATE_EMAIL, {
+            method: "POST",
+            body: JSON.stringify({
+                email: action.payload.email
+            })
+        });
+        yield put({
+            type: types.UPDATE_EMAIL_DONE,
+            payload: {
+                email: res
+            }
+        })
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* confirmMessage(action: any) {
+    try {
+        const res = yield request(url.CONFIRM_EMAIL, {
+            method: "POST",
+            body: JSON.stringify({
+                email: action.payload.email
+            })
+        });
+        if (res) {
+            NotificationManager.info("Confirm email send");
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* sendOptions(action: any) {
+    try {
+        const res = yield request(url.SEND_OPTIONS, {
+            method: "POST",
+            body: JSON.stringify({
+                ...action.payload.options
+            })
+        });
+        if (res) {
+            yield put({
+                type: types.SEND_OPTIONS_DONE,
+                payload: {
+                    options: action.payload.options
+                }
+            })
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* sendEmail(action: any){
+    try{
+        yield request(url.SEND_EMAIL, {
+            method: "POST",
+            body: JSON.stringify({
+                messageId: action.payload.message.id
+            })
+        });
+        NotificationManager.info("Email was send");
     }catch (e) {
         console.log(e);
+        NotificationManager.error("Something go wrong with email");
     }
 }
 
@@ -191,4 +276,9 @@ export function* watchSaga() {
     yield takeLatest(types.DELETE_MESSAGE, deleteMessage);
     yield takeLatest(types.EDIT_MESSAGE, editMessage);
     yield takeLatest(types.UPDATE_AVATAR, updateAvatar);
+    yield takeLatest(types.UPDATE_ABOUT, updateAbout);
+    yield takeLatest(types.UPDATE_EMAIL, updateEmail);
+    yield takeLatest(types.SEND_CONFIRM_MESSAGE, confirmMessage);
+    yield takeLatest(types.SEND_OPTIONS, sendOptions);
+    yield takeLatest(types.SEND_EMAIL, sendEmail);
 }

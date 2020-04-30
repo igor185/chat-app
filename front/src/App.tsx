@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React from "react";
 import "./App.css";
 import Chat from "./components/Chat";
 import 'semantic-ui-css/semantic.min.css'
 import LoginPage from "./components/LoginPage";
 import IApp from "./model/IApp";
 import {connect} from "react-redux";
+import {NotificationContainer} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+import ConfirmPage from "./components/ConfirmPage";
 
 const App: React.FC = (props: any) => {
     switch (props.page) {
@@ -12,11 +15,22 @@ const App: React.FC = (props: any) => {
         case 'reg':
             return <LoginPage page={props.page}/>;
         default:
-            return (
-                <div className="App">
-                    <Chat/>
-                </div>
-            )
+            if(window.location.href.indexOf("/email") === -1) {
+                return (
+                    <div className="App">
+                        <Chat/>
+                        <NotificationContainer/>
+                    </div>
+                )
+            } else {
+              const [,,type, ...token] = window.location.pathname.split("/");
+              if(type === "confirm"){
+                  return <ConfirmPage token={token.join("/")}/>;
+              }else if(type === "reset"){
+                  return (<span>reset</span>);
+              }
+            }
+            return <span>not found</span>;
     }
 };
 

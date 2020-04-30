@@ -48,6 +48,10 @@ export interface IUser {
     id: number;
     username: string;
     avatar: string;
+    about: string;
+    email: string | null;
+    confirm: string;
+    options: IOptions;
 }
 export interface IChatView {
     id: number | null;
@@ -62,4 +66,10 @@ export interface IFile {
     fileName: string
     fileType: string
     size: number
+}
+
+export interface IOptions {
+    newChat: boolean
+    eachMessage: boolean
+    sendMessage: boolean
 }

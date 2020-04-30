@@ -1,13 +1,23 @@
 import MessageItem from "./MessageItem";
 import React from "react";
-import {IChatList, IMessage, IMessageView, IUser} from "../../model/IApp";
+import autoscroll from '../../helpers/autoscroll';
 
 
-export const MessageList = (props: { chat: IChatList, user: IUser}) => {
-    // @ts-ignore
-    return <> {(props.chat.data || []).map((elem: IMessage) => <MessageItem key={elem.id} message={elem} user={props.user}/>) }</>
+class MessageList extends React.Component<any> {
+    render() {
+        return (
+            <div className="messages-wrap" {...this.props}>
+                <div>
+                    {(this.props.chat.data || []).map((elem: any) =>
+                        <MessageItem
+                            key={elem.id}
+                            message={elem}
+                            user={this.props.user}/>
+                    )}
+                </div>
+            </div>)
+    }
 };
 
 
-
-export default MessageList;
+export default autoscroll(MessageList);

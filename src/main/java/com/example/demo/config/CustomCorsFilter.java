@@ -29,6 +29,7 @@ public class CustomCorsFilter extends CorsFilter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", config);
         source.registerCorsConfiguration("/req", configReg);
+        source.registerCorsConfiguration("/email**", configReg);
         return source;
     }
 }

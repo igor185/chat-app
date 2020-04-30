@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./styles.sass";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faSearch, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
@@ -24,6 +24,12 @@ const Header = (props: any) => {
         }
     };
 
+    useEffect(() => {
+        if(userView && userView.id === props.user.data.id){
+            setUserView(props.user.data);
+        }
+    },[props.user]);
+
     const user = props.chat.user;
 
     return (
@@ -48,7 +54,10 @@ const Header = (props: any) => {
             {userView && <UserView
                 isEdit={userView.id === props.user.data.id}
                 close={close}
-                setClose={setClose}
+                setClose={() => {
+                    setUserView(null);
+                    setClose(false);
+                }}
                 user={userView}
                 actions={props.actions}
                 onLogOut={onLogOut}

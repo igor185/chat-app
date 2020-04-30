@@ -1,5 +1,5 @@
 import * as types from "./constants";
-import {IMessage, IUser} from "../model/IApp";
+import {IMessage, IOptions, IUser} from "../model/IApp";
 
 export const clearStore = () => ({
   type: types.REMOVE_STORE
@@ -123,3 +123,42 @@ export const updateAvatar = (src: string) => ({
         src
     }
 });
+
+export const editAbout = (message: string) => ({
+    type: types.UPDATE_ABOUT,
+    payload: {
+        message
+    }
+});
+
+export const editEmail = (email: string) => ({
+    type: types.UPDATE_EMAIL,
+    payload: {
+        email
+    }
+});
+
+export const confirmEmail = (email: string) => ({
+    type: types.SEND_CONFIRM_MESSAGE,
+    payload: {
+        email
+    }
+});
+
+export const sendOptions = (options: IOptions) => ({
+    type: types.SEND_OPTIONS,
+    payload: {
+        options
+    }
+});
+
+export const sendEmail = (message: IMessage) => ({
+    type: types.SEND_EMAIL,
+    payload: {
+        message
+    }
+});
+
+export const clearLogin = () => ({ type: types.CLEAR_LOGIN });
+
+export const clearReg = () => ({ type: types.CLEAR_REG });

@@ -21,7 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -38,6 +38,9 @@ public class ChatController {
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping(value = "/api/chats")
     @ResponseBody
@@ -82,7 +85,7 @@ public class ChatController {
     }
 
     @MessageMapping("/new-message")
-    public void sendMessage(NewMessageDTO newMessageDTO) throws JsonProcessingException {
+    public void sendMessage(NewMessageDTO newMessageDTO) throws IOException {
         ChatEntity chatEntity = chatService.createChat(newMessageDTO.getChatId());
         User userEntity = userService.findById(newMessageDTO.getUserId());
         User userGetMessage = chatUserService.getUserByChatAndNotUser(chatEntity, userEntity);
@@ -93,6 +96,8 @@ public class ChatController {
 
         simpMessagingTemplate.convertAndSend("/res/new-message/"+userEntity.getId(), res);
         simpMessagingTemplate.convertAndSend("/res/new-message/"+userGetMessage.getId(), res);
+
+        notificationService.sendNotificationAboutMessage(userEntity, userGetMessage, message);
     }
 
     @RequestMapping(value = "/api/message/{id}", method = RequestMethod.DELETE)
