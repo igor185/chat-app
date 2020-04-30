@@ -18,4 +18,12 @@ public class IndexController {
     public String email(){
         return index();
     }
+    @RequestMapping(value = "/email/confirm/*")
+    public String confirm(){
+        return index();
+    }
+    @RequestMapping(value = "/email/reset*")
+    public String reset(){
+        return index();
+    }
 }

@@ -19,7 +19,9 @@ public class SendGridEmailService {
     private String URL;
 
     public SendGridEmailService(){
-//        Dotenv dotenv = Dotenv.configure().directory("/app").load();
+//        Dotenv dotenv = Dotenv.configure().directory(".").load();
+//        KEY = dotenv.get("SENDGRID");
+//        URL = dotenv.get("URL");
         KEY = System.getenv("SENDGRID");
         URL = System.getenv("URL");
         System.out.println(KEY);
@@ -81,7 +83,7 @@ public class SendGridEmailService {
 
     public String confirmBody(String email) {
         return getBodyMessage(
-                "<div>Click <a href=\"" + URL + "/email/confirm/" + encoder.encode(email) + "\">link</a> to confirm email</div>"
+                "<div>Click <a href=\"" + URL + "/email-confirm/" + encoder.encode(email) + "\">link</a> to confirm email</div>"
         );
     }
 

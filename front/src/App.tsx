@@ -23,10 +23,10 @@ const App: React.FC = (props: any) => {
                     </div>
                 )
             } else {
-              const [,,type, ...token] = window.location.pathname.split("/");
-              if(type === "confirm"){
+              const [,type, ...token] = window.location.pathname.split("/");
+              if(type === "email-confirm"){
                   return <ConfirmPage token={token.join("/")}/>;
-              }else if(type === "reset"){
+              }else if(type === "email-reset"){
                   return (<span>reset</span>);
               }
             }
@@ -36,7 +36,7 @@ const App: React.FC = (props: any) => {
 
 const mapStateToProps = (state: IApp): any => ({
     page: state.page
-    
+
 });
 
 export default connect(
