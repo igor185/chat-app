@@ -34,7 +34,7 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
     const getJustifyContent = () => fromMe ? "space-between" : user.options.sendMessage ? "space-between" : "flex-end";
     const sendMessage = () => props.actions.sendEmail(message);
     return (
-        <div className={`message-item ${openDelete ? "to-delete" : ""}`}
+        <div className={`message-item ${openDelete ? "to-delete" : ""} ${openEdit ? "to-edit" : ""}`}
              style={{alignItems: fromMe ? "flex-end" : "flex-start"}}>
             <p className={fromMe ? "from-me" : "from-them"}>
                 {message.file && (

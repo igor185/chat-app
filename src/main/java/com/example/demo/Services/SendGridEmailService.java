@@ -19,11 +19,11 @@ public class SendGridEmailService {
     private String URL;
 
     public SendGridEmailService(){
-//        Dotenv dotenv = Dotenv.configure().directory(".").load();
-//        KEY = dotenv.get("SENDGRID");
-//        URL = dotenv.get("URL");
-        KEY = System.getenv("SENDGRID");
-        URL = System.getenv("URL");
+        Dotenv dotenv = Dotenv.configure().directory(".").load();
+        KEY = dotenv.get("SENDGRID");
+        URL = dotenv.get("URL");
+//        KEY = System.getenv("SENDGRID");
+//        URL = System.getenv("URL");
         System.out.println(KEY);
         System.out.println(URL);
     }

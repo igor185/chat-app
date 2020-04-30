@@ -1,5 +1,5 @@
 Arguments: 
-  /home/igor/.nvm/versions/node/v10.15.3/bin/node /usr/share/yarn/bin/yarn.js add @types/autoscroll-react
+  /home/igor/.nvm/versions/node/v10.15.3/bin/node /usr/share/yarn/bin/yarn.js add @types/react-input-emoji
 
 PATH: 
   /home/igor/.nvm/versions/node/v10.15.3/bin:/home/igor/Documents/projects/pet/chat-java/front/node_modules/.bin:/opt/GitHub Desktop:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fautoscroll-react: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-input-emoji: Not found
       at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66987:18)
       at Request.self.callback (/usr/share/yarn/lib/cli.js:140748:22)
       at Request.emit (events.js:189:13)
@@ -62,6 +62,7 @@ npm manifest:
       "react-fontawesome": "^1.7.1",
       "react-html-parser": "^2.0.2",
       "react-image-picker": "^1.1.1",
+      "react-input-emoji": "^1.0.7",
       "react-notifications": "^1.6.0",
       "react-particles-js": "^2.7.1",
       "react-redux": "^6.0.0",
@@ -4087,6 +4088,13 @@ Lockfile:
       inherits "^2.0.1"
       minimalistic-assert "^1.0.0"
       minimalistic-crypto-utils "^1.0.0"
+  
+  emoji-mart@2.11.1:
+    version "2.11.1"
+    resolved "https://registry.yarnpkg.com/emoji-mart/-/emoji-mart-2.11.1.tgz#fc9330b513803c17b98c9ad289c12ab61ff05f8f"
+    integrity sha512-Hr4N56YEkaPtmojO2dfgnMLLE/d5HpnhH0+M8cw9LRHpG2EgQQaCelRad3d5qQAPHI5+K0wMc/rwM0eRo0FnUA==
+    dependencies:
+      prop-types "^15.6.0"
   
   emoji-regex@^7.0.1, emoji-regex@^7.0.2:
     version "7.0.3"
@@ -8858,7 +8866,7 @@ Lockfile:
       kleur "^3.0.3"
       sisteransi "^1.0.3"
   
-  prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+  prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -9116,6 +9124,14 @@ Lockfile:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/react-image-picker/-/react-image-picker-1.1.1.tgz#40315c85c3fd24e463902e177f116db5581531ae"
     integrity sha1-QDFchcP9JORjkC4XfxFttVgVMa4=
+  
+  react-input-emoji@^1.0.7:
+    version "1.0.7"
+    resolved "https://registry.yarnpkg.com/react-input-emoji/-/react-input-emoji-1.0.7.tgz#7ec253090d77cc776bf58fde1e849126211abb25"
+    integrity sha512-OkpPwqt0lwOvbyzSKWHgeX2ZEJZqRdPEac9mytT2Xaa9AeD3YrzAgnWfeQKaYIffUAtncB6OX/snuOn2KLaPVQ==
+    dependencies:
+      emoji-mart "2.11.1"
+      lodash "^4.17.15"
   
   react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.2, react-is@^16.8.4:
     version "16.12.0"
