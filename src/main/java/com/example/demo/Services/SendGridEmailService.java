@@ -19,7 +19,7 @@ public class SendGridEmailService {
     private String URL;
 
     public SendGridEmailService(){
-        Dotenv dotenv = Dotenv.configure().directory("./app").load();
+        Dotenv dotenv = Dotenv.configure().directory("/app").load();
         KEY = dotenv.get("SENDGRID");
         URL = dotenv.get("URL");
     }
