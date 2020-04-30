@@ -36,6 +36,7 @@ const App: React.FC = (props: any) => {
 
 const mapStateToProps = (state: IApp): any => ({
     page: state.page
+    
 });
 
 export default connect(
