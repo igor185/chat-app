@@ -7,7 +7,6 @@ const request: typeof fetch = async (input: RequestInfo, init?: RequestInit | un
     }
 
     let promise = await fetch(input, { ...(init || {}), headers});
-    console.log(promise)
 
     if(!promise.ok){
         console.error(promise);
@@ -22,7 +21,7 @@ const request: typeof fetch = async (input: RequestInfo, init?: RequestInit | un
             return window.location.reload();
         }
         // @ts-ignore
-        throw new Error(message.message);
+        throw new Error(message.message || message[0]);
     }
     return await promise.json();
 };

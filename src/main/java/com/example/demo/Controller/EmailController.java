@@ -45,8 +45,11 @@ public class EmailController {
     }
 
     @RequestMapping(value = "/api/email/send-message", method = RequestMethod.POST)
-    public void sendMessage(@RequestBody MessageEntity message, Authentication auth) throws IOException {
+    @ResponseBody
+    public boolean sendMessage(@RequestBodyParam Integer messageId, Authentication auth) throws IOException {
+        System.out.println(messageId);
         User user= userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
+        MessageEntity message = messageService.findById(messageId);
         if(user.isConfirm()) {
             sendGridEmailService.sendMessageEmail(
                     user.getEmail(),
@@ -54,5 +57,6 @@ public class EmailController {
                     message.getMessage(),
                     message.getFile() != null ? message.getFile().getFileDownloadUri() : "");
         }
+        return true;
     }
 }

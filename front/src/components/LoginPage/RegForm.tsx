@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Button, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react'
 import IApp from "../../model/IApp";
 import {bindActionCreators} from "redux";
@@ -22,11 +22,11 @@ const RegForm = (props: any) => {
         <Grid textAlign='center' style={{  position: "absolute", top: "20%", left: "35%" }} verticalAlign='middle'>
             <Grid.Column style={{ width: 500, background: "white" }}>
                 <Header as='h2' textAlign='center'>
-                    Sign up to your account
+                    Create an account
                 </Header>
                 <Form size='large'>
                     <Segment stacked>
-                        <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' value={login} onChange={(event, data) => setLogin(data.value)}/>
+                        <Form.Input fluid icon='user' iconPosition='left' placeholder='User name' value={login} onChange={(event, data) => setLogin(data.value)}/>
                         <Form.Input
                             fluid
                             icon='lock'

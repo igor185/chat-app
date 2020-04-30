@@ -151,3 +151,14 @@ export const sendOptions = (options: IOptions) => ({
         options
     }
 });
+
+export const sendEmail = (message: IMessage) => ({
+    type: types.SEND_EMAIL,
+    payload: {
+        message
+    }
+});
+
+export const clearLogin = () => ({ type: types.CLEAR_LOGIN });
+
+export const clearReg = () => ({ type: types.CLEAR_REG });

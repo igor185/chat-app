@@ -294,7 +294,17 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                         options: action.payload.options
                     }
                 }
-            }
+            };
+        case types.CLEAR_LOGIN:
+            return {
+                ...state,
+                loginPage: initialState.loginPage
+            };
+         case types.CLEAR_REG:
+            return {
+                ...state,
+                regPage: initialState.regPage
+            };
         default:
             return state;
     }

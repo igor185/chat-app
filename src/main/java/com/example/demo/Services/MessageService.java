@@ -63,4 +63,8 @@ public class MessageService {
     public List<MessageEntity> findAllByChat(ChatEntity chat){
         return messageRepository.findAllByChat(chat);
     }
+
+    public MessageEntity findById(int id){
+        return messageRepository.findById(id).get();
+    }
 }

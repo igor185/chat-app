@@ -2,9 +2,7 @@ import {takeLatest, put} from "redux-saga/effects";
 import * as types from "./constants";
 import * as url from "../var/routers";
 import {fetchHeaderConfig} from "../helpers";
-import axios from 'axios';
 import request from "../helpers/webApi";
-import socket from "../services/socket/socket";
 import {NotificationManager} from "react-notifications";
 
 function* fetchChats(action: any) {
@@ -66,7 +64,6 @@ function* fetchUser(action: any) {
             }
         })
     } catch (e) {
-        console.error(e);
         localStorage.removeItem('token');
         yield put({
             type: types.REMOVE_STORE
@@ -77,15 +74,13 @@ function* fetchUser(action: any) {
 function* regUser(action: any) {
     const {login, password, avatar} = action.payload;
     try {
-        // TODO doesn't work with fetch, even if hard-code correct content-type
-        const res = yield axios({
+        yield request(url.REG, {
             method: "POST",
-            url: url.REG,
-            data: {
+            body: JSON.stringify({
                 username: login,
                 password,
                 avatar
-            }
+            })
         });
         yield put({
             type: types.LOGIN,
@@ -98,7 +93,6 @@ function* regUser(action: any) {
             type: types.REG_FAIL,
             payload: {error: error.message}
         });
-        console.error(error);
     }
 }
 
@@ -256,6 +250,21 @@ function* sendOptions(action: any) {
     }
 }
 
+function* sendEmail(action: any){
+    try{
+        yield request(url.SEND_EMAIL, {
+            method: "POST",
+            body: JSON.stringify({
+                messageId: action.payload.message.id
+            })
+        });
+        NotificationManager.info("Email was send");
+    }catch (e) {
+        console.log(e);
+        NotificationManager.error("Something go wrong with email");
+    }
+}
+
 export function* watchSaga() {
     yield takeLatest(types.FETCH_CHATS, fetchChats);
     yield takeLatest(types.FETCH_MESSAGES, fetchMessages);
@@ -271,4 +280,5 @@ export function* watchSaga() {
     yield takeLatest(types.UPDATE_EMAIL, updateEmail);
     yield takeLatest(types.SEND_CONFIRM_MESSAGE, confirmMessage);
     yield takeLatest(types.SEND_OPTIONS, sendOptions);
+    yield takeLatest(types.SEND_EMAIL, sendEmail);
 }

@@ -15,6 +15,9 @@ export const MessageInput = (props: any) => {
     const [file, setFile] = useState<IFile | null>(null);
 
     const handleUploadFile = async ({ target }: any) => {
+        if(target.files.length == 0){
+            return;
+        }
         setOpenModal(true);
         setLoading(true);
         uploadFile(target.files[0])
@@ -36,6 +39,7 @@ export const MessageInput = (props: any) => {
             file,
         }));
         setValue("");
+        setFile(null);
     };
 
 
@@ -72,8 +76,7 @@ export const MessageInput = (props: any) => {
                 <Button color='green' inverted onClick={() => loading || sendMessage()}>
                     <Icon name='save' disabled={loading}/> Save
                 </Button>
-                <Button color='blue' inverted onClick={() => setOpenModal(false)}>
-                    {/* TODOOOOOO remove file*/}
+                <Button color='blue' inverted onClick={() => { setOpenModal(false); setFile(null) }}>
                     <Icon name='cancel' /> Cancel
                 </Button>
             </Modal.Actions>

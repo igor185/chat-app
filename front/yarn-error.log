@@ -1,5 +1,5 @@
 Arguments: 
-  /home/igor/.nvm/versions/node/v10.15.3/bin/node /usr/share/yarn/bin/yarn.js add @types/react-notifications
+  /home/igor/.nvm/versions/node/v10.15.3/bin/node /usr/share/yarn/bin/yarn.js add @types/autoscroll-react
 
 PATH: 
   /home/igor/.nvm/versions/node/v10.15.3/bin:/home/igor/Documents/projects/pet/chat-java/front/node_modules/.bin:/opt/GitHub Desktop:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-notifications: Not found
+  Error: https://registry.yarnpkg.com/@types%2fautoscroll-react: Not found
       at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66987:18)
       at Request.self.callback (/usr/share/yarn/lib/cli.js:140748:22)
       at Request.emit (events.js:189:13)
@@ -39,12 +39,16 @@ npm manifest:
       "@material-ui/core": "^4.1.3",
       "@material-ui/styles": "^4.1.2",
       "@types/jest": "24.0.15",
+      "@types/lodash": "^4.14.150",
       "@types/node": "12.0.10",
       "@types/react": "16.8.22",
       "@types/react-dom": "16.8.4",
+      "@types/react-html-parser": "^2.0.1",
       "@types/react-redux": "^7.1.1",
+      "@types/react-scroll": "^1.5.4",
       "@types/sockjs-client": "^1.1.1",
       "@types/stompjs": "^2.3.4",
+      "autoscroll-react": "^3.2.0",
       "axios": "^0.19.2",
       "cloudinary-react": "^1.5.0",
       "dayjs": "^1.8.25",
@@ -56,11 +60,13 @@ npm manifest:
       "react-dom": "^16.8.6",
       "react-ellipsis-text": "^1.2.1",
       "react-fontawesome": "^1.7.1",
+      "react-html-parser": "^2.0.2",
       "react-image-picker": "^1.1.1",
       "react-notifications": "^1.6.0",
       "react-particles-js": "^2.7.1",
       "react-redux": "^6.0.0",
       "react-scripts": "3.0.1",
+      "react-scroll": "^1.7.16",
       "reactjs-file-uploader": "^1.0.8",
       "redux": "^4.0.1",
       "redux-actions": "^2.6.5",
@@ -1559,6 +1565,18 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
     integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
   
+  "@types/domhandler@*":
+    version "2.4.1"
+    resolved "https://registry.yarnpkg.com/@types/domhandler/-/domhandler-2.4.1.tgz#7b3b347f7762180fbcb1ece1ce3dd0ebbb8c64cf"
+    integrity sha512-cfBw6q6tT5sa1gSPFSRKzF/xxYrrmeiut7E0TxNBObiLSBTuFEHibcfEe3waQPEDbqBsq+ql/TOniw65EyDFMA==
+  
+  "@types/domutils@*":
+    version "1.7.2"
+    resolved "https://registry.yarnpkg.com/@types/domutils/-/domutils-1.7.2.tgz#89422e579c165994ad5c09ce90325da596cc105d"
+    integrity sha512-Nnwy1Ztwq42SSNSZSh9EXBJGrOZPR+PQ2sRT4VZy8hnsFXfCil7YlKO2hd2360HyrtFz2qwnKQ13ENrgXNxJbw==
+    dependencies:
+      "@types/domhandler" "*"
+  
   "@types/hoist-non-react-statics@^3.3.0":
     version "3.3.1"
     resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -1566,6 +1584,15 @@ Lockfile:
     dependencies:
       "@types/react" "*"
       hoist-non-react-statics "^3.3.0"
+  
+  "@types/htmlparser2@*":
+    version "3.10.1"
+    resolved "https://registry.yarnpkg.com/@types/htmlparser2/-/htmlparser2-3.10.1.tgz#1e65ba81401d53f425c1e2ba5a3d05c90ab742c7"
+    integrity sha512-fCxmHS4ryCUCfV9+CJZY1UjkbR+6Al/EQdX5Jh03qBj9gdlPG5q+7uNoDgE/ZNXb3XNWSAQgqKIWnbRCbOyyWA==
+    dependencies:
+      "@types/domhandler" "*"
+      "@types/domutils" "*"
+      "@types/node" "*"
   
   "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
     version "2.0.1"
@@ -1601,6 +1628,11 @@ Lockfile:
     dependencies:
       "@types/jest-diff" "*"
   
+  "@types/lodash@^4.14.150":
+    version "4.14.150"
+    resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.150.tgz#649fe44684c3f1fcb6164d943c5a61977e8cf0bd"
+    integrity sha512-kMNLM5JBcasgYscD9x/Gvr6lTAv2NVgsKtet/hm93qMyf/D1pt+7jeEZklKJKxMVmXjxbRVQQGfqDSfipYCO6w==
+  
   "@types/node@*":
     version "13.13.2"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.2.tgz#160d82623610db590a64e8ca81784e11117e5a54"
@@ -1633,6 +1665,14 @@ Lockfile:
     dependencies:
       "@types/react" "*"
   
+  "@types/react-html-parser@^2.0.1":
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/@types/react-html-parser/-/react-html-parser-2.0.1.tgz#2d9002ac5bf1adf9aff8eae77ace5488bd78c98d"
+    integrity sha512-Lyw0AtG3gahw78CX2pzmzhKaoZCfJNzzuhhPsFVhzFrylMv8NaCmzYaPKglMv3RRHpwBbHuMOkVx0HiwGZKgSA==
+    dependencies:
+      "@types/htmlparser2" "*"
+      "@types/react" "*"
+  
   "@types/react-redux@^7.1.1":
     version "7.1.7"
     resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.7.tgz#12a0c529aba660696947384a059c5c6e08185c7a"
@@ -1642,6 +1682,13 @@ Lockfile:
       "@types/react" "*"
       hoist-non-react-statics "^3.3.0"
       redux "^4.0.0"
+  
+  "@types/react-scroll@^1.5.4":
+    version "1.5.4"
+    resolved "https://registry.yarnpkg.com/@types/react-scroll/-/react-scroll-1.5.4.tgz#c151b8e5320ba90dbb0adfbdfaa0823d57571746"
+    integrity sha512-EYJt9wDvyrcDZpZqI19eb2UlAzCoXBeoFu3yMkrBDC8zkwFXOhb8lv3tD9V9UAqptora096M7qWYktsWq1guEg==
+    dependencies:
+      "@types/react" "*"
   
   "@types/react-transition-group@^4.2.0":
     version "4.2.3"
@@ -2244,6 +2291,11 @@ Lockfile:
       num2fraction "^1.2.2"
       postcss "^7.0.26"
       postcss-value-parser "^4.0.2"
+  
+  autoscroll-react@^3.2.0:
+    version "3.2.0"
+    resolved "https://registry.yarnpkg.com/autoscroll-react/-/autoscroll-react-3.2.0.tgz#eec26a4f3ef57173a724c356af02f3df5ab03342"
+    integrity sha512-HOiwy9GGTSk9WZwEPd+FwNLLZ17o5wkjAtAb+RtQUr/2J1PT2KRG+OI6LoGtfY5EwWvQKAbSsjkgLvLhItscSg==
   
   aws-sign2@~0.7.0:
     version "0.7.0"
@@ -5266,7 +5318,7 @@ Lockfile:
       tapable "^1.1.0"
       util.promisify "1.0.0"
   
-  htmlparser2@^3.3.0:
+  htmlparser2@^3.3.0, htmlparser2@^3.9.0:
     version "3.10.1"
     resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
     integrity sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==
@@ -6835,6 +6887,11 @@ Lockfile:
     integrity sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==
     dependencies:
       lodash._reinterpolate "^3.0.0"
+  
+  lodash.throttle@^4.1.1:
+    version "4.1.1"
+    resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+    integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
   
   lodash.unescape@4.0.1:
     version "4.0.1"
@@ -8801,7 +8858,7 @@ Lockfile:
       kleur "^3.0.3"
       sisteransi "^1.0.3"
   
-  prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+  prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -9048,6 +9105,13 @@ Lockfile:
     dependencies:
       prop-types "^15.5.6"
   
+  react-html-parser@^2.0.2:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/react-html-parser/-/react-html-parser-2.0.2.tgz#6dbe1ddd2cebc1b34ca15215158021db5fc5685e"
+    integrity sha512-XeerLwCVjTs3njZcgCOeDUqLgNIt/t+6Jgi5/qPsO/krUWl76kWKXMeVs2LhY2gwM6X378DkhLjur0zUQdpz0g==
+    dependencies:
+      htmlparser2 "^3.9.0"
+  
   react-image-picker@^1.1.1:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/react-image-picker/-/react-image-picker-1.1.1.tgz#40315c85c3fd24e463902e177f116db5581531ae"
@@ -9164,6 +9228,14 @@ Lockfile:
       workbox-webpack-plugin "4.2.0"
     optionalDependencies:
       fsevents "2.0.6"
+  
+  react-scroll@^1.7.16:
+    version "1.7.16"
+    resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.7.16.tgz#814f0b97ed171aad1f27e45dad16a8444817fec8"
+    integrity sha512-f4M5AdL+3cw3MJ7c/T0hPMY2iHCeQLDXV13lRanAFQ6JIt9xyAdHCpTH9mLUQt9SQh4pRarD+Qc7KhU6qMx3Yg==
+    dependencies:
+      lodash.throttle "^4.1.1"
+      prop-types "^15.5.8"
   
   react-transition-group@^1.2.0:
     version "1.2.1"

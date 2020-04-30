@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import IApp from "../../model/IApp";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
-import {Header, Loader, Comment} from 'semantic-ui-react'
+import {Header, Loader} from 'semantic-ui-react'
 import './styles.sass'
 import MessageInput from "../Message/Input";
 import MessageList from "../Message/MessageList";
@@ -21,11 +21,10 @@ const ChatPage = (props: any) => {
                     </div>) :
                     (
                         <>
-                            <div className="messages-wrap">
+
                                 <MessageList
                                     chat={props.chat}
                                     user={props.user.data}/>
-                            </div>
                             <div className="input-wrap">
                                 <MessageInput/>
                             </div>

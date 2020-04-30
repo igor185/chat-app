@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -31,7 +32,7 @@ public class UserController {
 
     @RequestMapping(value = "/req")
     @ResponseBody
-    public boolean regUser(@RequestBody NewUserDTO newUserDTO){
+    public boolean regUser(@Valid @RequestBody NewUserDTO newUserDTO){
         userService.createUser(newUserDTO.getUsername(), encoder.encode(newUserDTO.getPassword()), newUserDTO.getAvatar());
         return true;
     }

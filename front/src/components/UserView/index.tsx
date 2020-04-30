@@ -169,7 +169,7 @@ const UserView = (props: IProps) => {
                         </div>
                         {props.isEdit && <div className={"notific-setting"}>
                             <Header as={'h4'}>Notification settings</Header>
-                            {user.confirm && <Header as={'h5'} color={"red"}>Works only when you confirm email</Header>}
+                            {!user.confirm && <Header as={'h5'} color={"red"}>Works only when you confirm email</Header>}
                             <div className={"checkbox-wrap"}>
                                 <Checkbox toggle checked={options.newChat} onChange={() => setOption('newChat', !options.newChat)} label={"New chat"}/>
                             </div>

@@ -44,11 +44,11 @@ public class User {
 
     @AttributeOverrides({
             @AttributeOverride(name = "newChat",
-                    column = @Column(name = "newChat", columnDefinition = "boolean default true")),
+                    column = @Column(name = "newChat", columnDefinition = "boolean default false")),
             @AttributeOverride(name = "eachMessage",
                     column = @Column(name = "eachMessage", columnDefinition = "boolean default false")),
             @AttributeOverride(name = "sendMessage",
-                    column = @Column(name = "sendMessage", columnDefinition = "boolean default true")),
+                    column = @Column(name = "sendMessage", columnDefinition = "boolean default false")),
     })
     @Embedded
     @Column(name = "options", nullable = true)

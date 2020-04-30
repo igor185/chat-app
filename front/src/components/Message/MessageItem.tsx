@@ -1,6 +1,6 @@
 import {Button, Form, Header, Icon, Image, Message, Modal, TextArea} from "semantic-ui-react";
 import React, {useState} from "react";
-import IApp, {IMessage, IMessageView, IUser} from "../../model/IApp";
+import {IMessage, IUser} from "../../model/IApp";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
 import './styles.sass'
@@ -8,6 +8,7 @@ import {fromNow, humanFileSize} from "../../helpers";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as Actions from "../../redux/actions";
+import ReactHtmlParser from 'react-html-parser';
 
 dayjs.extend(relativeTime);
 
@@ -29,6 +30,9 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
         setCloseEdit(false);
         actions.editMessage(message.id, message.chat.id, messageEdit);
     };
+
+    const getJustifyContent = () => fromMe ? "space-between" : user.options.sendMessage ? "space-between" : "flex-end";
+    const sendMessage = () => props.actions.sendEmail(message);
     return (
         <div className={`message-item ${openDelete ? "to-delete" : ""}`}
              style={{alignItems: fromMe ? "flex-end" : "flex-start"}}>
@@ -55,10 +59,12 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                             </>
 
                    )}
-                {message.message}
-                <span className="info-block">
+                <div style={{ whiteSpace: "pre-wrap" }}>{ReactHtmlParser(message.message)}</div>
+                <span className="info-block" style={{ justifyContent: getJustifyContent() }}>
+                    {!fromMe && user.confirm && user.options.sendMessage && <span><Icon name={"mail"} size={"small"} onClick={sendMessage}/></span>}
                 <span className={"time"}>{fromNow(message.time)}</span>
                     {fromMe && (<span className={"icons"}>
+                        {user.confirm && user.options.sendMessage && <Icon name={"mail"} size={"small"} onClick={sendMessage}/>}
                     <Modal
                         trigger={<Icon name={"trash"} size={"small"} onClick={() => setClose(true)}/>}
                         open={openDelete}

@@ -55,3 +55,9 @@ export const SEND_CONFIRM_MESSAGE = "SEND_CONFIRM_MESSAGE";
 
 export const SEND_OPTIONS = "SEND_OPTIONS";
 export const SEND_OPTIONS_DONE = "SEND_OPTIONS_DONE";
+
+export const SEND_EMAIL = "SEND_EMAIL";
+
+
+export const CLEAR_LOGIN = "CLEAR_LOGIN";
+export const CLEAR_REG = "CLEAR_REG";

@@ -18,3 +18,4 @@ export const UPDATE_EMAIL = `${prefix}/api/user/email`;
 export const CONFIRM_EMAIL = `${prefix}/api/email/confirm`;
 export const CONFIRM_EMAIL_DONE = `${prefix}/api/user/confirm`;
 export const SEND_OPTIONS = `${prefix}/api/user/options`;
+export const SEND_EMAIL = `${prefix}/api/email/send-message`;
