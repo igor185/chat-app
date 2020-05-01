@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as Actions from "../../redux/actions";
 import ReactHtmlParser from 'react-html-parser';
+import {NotificationManager} from "react-notifications";
 
 dayjs.extend(relativeTime);
 
@@ -27,6 +28,9 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
     };
 
     const onEdit = () => {
+        if(messageEdit.length > 255){
+            return NotificationManager.error("Too long");
+        }
         setCloseEdit(false);
         actions.editMessage(message.id, message.chat.id, messageEdit);
     };
@@ -36,7 +40,7 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
     return (
         <div className={`message-item ${openDelete ? "to-delete" : ""} ${openEdit ? "to-edit" : ""}`}
              style={{alignItems: fromMe ? "flex-end" : "flex-start"}}>
-            <p className={fromMe ? "from-me" : "from-them"}>
+            <div className={`message-wrap ${fromMe ? "from-me" : "from-them"}`}>
                 {message.file && (
                         message.file.fileType.indexOf('image') === -1 ? (
                             <Message icon compact size={"mini"} info>
@@ -48,11 +52,11 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                                 </Message.Content>
                             </Message>) :
                             <>
-                                <div style={{ marginBottom: 10 }}>
+                                <div style={{ marginBottom: 10, height: message.file.height }}>
                             <Image src={message.file.fileDownloadUri}
-                                   size='medium'
                                    wrapped
                                    as={'a'}
+                                   className={"image-fit"}
                                    href={message.file.fileDownloadUri}
                                    target='_blank'/>
                                 </div>
@@ -112,7 +116,7 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                   </Modal>
                 </span>)}
             </span>
-            </p>
+            </div>
             <Image avatar src={message.user.avatar}/>
         </div>
     )

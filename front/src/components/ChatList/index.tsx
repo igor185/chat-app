@@ -41,6 +41,9 @@ const ChatList = (props: IChatListProps) => {
                                       date={elem.message.time}
                                       message={elem.message}
                                       avatar={elem.user.avatar}
+                                      typing={elem.isTyping || false}
+                                      timeTyping={elem.timeTyping}
+                                      actions={props.actions}
                                       onClick={() => onClick(elem)}/>
                         ))}
                     </>}

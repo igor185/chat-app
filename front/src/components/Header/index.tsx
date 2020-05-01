@@ -8,6 +8,7 @@ import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
 import {Image} from "semantic-ui-react";
 import UserView from "../UserView";
+import Typing from "../Message/Input/Typing";
 
 const Header = (props: any) => {
     const onLogOut = () => {
@@ -25,10 +26,10 @@ const Header = (props: any) => {
     };
 
     useEffect(() => {
-        if(userView && userView.id === props.user.data.id){
+        if (userView && userView.id === props.user.data.id) {
             setUserView(props.user.data);
         }
-    },[props.user]);
+    }, [props.user]);
 
     const user = props.chat.user;
 
@@ -46,7 +47,10 @@ const Header = (props: any) => {
                 <div className="avatar">
                     <Image avatar src={user.avatar}/>
                 </div>
-                <div className="name">{user.username}</div>
+                <div className="name-wrapper">
+                    <div className="name">{user.username}</div>
+                    {props.chat.isTyping && <Typing/>}
+                </div>
             </div>}
             <div className="right-size" onClick={() => onClick(props.user.data)}>
                 <Image avatar src={props.user.data.avatar}/>

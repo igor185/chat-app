@@ -32,9 +32,10 @@ export const sortChatList = (data: IMessageView[]) => {
     })
 };
 
-export const uploadFile = async (file: any): Promise<IFile> => {
+export const uploadFile = async (file: any, height: number): Promise<IFile> => {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('height', "" + height);
 
     let res = await fetch(url.UPLOAD_FILE, {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
@@ -73,3 +74,20 @@ export const dataURLtoFile = (dataurl: any, filename: any) => {
     }
     return new File([u8arr], filename, {type:mime});
 };
+
+export const getImageHeight = (file: any) => new Promise<number>((res, req) => {
+    try {
+        const fr = new FileReader();
+        fr.onload = function () {
+            const image = new Image();
+            // @ts-ignore
+            image.src = fr.result;
+            image.onload = function () {
+                res(image.height);
+            };
+        };
+        fr.readAsDataURL(file);
+    }catch (e) {
+        req(e.message);
+    }
+});

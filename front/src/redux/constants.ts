@@ -61,3 +61,8 @@ export const SEND_EMAIL = "SEND_EMAIL";
 
 export const CLEAR_LOGIN = "CLEAR_LOGIN";
 export const CLEAR_REG = "CLEAR_REG";
+
+
+export const TYPING_MESSAGE = "TYPING_MESSAGE";
+export const NEW_TYPING_MESSAGE = "NEW_TYPING_MESSAGE";
+export const SET_TYPING_MESSAGE = "SET_TYPING_MESSAGE";

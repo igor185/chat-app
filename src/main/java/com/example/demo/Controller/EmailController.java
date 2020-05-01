@@ -34,14 +34,9 @@ public class EmailController {
 
     @RequestMapping(value = "/api/email/confirm", method = RequestMethod.POST)
     @ResponseBody
-    public boolean sendConfirmEmail(@RequestBodyParam String email){
-        try {
+    public boolean sendConfirmEmail(@RequestBodyParam String email) throws IOException {
             this.sendGridEmailService.sendConfirmEmail(email);
             return true;
-        }catch (Exception e){
-            System.out.println(e);
-            return false;
-        }
     }
 
     @RequestMapping(value = "/api/email/send-message", method = RequestMethod.POST)

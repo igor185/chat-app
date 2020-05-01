@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Form, Header, Icon, Input, Message, Modal, TextArea} from 'semantic-ui-react'
 import socket from "../../../services/socket/socket";
 import IApp, {IFile} from "../../../model/IApp";
 import {bindActionCreators} from "redux";
 import * as actions from "../../../redux/actions";
 import {connect} from "react-redux";
-import {uploadFile, humanFileSize} from "../../../helpers";
+import {uploadFile, humanFileSize, getImageHeight} from "../../../helpers";
+import {NotificationManager} from "react-notifications";
 
 
 export const MessageInput = (props: any) => {
@@ -14,13 +15,22 @@ export const MessageInput = (props: any) => {
     const [openModal, setOpenModal] = useState(false);
     const [file, setFile] = useState<IFile | null>(null);
 
-    const handleUploadFile = async ({ target }: any) => {
-        if(target.files.length == 0){
+    useEffect(() => {
+        if (value) {
+            props.actions.typingMessage(props.chat.id, props.chat.user.id);
+        }
+        // typing // send to another user !!!!!!!!!!!
+    }, [value]);
+
+    const handleUploadFile = async ({target}: any) => {
+        if (target.files.length == 0) {
             return;
         }
+        const height = target.files[0].type.indexOf("image") !== -1 ? await getImageHeight(target.files[0]) : 0;
+
         setOpenModal(true);
         setLoading(true);
-        uploadFile(target.files[0])
+        uploadFile(target.files[0], height)
             .then((file: IFile) => {
                 setFile(file);
                 setLoading(false);
@@ -29,8 +39,12 @@ export const MessageInput = (props: any) => {
     };
 
     const sendMessage = () => {
+        if (value.length > 255) {
+            return NotificationManager.error("Too long");
+        }
+
         setOpenModal(false);
-        if (!value && !file)
+        if (!value.trim() && !file)
             return;
         socket.send('/req/new-message', {}, JSON.stringify({
             chatId: props.chat.id,
@@ -47,7 +61,7 @@ export const MessageInput = (props: any) => {
         <Input placeholder='Type a message...' fluid value={value} onChange={(e, data) => setValue(data.value)}/>
         <Button color="teal" icon as="label">
             <Icon name="paperclip"/>
-            <input name="image" type="file" onChange={handleUploadFile} hidden />
+            <input name="image" type="file" onChange={handleUploadFile} hidden/>
         </Button>
         <Modal
             open={openModal}
@@ -56,9 +70,9 @@ export const MessageInput = (props: any) => {
         >
             <Modal.Content>
                 <Header as={'h3'} textAlign='center' className={"white-header"}>Message with attached</Header>
-                <Message icon >
-                    {loading ? <Icon name='circle notched' loading /> :
-                    <Icon name='file' />}
+                <Message icon>
+                    {loading ? <Icon name='circle notched' loading/> :
+                        <Icon name='file'/>}
                     <Message.Content>
                         <Message.Header>{file && file.fileName}</Message.Header>
                         {file && humanFileSize(file.size)}
@@ -68,7 +82,7 @@ export const MessageInput = (props: any) => {
                     <TextArea
                         value={value}
                         onChange={(e, data) => setValue(data.value)}
-                        style={{ minHeight: 200 }}
+                        style={{minHeight: 200}}
                     />
                 </Form>
             </Modal.Content>
@@ -76,8 +90,11 @@ export const MessageInput = (props: any) => {
                 <Button color='green' inverted onClick={() => loading || sendMessage()}>
                     <Icon name='save' disabled={loading}/> Save
                 </Button>
-                <Button color='blue' inverted onClick={() => { setOpenModal(false); setFile(null) }}>
-                    <Icon name='cancel' /> Cancel
+                <Button color='blue' inverted onClick={() => {
+                    setOpenModal(false);
+                    setFile(null)
+                }}>
+                    <Icon name='cancel'/> Cancel
                 </Button>
             </Modal.Actions>
         </Modal>

@@ -20,6 +20,8 @@ public class DBFile {
 
     private String fileType;
 
+    private Double height;
+
     @Lob
     private byte[] data;
 
@@ -27,9 +29,10 @@ public class DBFile {
 
     }
 
-    public DBFile(String fileName, String fileType, byte[] data) {
+    public DBFile(String fileName, String fileType, byte[] data, Double height) {
         this.fileName = fileName;
         this.fileType = fileType;
         this.data = data;
+        this.height = height;
     }
 }

@@ -28,7 +28,7 @@ const connect = (action: typeof actions, store: IApp) => {
         stompClient.subscribe(`/res/new-chat/${user.id}`, ({ body }: { body: string}) => {
             const newChat: { chatId: number, user1: IUser, user2: IUser} = JSON.parse(body);
 
-            action.addChatToList(newChat.chatId, newChat.user1.id === user.id ? newChat.user1 : newChat.user2);
+            action.addChatToList(newChat.chatId, newChat.user1.id === user.id ? newChat.user2 : newChat.user1, user.id === newChat.user1.id);
 
         });
 
@@ -37,13 +37,19 @@ const connect = (action: typeof actions, store: IApp) => {
 
             action.deleteMessageDone(message);
             action.fetchChats();
-        })
+        });
 
         stompClient.subscribe(`/res/edit-message/${user.id}`, ({ body }: { body: string}) => {
             const message: IMessage = JSON.parse(body);
 
             action.editMessageDone(message);
             action.fetchChats();
+        });
+
+        stompClient.subscribe(`/res/new-typing/${user.id}`, ({body} : {body: string}) => {
+            const { chatId } : {chatId: number} = JSON.parse(body);
+
+            action.newTypingMessage(chatId)
         })
     });
 };

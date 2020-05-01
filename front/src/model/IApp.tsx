@@ -34,6 +34,8 @@ export interface IMessageView {
     chat: IChat;
     message: IMessage;
     user: IUser;
+    isTyping?: boolean
+    timeTyping?: null | Date
 }
 export interface IMessage{
     id: number
@@ -59,6 +61,7 @@ export interface IChatView {
     isOpen: boolean;
     data: IMessage[]
     user: IUser | null
+    isTyping?: boolean
 }
 
 export interface IFile {
@@ -66,6 +69,7 @@ export interface IFile {
     fileName: string
     fileType: string
     size: number
+    height: number
 }
 
 export interface IOptions {

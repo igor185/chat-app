@@ -78,11 +78,12 @@ export const newChat = (userId: number, user: IUser) => ({
     }
 });
 
-export const addChatToList = (chatId: number, user: IUser) => ({
+export const addChatToList = (chatId: number, user: IUser, setChat: boolean) => ({
     type: types.ADD_CHAT_TO_LIST,
     payload: {
         chatId,
-        user
+        user,
+        setChat
     }
 });
 
@@ -162,3 +163,28 @@ export const sendEmail = (message: IMessage) => ({
 export const clearLogin = () => ({ type: types.CLEAR_LOGIN });
 
 export const clearReg = () => ({ type: types.CLEAR_REG });
+
+
+export const typingMessage = (chatId: number, userId: number) => ({
+    type: types.TYPING_MESSAGE,
+    payload: {
+        chatId,
+        userId
+    }
+});
+
+export const newTypingMessage = (chatId: number) => ({
+    type: types.NEW_TYPING_MESSAGE,
+    payload: {
+        chatId
+    }
+});
+
+export const setTyping = (chatId: number, isTyping: boolean, timeTyping: any) => ({
+    type: types.SET_TYPING_MESSAGE,
+    payload: {
+        chatId,
+        isTyping,
+        timeTyping
+    }
+})

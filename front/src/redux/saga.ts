@@ -1,9 +1,12 @@
-import {takeLatest, put} from "redux-saga/effects";
+import {takeLatest, put, select, delay} from "redux-saga/effects";
 import * as types from "./constants";
 import * as url from "../var/routers";
 import {fetchHeaderConfig} from "../helpers";
 import request from "../helpers/webApi";
 import {NotificationManager} from "react-notifications";
+import socket from "../services/socket/socket";
+import IApp, {IMessageView} from "../model/IApp";
+import {Simulate} from "react-dom/test-utils";
 
 function* fetchChats(action: any) {
     try {
@@ -225,6 +228,7 @@ function* confirmMessage(action: any) {
             NotificationManager.info("Confirm email send");
         }
     } catch (e) {
+        NotificationManager.error("Something go wrong");
         console.log(e);
     }
 }
@@ -265,6 +269,38 @@ function* sendEmail(action: any){
     }
 }
 
+function* typeMessage(action: any){
+    try{
+        yield socket.send("/req/new-typing", {}, JSON.stringify({
+            chatId: action.payload.chatId,
+            userId: action.payload.userId
+        }))
+    }catch (e) {
+        console.log(e)
+    }
+}
+
+function* newTyping(action: any) {
+    try {
+        const chatId  = action.payload.chatId;
+        let chat: IMessageView = yield select((store: IApp) => (store.chatList.data || []).find(el => el.chat.id === chatId));
+        const date = new Date();
+        if(!chat){
+            throw new Error("no such chat");
+        }
+
+        yield put({
+            type: types.SET_TYPING_MESSAGE,
+            payload: {
+                chatId,
+                isTyping: true,
+                timeTyping: date
+            }
+        });
+    }catch (e) {
+        console.log("NEW TYPING ERROR: ", e);
+    }
+}
 export function* watchSaga() {
     yield takeLatest(types.FETCH_CHATS, fetchChats);
     yield takeLatest(types.FETCH_MESSAGES, fetchMessages);
@@ -281,4 +317,6 @@ export function* watchSaga() {
     yield takeLatest(types.SEND_CONFIRM_MESSAGE, confirmMessage);
     yield takeLatest(types.SEND_OPTIONS, sendOptions);
     yield takeLatest(types.SEND_EMAIL, sendEmail);
+    yield takeLatest(types.TYPING_MESSAGE, typeMessage);
+    yield takeLatest(types.NEW_TYPING_MESSAGE, newTyping);
 }

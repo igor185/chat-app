@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entities.NotificationOptions;
 import com.example.demo.Entities.User;
+import com.example.demo.Models.NewEmailDTO;
 import com.example.demo.Models.NewUserDTO;
 import com.example.demo.Services.DatabaseUserService;
 import com.example.demo.security.model.UserContext;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Controller
@@ -70,14 +72,14 @@ public class UserController {
 
     @RequestMapping(value = "/api/user/email", method = RequestMethod.POST)
     @ResponseBody
-    public String updateEmail(@RequestBodyParam String email, Authentication auth) throws JsonProcessingException {
+    public String updateEmail(@RequestBody NewEmailDTO newEmailDTO, Authentication auth) throws JsonProcessingException {
         User user = userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
-        user.setEmail(email);
+        user.setEmail(newEmailDTO.getEmail());
         user.setConfirm(false);
         userService.update(user);
 
         ObjectMapper mapper = new ObjectMapper();
-        String res = mapper.writeValueAsString(email);
+        String res = mapper.writeValueAsString(newEmailDTO.getEmail());
 
         return res;
     }

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./styles.sass"
 import {Image} from "semantic-ui-react";
 import {fromNow} from "../../../helpers";
 import EllipsisText from "react-ellipsis-text";
+import Typing from "../../Message/Input/Typing";
 
 export interface IChatElem {
     id: number;
@@ -12,9 +13,26 @@ export interface IChatElem {
     onClick: () => void;
 }
 
+
 const ChatElem = (props: any) => {
-    const {name, date, message, id, avatar, show = false} = props;
-    const text = message ? (message.message || (message.file ? <span className="file">file</span> : ""))   : "";
+    const {name, date, message, id, avatar, show = false, typing, timeTyping} = props;
+
+    const [time, setTime] = useState(timeTyping);
+    const [timer, setTimer] = useState<any>(null);
+
+    useEffect(() => {
+        setTime(timeTyping);
+        if (timer) {
+            clearTimeout(timer);
+        }
+        const newTimer = setTimeout(() => {
+            props.actions && props.actions.setTyping(id, false, null);
+        }, 3000);
+        setTimer(newTimer);
+    }, [timeTyping]);
+
+
+    const text = message ? (message.message || (message.file ? <span className="file">file</span> : "")) : "";
     return (
         <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick()}>
             <div className="avatar">
@@ -22,10 +40,11 @@ const ChatElem = (props: any) => {
             </div>
             <div className="info">
                 <div className="name-wrap">
-                    <div className="name">{name}</div>
+                    <div className="name"><EllipsisText text={name} length={10}/></div>
                     <div className="date">{date && fromNow(date)}</div>
                 </div>
-                {!show && typeof text === "string"? (<EllipsisText text={text} length={21}/>) : text}
+                {typing ? <Typing /> : !show && typeof text === "string" ? (
+                    <EllipsisText text={text} length={20}/>) : text}
             </div>
         </div>
     )

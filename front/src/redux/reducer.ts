@@ -210,7 +210,14 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                     ...state.chatList,
                     // @ts-ignore
                     data: sortChatList(data)
-                }
+                },
+                chat: action.payload.setChat ? {
+                    id: action.payload.chatId,
+                    isFetching: false,
+                    isOpen: true,
+                    data: [],
+                    user: action.payload.user
+                } : state.chat
             };
         case types.DELETE_MESSAGE_DONE:
             message = action.payload.message;
@@ -304,6 +311,28 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
             return {
                 ...state,
                 regPage: initialState.regPage
+            };
+        case types.SET_TYPING_MESSAGE:
+            data = state.chatList.data || [];
+            const index = data.findIndex(el => el.chat.id === action.payload.chatId);
+            if(index === -1)
+                return state;
+
+            const chat = {...data[index]};
+            chat.isTyping = action.payload.isTyping;
+            chat.timeTyping = action.payload.timeTyping;
+
+            data[index] = chat;
+            return {
+                ...state,
+                chatList: {
+                    ...state.chatList,
+                    data
+                },
+                chat: state.chat.id !== action.payload.chatId ? state.chat : {
+                    ...state.chat,
+                    isTyping: action.payload.isTyping
+                }
             };
         default:
             return state;

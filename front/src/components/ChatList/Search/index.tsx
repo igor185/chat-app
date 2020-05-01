@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Form, Header, Icon, Input} from "semantic-ui-react";
 import ChatElem from "../ChatElem";
-import {IMessageView, IUser} from "../../../model/IApp";
+import {IUser} from "../../../model/IApp";
 
 
 const Search = (props: any) => {
@@ -39,7 +39,7 @@ const Search = (props: any) => {
 
     return (
         <>
-            <Form onSubmit={() => props.actions.search(value)}>
+            <Form onSubmit={() => value.trim() && props.actions.search(value)}>
                 <Input
                     loading={props.search.isFetching}
                     value={value}

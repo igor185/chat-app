@@ -15,4 +15,5 @@ public class File {
     private String fileName;
     private String fileType;
     private Integer size;
+    private Double height;
 }

@@ -10,6 +10,7 @@ import Cropper from "../Cropper";
 import { isEqual } from 'lodash';
 
 import './styles.sass';
+import {NotificationManager} from "react-notifications";
 
 export interface IProps {
     close: boolean;
@@ -33,6 +34,9 @@ const UserView = (props: IProps) => {
         setEditAbout(false);
     };
     const changeAbout = () => {
+        if(editValue.length > 255){
+            return NotificationManager.error("Too big message");
+        }
         props.actions.editAbout(editValue);
         closeEditAbout();
     };
