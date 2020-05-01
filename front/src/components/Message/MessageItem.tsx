@@ -10,6 +10,7 @@ import {bindActionCreators} from "redux";
 import * as Actions from "../../redux/actions";
 import ReactHtmlParser from 'react-html-parser';
 import {NotificationManager} from "react-notifications";
+import TimeAgo from "react-timeago";
 
 dayjs.extend(relativeTime);
 
@@ -66,7 +67,7 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                 <div style={{ whiteSpace: "pre-wrap" }}>{ReactHtmlParser(message.message)}</div>
                 <span className="info-block" style={{ justifyContent: getJustifyContent() }}>
                     {!fromMe && user.confirm && user.options.sendMessage && <span><Icon name={"mail"} size={"small"} onClick={sendMessage}/></span>}
-                <span className={"time"}>{fromNow(message.time)}</span>
+                <span className={"time"}><TimeAgo date={message.time} /></span>
                     {fromMe && (<span className={"icons"}>
                         {user.confirm && user.options.sendMessage && <Icon name={"mail"} size={"small"} onClick={sendMessage}/>}
                     <Modal
@@ -117,7 +118,7 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                 </span>)}
             </span>
             </div>
-            <Image avatar src={message.user.avatar}/>
+            {/*<Image avatar src={message.user.avatar}/>*/}
         </div>
     )
 };

@@ -125,7 +125,11 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 user: {
                     ...state.user,
                     isFetching: false,
-                    data: action.payload.user
+                    data: {
+                        ...action.payload.user,
+                        online: true,
+                        time: new Date()
+                    }
                 }
             };
         case types.LOGIN:
@@ -307,7 +311,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 loginPage: initialState.loginPage
             };
-         case types.CLEAR_REG:
+        case types.CLEAR_REG:
             return {
                 ...state,
                 regPage: initialState.regPage
@@ -315,7 +319,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
         case types.SET_TYPING_MESSAGE:
             data = state.chatList.data || [];
             const index = data.findIndex(el => el.chat.id === action.payload.chatId);
-            if(index === -1)
+            if (index === -1)
                 return state;
 
             const chat = {...data[index]};
@@ -332,6 +336,45 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 chat: state.chat.id !== action.payload.chatId ? state.chat : {
                     ...state.chat,
                     isTyping: action.payload.isTyping
+                }
+            };
+        case types.SET_ONLINE_USER:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    data: !state.user.data ? state.user.data : {
+                        ...state.user.data,
+                        online: action.payload.status,
+                        time: new Date()
+                    }
+                },
+                chat: {
+                    ...state.chat,
+                    user: !state.chat.user ? state.chat.user : {
+                        ...state.chat.user,
+                        online: action.payload.status,
+                        time: new Date()
+                    }
+                },
+                chatList: {
+                    ...state.chatList,
+                    data: !state.chatList.data ? state.chatList.data : state.chatList.data.map(el => ({
+                        ...el,
+                        user: !el.user || el.user.id !== action.payload.userId ? el.user : {
+                            ...el.user,
+                            online: action.payload.status,
+                            time: new Date()
+                        }
+                    }))
+                },
+                search: {
+                    ...state.search,
+                    data: !state.search.data ? state.search.data : state.search.data.map(user => ({
+                        ...user,
+                        online: action.payload.status,
+                        time: new Date()
+                    }))
                 }
             };
         default:

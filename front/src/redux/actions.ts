@@ -188,3 +188,11 @@ export const setTyping = (chatId: number, isTyping: boolean, timeTyping: any) =>
         timeTyping
     }
 })
+
+export const onlineUser = (userId: number, status: boolean) => ({
+    type: types.SET_ONLINE_USER,
+    payload: {
+        userId,
+        status
+    }
+})

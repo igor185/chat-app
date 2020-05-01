@@ -24,4 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.username LIKE CONCAT('%',:name,'%') AND u <> :user")
     List<User> search(@Param("name") String name, @Param("user") User user);
+
+    @Query("SELECT u FROM User u WHERE u.session = :session")
+    List<User> bySession(@Param("session") String name);
 }

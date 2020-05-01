@@ -4,8 +4,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -54,4 +57,14 @@ public class User {
     @Column(name = "options", nullable = true)
     private NotificationOptions options;
 
+
+    @Column(name = "isOnline", columnDefinition = "boolean default false")
+    private boolean isOnline;
+
+    @Column(name = "time")
+    @UpdateTimestamp
+    private Date time;
+
+    @Column(name = "session")
+    private String session;
 }

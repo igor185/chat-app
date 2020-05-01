@@ -4,6 +4,7 @@ import com.example.demo.Entities.NotificationOptions;
 import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,10 @@ public class DatabaseUserService implements UserService {
     @Autowired
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
     private final UserRepository userRepository;
 
     @Autowired
@@ -76,5 +81,31 @@ public class DatabaseUserService implements UserService {
             return true;
         }
         return false;
+    }
+
+    public void setUserSessionId(Long id, String session){
+        User u = userRepository.findByUserId(id);
+        u.setSession(session);
+        u.setOnline(true);
+        userRepository.save(u);
+
+        simpMessagingTemplate.convertAndSend("/res/online", id);
+        System.out.println("online");
+        System.out.println(id);
+    }
+
+    public void removeSessionId(String session){
+        List<User> users = userRepository.bySession(session);
+        for(int i = 0; i < users.size(); i++){
+            User u = users.get(i);
+            u.setSession("");
+            u.setOnline(false);
+            u = userRepository.save(u);
+
+            simpMessagingTemplate.convertAndSend("/res/offline", u.getId());
+            System.out.println("offline");
+            System.out.println(u.getId());
+        }
+        System.out.println(userRepository.findByUserId((long) 1));
     }
 }

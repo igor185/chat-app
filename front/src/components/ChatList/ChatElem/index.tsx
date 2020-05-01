@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import "./styles.sass"
-import {Image} from "semantic-ui-react";
 import {fromNow} from "../../../helpers";
 import EllipsisText from "react-ellipsis-text";
 import Typing from "../../Message/Input/Typing";
+import Avatar from '../../AvatarWrapper'
+import TimeAgo from 'react-timeago'
 
 export interface IChatElem {
     id: number;
@@ -15,7 +16,7 @@ export interface IChatElem {
 
 
 const ChatElem = (props: any) => {
-    const {name, date, message, id, avatar, show = false, typing, timeTyping} = props;
+    const {name, date, message, id, avatar, show = false, typing, timeTyping, online} = props;
 
     const [time, setTime] = useState(timeTyping);
     const [timer, setTimer] = useState<any>(null);
@@ -36,12 +37,12 @@ const ChatElem = (props: any) => {
     return (
         <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick()}>
             <div className="avatar">
-                <Image avatar src={avatar}/>
+                <Avatar src={avatar} height={35} width={35} online={online}/>
             </div>
             <div className="info">
                 <div className="name-wrap">
                     <div className="name"><EllipsisText text={name} length={10}/></div>
-                    <div className="date">{date && fromNow(date)}</div>
+                    <div className="date"><TimeAgo date={date} /></div>
                 </div>
                 {typing ? <Typing /> : !show && typeof text === "string" ? (
                     <EllipsisText text={text} length={20}/>) : text}

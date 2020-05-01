@@ -17,8 +17,12 @@ const connect = (action: typeof actions, store: IApp) => {
 
     const user = store.user.data as IUser;
 
+
+    // null, {headers: { 'Authorization': 'Basic '+localStorage.getItem('token')}})
+    // @ts-ignore
     stompClient = Stomp.over(new SockJS(url.SOCKET_URL));
-    stompClient.connect({}, () => {
+
+    stompClient.connect({ 'user': user.id }, () => {
         console.log('Connected', store.user);
 
 
@@ -50,8 +54,20 @@ const connect = (action: typeof actions, store: IApp) => {
             const { chatId } : {chatId: number} = JSON.parse(body);
 
             action.newTypingMessage(chatId)
+        });
+
+        stompClient.subscribe('/res/online', ({body} : {body: string}) => {
+            const userId = JSON.parse(body);
+            action.onlineUser(userId, true);
+        });
+
+        stompClient.subscribe('/res/offline', ({body} : {body: string}) => {
+            const userId = JSON.parse(body);
+            action.onlineUser(userId, false);
         })
     });
+
+
 };
 
 const send = (destination: string, headers?: {}, body?: string) => {
