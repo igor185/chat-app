@@ -29,6 +29,7 @@ const Search = (props: any) => {
                     id={elem.id}
                     name={elem.username}
                     avatar={elem.avatar}
+                    online={elem.online}
                     onClick={() => onText(elem)}
                     show
                 />

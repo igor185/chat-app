@@ -54,6 +54,8 @@ export interface IUser {
     email: string | null;
     confirm: string;
     options: IOptions;
+    online: boolean;
+    time: Date | number;
 }
 export interface IChatView {
     id: number | null;

@@ -9,6 +9,8 @@ import {connect} from "react-redux";
 import {Image} from "semantic-ui-react";
 import UserView from "../UserView";
 import Typing from "../Message/Input/Typing";
+import Avatar from '../AvatarWrapper'
+import ReactTimeago from "react-timeago";
 
 const Header = (props: any) => {
     const onLogOut = () => {
@@ -45,15 +47,17 @@ const Header = (props: any) => {
             {user &&
             <div className={"header-user"} onClick={() => onClick(user)}>
                 <div className="avatar">
-                    <Image avatar src={user.avatar}/>
+                    <Avatar src={user.avatar} height={35} width={35} online={user.online}/>
                 </div>
                 <div className="name-wrapper">
                     <div className="name">{user.username}</div>
-                    {props.chat.isTyping && <Typing/>}
+                    {props.chat.isTyping ? <Typing/> : <span className={"user-status"}>{
+                        props.chat.user.online ? "online" : <ReactTimeago date={props.chat.user.time}/>
+                    }</span>}
                 </div>
             </div>}
             <div className="right-size" onClick={() => onClick(props.user.data)}>
-                <Image avatar src={props.user.data.avatar}/>
+                <Avatar src={props.user.data.avatar} height={35} width={35} online={props.user.data.online}/>
             </div>
             {userView && <UserView
                 isEdit={userView.id === props.user.data.id}
