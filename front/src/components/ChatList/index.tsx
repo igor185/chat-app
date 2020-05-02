@@ -4,8 +4,7 @@ import "./styles.sass";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
-import IApp, {IChatList, IChatView, IMessageView} from "../../model/IApp";
-import {Input, Divider, Header} from "semantic-ui-react";
+import IApp, {IChatList, IChatView, IMessageView, IUser} from "../../model/IApp";
 import Search from "./Search";
 
 
@@ -14,6 +13,9 @@ interface IChatListProps {
     chatList: IChatList;
     chat: IChatView
     search: any
+    user: {
+        data: IUser
+    }
 }
 
 const ChatList = (props: IChatListProps) => {
@@ -46,6 +48,7 @@ const ChatList = (props: IChatListProps) => {
                                       actions={props.actions}
                                       online={elem.user.online}
                                       time={elem.user.time}
+                                      unread={elem.chat.userId !== props.user.data.id ? elem.chat.count : ""}
                                       onClick={() => onClick(elem)}/>
                         ))}
                     </>}
@@ -56,7 +59,8 @@ const ChatList = (props: IChatListProps) => {
 const mapStateToProps = (state: IApp): any => ({
     chatList: state.chatList,
     chat: state.chat,
-    search: state.search
+    search: state.search,
+    user: state.user
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

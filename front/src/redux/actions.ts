@@ -195,4 +195,26 @@ export const onlineUser = (userId: number, status: boolean) => ({
         userId,
         status
     }
+});
+
+export const setReadMessage = (chatId: number) => ({
+    type: types.SET_READ_MESSAGE,
+    payload: {
+        chatId
+    }
+});
+
+export const readChat = (chatId: number, userId: number) => ({
+    type: types.READ_MESSAGE,
+    payload: {
+        userId,
+        chatId
+    }
+});
+
+export const increaseCount = (chatId: number) => ({
+    type: types.INCREASE_COUNT,
+    payload: {
+        chatId
+    }
 })

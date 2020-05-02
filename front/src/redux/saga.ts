@@ -301,6 +301,17 @@ function* newTyping(action: any) {
         console.log("NEW TYPING ERROR: ", e);
     }
 }
+
+function* readMessage(action: any) {
+    try {
+        yield socket.send("/req/message-read", {}, JSON.stringify({
+            userId: action.payload.userId,
+            chatId: action.payload.chatId,
+        }))
+    }catch (e) {
+        console.log(e);
+    }
+}
 export function* watchSaga() {
     yield takeLatest(types.FETCH_CHATS, fetchChats);
     yield takeLatest(types.FETCH_MESSAGES, fetchMessages);
@@ -319,4 +330,5 @@ export function* watchSaga() {
     yield takeLatest(types.SEND_EMAIL, sendEmail);
     yield takeLatest(types.TYPING_MESSAGE, typeMessage);
     yield takeLatest(types.NEW_TYPING_MESSAGE, newTyping);
+    yield takeLatest(types.READ_MESSAGE, readMessage);
 }

@@ -5,7 +5,11 @@ import com.example.demo.Entities.ChatUserEntity;
 import com.example.demo.Entities.User;
 import com.example.demo.Models.ChatListResponseModel;
 import com.example.demo.Repositories.ChatUserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +22,9 @@ public class ChatUserService {
     private final DatabaseUserService userService;
     private final ChatService chatService;
     private final MessageService messageService;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     public ChatUserEntity create(int user_id, int chat_id){
         ChatUserEntity chat_user = new ChatUserEntity();
@@ -59,7 +66,7 @@ public class ChatUserService {
         return chatUserRepository.getUserByChatAndNotUser(chat, user).getUser();
     }
 
-    public ArrayList<ChatListResponseModel> getChatListByUserName(String name){
+    public ArrayList<ChatListResponseModel> getChatListByUserName(String name) throws JsonProcessingException {
         User user = userService.findByName(name);
         System.out.println(user);
         List<ChatUserEntity> chats = chatUserRepository.getByUser(user);

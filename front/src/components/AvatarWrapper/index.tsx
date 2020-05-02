@@ -6,6 +6,7 @@ export interface IProps {
     height: number
     src: string
     online: boolean
+    unread?: any
 }
 export default (props: IProps) => (
     <div className={`avatar ${props.online && "online"}`}>
@@ -14,6 +15,8 @@ export default (props: IProps) => (
             height={props.height}
             className="rounded-circle"
             src={props.src}
-            alt=""/>
+            alt=""
+        />
+        {props.unread !== 0 && props.unread && (<span className={"unread"}>{props.unread}</span>)}
     </div>
 )

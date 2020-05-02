@@ -11,12 +11,13 @@ import * as Actions from "../../redux/actions";
 import ReactHtmlParser from 'react-html-parser';
 import {NotificationManager} from "react-notifications";
 import TimeAgo from "react-timeago";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 dayjs.extend(relativeTime);
 
 
-export const MessageItem = (props: { user: IUser, message: IMessage, actions: typeof Actions }) => {
-    const {message, user, actions} = props;
+export const MessageItem = (props: { user: IUser, message: IMessage, actions: typeof Actions, checked: boolean }) => {
+    const {message, user, actions, checked} = props;
     const fromMe = message.user.id === user.id;
 
     const [openDelete, setClose] = useState(false);
@@ -69,6 +70,7 @@ export const MessageItem = (props: { user: IUser, message: IMessage, actions: ty
                     {!fromMe && user.confirm && user.options.sendMessage && <span><Icon name={"mail"} size={"small"} onClick={sendMessage}/></span>}
                 <span className={"time"}><TimeAgo date={message.time} /></span>
                     {fromMe && (<span className={"icons"}>
+                        {checked && <Icon name={"check"} size={"small"}/>}
                         {user.confirm && user.options.sendMessage && <Icon name={"mail"} size={"small"} onClick={sendMessage}/>}
                     <Modal
                         trigger={<Icon name={"trash"} size={"small"} onClick={() => setClose(true)}/>}

@@ -37,7 +37,7 @@ const ChatElem = (props: any) => {
     return (
         <div className={`chat-elem-wrap ${props.chatId === id ? 'toggled' : ""}`} onClick={() => props.onClick()}>
             <div className="avatar">
-                <Avatar src={avatar} height={35} width={35} online={online}/>
+                <Avatar src={avatar} height={35} width={35} online={online} unread={props.unread}/>
             </div>
             <div className="info">
                 <div className="name-wrap">
