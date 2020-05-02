@@ -64,7 +64,12 @@ const connect = (action: typeof actions, store: IApp) => {
         stompClient.subscribe('/res/offline', ({body} : {body: string}) => {
             const userId = JSON.parse(body);
             action.onlineUser(userId, false);
-        })
+        });
+
+        stompClient.subscribe('/res/chat-read/'+user.id, ({body} : {body: string}) => {
+            const chatId = JSON.parse(body);
+            action.setReadMessage(chatId);
+        });
     });
 
 

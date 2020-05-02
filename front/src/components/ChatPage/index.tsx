@@ -24,7 +24,8 @@ const ChatPage = (props: any) => {
 
                                 <MessageList
                                     chat={props.chat}
-                                    user={props.user.data}/>
+                                    user={props.user.data}
+                                    actions={props.actions}/>
                             <div className="input-wrap">
                                 <MessageInput/>
                             </div>

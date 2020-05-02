@@ -2,3 +2,4 @@
 *node_modules*
 front/build/*
 .env
+*target*

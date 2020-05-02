@@ -17,7 +17,9 @@ const initialState: IApp = {
         isFetching: false,
         isOpen: false,
         data: [],
-        user: null
+        user: null,
+        count: 0,
+        userId: null
     },
     showPanel: true,
     page: localStorage.getItem('token') && localStorage.getItem('token') !== "undefined" ? "chat" : "login",
@@ -28,7 +30,7 @@ const initialState: IApp = {
 };
 
 export function reducer(state: IApp = initialState, action: IAction): IApp {
-    let data, message: IMessage, chatList, messageList;
+    let data, message: IMessage, chatList, messageList, chatId: number;
     switch (action.type) {
         case types.FETCH_CHATS:
             return {
@@ -70,13 +72,21 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                     isFetching: true,
                     isOpen: true,
                     user: action.payload.user
-                }
+                },
+                chatList: {
+                    ...state.chatList,
+                    data: (state.chatList.data || []).map(el => (action.payload.id === el.chat.id ?
+                        { ...el, chat: { ...el.chat, ...(action.payload.user.id === el.chat.userId ? {count: 0, userId: null} : {})}} : el))
+                },
             };
         case types.FETCH_MESSAGES_DONE:
+            message = action.payload.length && action.payload[0];
             return {
                 ...state,
                 chat: {
                     ...state.chat,
+                    count: message ? message.chat.count : 0,
+                    userId: message ? message.chat.userId : 0,
                     data: action.payload,
                     isFetching: false
                 }
@@ -86,6 +96,8 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
             data = ([...(state.chatList.data || [])]).map(elem => {
                 if (elem.chat.id === message.chat.id) {
                     elem.message = message;
+                    elem.chat.count = message.chat.count;
+                    elem.chat.userId = message.chat.userId;
                 }
                 return elem;
             });
@@ -98,6 +110,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 },
                 chat: {
                     ...state.chat,
+                    count: state.chat.count + 1,
                     data: state.chat.id === message.chat.id ? [...(state.chat.data || []), action.payload.message] : state.chat.data
                 }
             };
@@ -204,7 +217,7 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
         case types.ADD_CHAT_TO_LIST:
             data = [...(state.chatList.data || [])];
             data.push({
-                chat: {id: action.payload.chatId},
+                chat: {id: action.payload.chatId, count: 0, userId: null},
                 message: null as unknown as IMessage,
                 user: action.payload.user
             });
@@ -220,7 +233,9 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                     isFetching: false,
                     isOpen: true,
                     data: [],
-                    user: action.payload.user
+                    user: action.payload.user,
+                    count: 0,
+                    userId: null
                 } : state.chat
             };
         case types.DELETE_MESSAGE_DONE:
@@ -376,6 +391,29 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                         time: new Date()
                     }))
                 }
+            };
+        case types.SET_READ_MESSAGE:
+        case types.READ_MESSAGE:
+            chatId = action.payload.chatId;
+
+            return {
+                ...state,
+                chatList: {
+                    ...state.chatList,
+                    data: (state.chatList.data || []).map(el => (chatId === el.chat.id ? { ...el, chat: { ...el.chat, count: 0, userId: null }} : el))
+                },
+                chat: state.chat.id !== chatId ? state.chat : { ...state.chat, count: 0, userId: null }
+            };
+        case types.INCREASE_COUNT:
+            chatId = action.payload.chatId;
+
+            return {
+                ...state,
+                chatList: {
+                    ...state.chatList,
+                    data: (state.chatList.data || []).map(el => (chatId === el.chat.id ? { ...el, chat: { ...el.chat, count: el.chat.count + 1 }} : el))
+                },
+                chat: state.chat.id !== chatId ? state.chat : { ...state.chat, count: state.chat.count + 1}
             };
         default:
             return state;

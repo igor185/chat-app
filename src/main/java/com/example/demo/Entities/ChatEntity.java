@@ -15,4 +15,10 @@ public class ChatEntity {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(name = "count")
+    private Integer count;
+
+    @Column(name = "user_id")
+    private Long userId;
 }

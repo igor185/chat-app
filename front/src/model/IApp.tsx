@@ -28,6 +28,8 @@ export interface IChatList {
 }
 export interface IChat{
     id: number;
+    count: number;
+    userId: number | null;
 }
 
 export interface IMessageView {
@@ -59,6 +61,8 @@ export interface IUser {
 }
 export interface IChatView {
     id: number | null;
+    count: number;
+    userId: number | null;
     isFetching: boolean;
     isOpen: boolean;
     data: IMessage[]

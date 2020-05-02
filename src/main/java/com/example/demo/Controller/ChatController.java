@@ -6,6 +6,7 @@ import com.example.demo.Entities.User;
 import com.example.demo.Models.ChatListResponseModel;
 import com.example.demo.Models.NewChatDTO;
 import com.example.demo.Models.NewMessageDTO;
+import com.example.demo.Models.ReadMessageDTO;
 import com.example.demo.Services.*;
 import com.example.demo.security.model.UserContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -56,10 +57,22 @@ public class ChatController {
 
     @RequestMapping(value = "/api/chat/{id}")
     @ResponseBody
-    public String getMessages(@PathVariable final Integer id) throws JsonProcessingException {
-        List<MessageEntity> list = chatService.getMessages(id);
-
+    public String getMessages(@PathVariable final Integer id, Authentication auth) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+        List<MessageEntity> list = chatService.getMessages(id);
+        User u = userService.getByUsername(((UserContext)auth.getPrincipal()).getUsername()).get();
+        ChatEntity chatEntity = chatService.findById(id);
+
+        if(chatEntity.getCount() != null
+                && chatEntity.getCount() != 0
+                && chatEntity.getUserId() != u.getId())
+        {
+            String json = mapper.writeValueAsString(chatEntity.getId());
+            simpMessagingTemplate.convertAndSend("/res/chat-read/"+chatEntity.getUserId(), json);
+            chatEntity.setCount(0);
+            chatEntity.setUserId(null);
+            chatService.save(chatEntity);
+        }
         String json = mapper.writeValueAsString(list);
         return json;
     }
@@ -86,17 +99,36 @@ public class ChatController {
 
     @MessageMapping("/new-message")
     public void sendMessage(NewMessageDTO newMessageDTO) throws IOException {
-        ChatEntity chatEntity = chatService.createChat(newMessageDTO.getChatId());
+        ChatEntity chatEntity = chatService.findById(newMessageDTO.getChatId());
         User userEntity = userService.findById(newMessageDTO.getUserId());
         User userGetMessage = chatUserService.getUserByChatAndNotUser(chatEntity, userEntity);
         MessageEntity message = messageService.create(chatEntity, userEntity, newMessageDTO.getMessage(), newMessageDTO.getFile());
 
+        System.out.println(chatEntity);
+        // update count
+        if(chatEntity.getUserId() == null){
+            System.out.println("set 1");
+            chatEntity.setCount(1);
+            chatEntity.setUserId(userEntity.getId());
+        }else {
+            System.out.println("set more");
+            chatEntity.setCount(chatEntity.getCount() + 1);
+        }
+
+        chatEntity = chatService.save(chatEntity);
+        System.out.println(chatEntity.getUserId());
+        System.out.println(chatEntity);
+
+
+        // send socket new message
         ObjectMapper mapper = new ObjectMapper();
         String res = mapper.writeValueAsString(message);
 
         simpMessagingTemplate.convertAndSend("/res/new-message/"+userEntity.getId(), res);
         simpMessagingTemplate.convertAndSend("/res/new-message/"+userGetMessage.getId(), res);
 
+
+        // send email
         notificationService.sendNotificationAboutMessage(userEntity, userGetMessage, message);
     }
 
@@ -134,5 +166,14 @@ public class ChatController {
         simpMessagingTemplate.convertAndSend("/res/edit-message/"+userAnother.getId(), res);
 
         return res;
+    }
+
+    @MessageMapping("/message-read")
+    public void readMessage(ReadMessageDTO readMessageDTO) throws JsonProcessingException {
+        chatService.setRead(readMessageDTO.getChatId());
+
+        ObjectMapper mapper = new ObjectMapper();
+        String res = mapper.writeValueAsString(readMessageDTO.getChatId());
+        simpMessagingTemplate.convertAndSend("/res/chat-read/"+readMessageDTO.getUserId(), res);
     }
 }

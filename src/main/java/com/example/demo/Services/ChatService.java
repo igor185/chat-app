@@ -50,4 +50,13 @@ public class ChatService {
     public ChatEntity save(ChatEntity chat){
         return chatRepository.save(chat);
     }
+
+    public void setRead(Integer chatId){
+        ChatEntity chatEntity = findById(chatId);
+
+        chatEntity.setCount(0);
+        chatEntity.setUserId(null);
+
+        save(chatEntity);
+    }
 }
