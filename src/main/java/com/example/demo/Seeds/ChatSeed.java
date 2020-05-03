@@ -1,6 +1,7 @@
 package com.example.demo.Seeds;
 
 import com.example.demo.Entities.ChatEntity;
+import com.example.demo.Entities.User;
 import com.example.demo.Services.ChatService;
 import com.example.demo.Services.ChatUserService;
 import com.example.demo.Services.DatabaseUserService;
@@ -21,34 +22,16 @@ public class ChatSeed {
 
     @Transactional
     public void seed(){
-        List<ChatEntity> chats = entityManager.createQuery("SELECT u FROM ChatEntity u")
-                .getResultList();
-
-        if(chats.size() != 0){
-            System.out.println("no chat seed");
-            return;
-        }
-
-        System.out.println("chat seed");
+        List<User> users = (List<User>) entityManager.createQuery("SELECT u FROM User u").getResultList();
 
 
-        chatUserService.createChat(
-                1,
-                userService.findById(1),
-                userService.findById(2)
-        );
-
-        chatUserService.createChat(
-                2,
-                userService.findById(1),
-                userService.findById(3)
-        );
-
-
-        chats = entityManager.createQuery("SELECT u FROM ChatEntity u")
-                .getResultList();
-        for(ChatEntity chat: chats){
-            System.out.println(chat);
+        for(int i = 0; i < users.size(); i++){
+            Long id1  = users.get(i).getId();
+            Long id2  = users.get((i + 1) % users.size()).getId();
+            chatUserService.createChat(
+                    userService.findById(id1),
+                    userService.findById(id2)
+            );
         }
     }
 }

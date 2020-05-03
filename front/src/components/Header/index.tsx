@@ -15,7 +15,7 @@ import ReactTimeago from "react-timeago";
 const Header = (props: any) => {
     const onLogOut = () => {
         localStorage.removeItem('token');
-        props.actions.clearStore();
+        window.location.reload();
     };
     const [close, setClose] = useState(false);
     const [userView, setUserView] = useState<IUser | null>(null);

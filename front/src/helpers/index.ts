@@ -35,7 +35,7 @@ export const sortChatList = (data: IMessageView[]) => {
 export const uploadFile = async (file: any, height: number): Promise<IFile> => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('height', "" + height);
+    formData.append('height', height ? "" + height : "0");
 
     let res = await fetch(url.UPLOAD_FILE, {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},

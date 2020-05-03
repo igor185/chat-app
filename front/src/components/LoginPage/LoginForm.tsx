@@ -13,7 +13,7 @@ const LoginForm = (props: any) => {
     const onSubmit = () => props.actions.loginUser(login, password);
 
     return (
-        <Grid textAlign='center' style={{  position: "absolute", top: "30%", left: "35%" }} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ display: "flex", justifyContent: "center", flexDirection: "column", height: "100vh" }} verticalAlign='middle'>
             <Grid.Column style={{ width: 500, background: "white" }}>
                 <Header as='h2' textAlign='center'>
                     Login to your account

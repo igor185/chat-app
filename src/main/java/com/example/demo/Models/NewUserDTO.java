@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @ToString
 public class NewUserDTO {
     @NotNull
-    @Size(min = 5, max = 20, message = "Login from 5 to 20 characters")
+    @Size(min = 4, max = 20, message = "Login from 4 to 20 characters")
     private String username;
 
     @NotNull
