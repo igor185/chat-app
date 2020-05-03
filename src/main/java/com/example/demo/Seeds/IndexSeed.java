@@ -16,7 +16,6 @@ public class IndexSeed {
 
 
     public void seed(){
-//        userSeed.seed();
         chatSeed.seed();
         messageSeed.seed();
     }

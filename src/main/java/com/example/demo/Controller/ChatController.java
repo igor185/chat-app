@@ -140,7 +140,12 @@ public class ChatController {
         User userDelete = userService.findByName(((UserContext)auth.getPrincipal()).getUsername());
         ChatEntity chat = chatService.findById(chatId);
         User userAnother = chatUserService.getUserByChatAndNotUser(chat, userDelete);
+
+        chatService.decreaseCount(chat);
+
         MessageEntity message = messageService.deleteMessage(id);
+
+
 
         ObjectMapper mapper = new ObjectMapper();
         String res = mapper.writeValueAsString(message);

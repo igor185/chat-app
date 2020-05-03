@@ -59,4 +59,11 @@ public class ChatService {
 
         save(chatEntity);
     }
+
+    public void decreaseCount(ChatEntity chatEntity){
+        if(chatEntity.getCount() != 0 && chatEntity.getCount() != null){
+            chatEntity.setCount(chatEntity.getCount()-1);
+            save(chatEntity);
+        }
+    }
 }

@@ -110,7 +110,8 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 },
                 chat: {
                     ...state.chat,
-                    count: state.chat.count + 1,
+                    count:  message.chat.count,
+                    userId: message.chat.userId,
                     data: state.chat.id === message.chat.id ? [...(state.chat.data || []), action.payload.message] : state.chat.data
                 }
             };
@@ -250,6 +251,8 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
                 ...state,
                 chat: {
                     ...state.chat,
+                    count: message.chat.count,
+                    userId: message.chat.userId,
                     data: messageList as IMessage[]
                 }
             };
@@ -418,4 +421,4 @@ export function reducer(state: IApp = initialState, action: IAction): IApp {
         default:
             return state;
     }
-} 
+}
