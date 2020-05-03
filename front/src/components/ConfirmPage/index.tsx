@@ -36,7 +36,7 @@ const ConfirmPage = (props: { token: string }) => {
         <Dimmer active>
             <Header as='h2' icon color={"black"}>
                 <Icon name={!error ? 'check circle' : 'close'} color={!error ? "green" : "red"}/>
-                Email doesn't confirmed!
+                Email {!error ? "is" : "doesn't"} confirmed!
                 <Header.Subheader><span onClick={() => window.location.replace("/")}>Go to app</span></Header.Subheader>
             </Header>
         </Dimmer>
